@@ -13,11 +13,11 @@
     }
   },
   "scripts": {
-    "build": "npx webpack --mode production --config webpack.config.js && rm -rf cache",
-    "dev": "npx webpack --mode development --config webpack.config.js && rm -rf cache",
+    "build": "npx webpack --mode production --config webpack.config.js",
+    "dev": "npx webpack --mode development --config webpack.config.js",
     "start": "npx webpack serve --mode development --open",
     "deploy": "gh-pages -d dist -m 'Deploying to gh-pages'",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist cache",
     "lint-fix": "npx eslint --ext js,jsx,ts,tsx ./src --fix",
     "test": "jest --config jest.config.js"
   },
