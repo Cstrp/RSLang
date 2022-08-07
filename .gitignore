@@ -6,7 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .idea/
-cache/
 
 
 
@@ -107,3 +106,4 @@ dist
 # TernJS port file
 .tern-port
 
+/cache/
