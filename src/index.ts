@@ -1,7 +1,4 @@
 import './view/styles/common.scss';
-import img from './view/styles/image.avif';
-
-const image = img;
 
 const tests = (): void => {
   console.log('Hello World');

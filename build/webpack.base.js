@@ -169,5 +169,8 @@ module.exports = {
   },
   experiments: {
     asyncWebAssembly: true,
+    backCompat: false,
+    layers: false,
+    cacheUnaffected: false,
   },
 };
