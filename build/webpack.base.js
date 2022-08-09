@@ -116,7 +116,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|jpe?g|gif|svg|webp|ico|avif)$/i,
+        test: /\.(png|jpe?g|gif|svg|webp|ico|avif|mp3)$/i,
         type: isProd ? 'asset' : 'asset/resource',
         generator: {
           filename: 'assets/img/[name][hash][ext][query]',

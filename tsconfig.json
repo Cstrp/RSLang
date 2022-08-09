@@ -14,6 +14,7 @@
     "target": "ESNext",
     "noImplicitAny": true,
     "module": "ESNext",
+    "inlineSources": true,
     "strict": true,
     "noEmit": true,
     "moduleResolution": "Node",
@@ -21,18 +22,10 @@
     "isolatedModules": false,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
+      "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.js",
-    "custom.d.ts"
-  ],
-  "exclude": [
-    "node_modules",
-  ],
+  "include": ["src/**/*.ts", "src/**/*.js", "custom.d.ts"],
+  "exclude": ["node_modules"],
   "compileOnSave": false
 }
