@@ -23,7 +23,7 @@ module.exports = {
       context: defaultUrls.map((itUrl) => `/${itUrl}`),
       '/api': {
         target: 'http://localhost:4321',
-        pathRewrite: { '^/api': '' },
+        pathRewrite: {'^/api': ''},
       },
       before(app) {
         app.use((req, res, next) => {

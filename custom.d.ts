@@ -1,5 +1,5 @@
 declare module '*.scss' {
-  const content: { [className: string]: string };
+  const content: {[className: string]: string};
   export = content;
 }
 
@@ -9,11 +9,6 @@ declare module '*.svg' {
 }
 
 declare module '*.png' {
-  const content: string;
-  export default content;
-}
-
-declare module '*.avif' {
   const content: string;
   export default content;
 }
@@ -28,12 +23,12 @@ declare module '*.jpeg' {
   export default content;
 }
 
-declare module '*.jpg' {
+declare module '*.avif' {
   const content: string;
   export default content;
 }
 
-declare module '*.gif' {
+declare module '*.webp' {
   const content: string;
   export default content;
 }
@@ -43,7 +38,7 @@ declare module '*.ico' {
   export default content;
 }
 
-declare module '*.webp' {
+declare module '*.gif' {
   const content: string;
   export default content;
 }

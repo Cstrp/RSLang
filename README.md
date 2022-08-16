@@ -35,3 +35,6 @@ npm start
 > - Throw error if variable is not used - `no-unused-vars`
 > - Max lines per function && methods - 40 lines (airbnb)
 > - Max lines per file - 120 symbols (airbnb)
+
+
+# [Query examples](https://github.com/rolling-scopes-school/react-rslang-be/wiki/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B-%D0%B7%D0%B0%D0%BF%D1%80%D0%BE%D1%81%D0%BE%D0%B2-%D0%BA-API)

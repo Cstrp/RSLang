@@ -1,4 +1,4 @@
-const { merge } = require('webpack-merge');
+const {merge} = require('webpack-merge');
 const baseConfig = require('./build/webpack.base');
 const devConfig = require('./build/webpack.dev');
 const prodConfig = require('./build/webpack.prod');
@@ -13,5 +13,3 @@ module.exports = (env, argv) => {
       throw new Error('No matching configuration was found!');
   }
 };
-
-// cross-env NODE_ENV=development webpack-dev-server --config ./build/webpack.base.js --open для сервера

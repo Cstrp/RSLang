@@ -6,12 +6,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FriendlyWebpackPlugin = require('@soda/friendly-errors-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-let isProd = process.env.NODE_ENV === 'production';
+const isDev = process.env.NODE_ENV === 'production';
 const fileName = ['index'];
 
 module.exports = {
   context: path.resolve(__dirname, '../src'),
-  devtool: isProd ? 'source-map' : 'cheap-module-source-map',
+  devtool: isDev ? 'source-map' : 'cheap-module-source-map',
   entry: fileName.reduce((config = {}, page) => {
     config[page] = `./${page}.ts`;
     return config;
@@ -78,7 +78,7 @@ module.exports = {
         failOnError: false,
         exclude: 'node_modules',
       }),
-    ],
+    ].filter(Boolean),
   ),
   module: {
     rules: [
@@ -88,7 +88,7 @@ module.exports = {
       },
       {
         test: /\.(s[ac]|c)ss$/i,
-        use: [isProd ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'postcss-loader'],
+        use: [isDev ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.(ts?|js?)$/,
@@ -116,8 +116,8 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|jpe?g|gif|svg|webp|ico|avif|mp3)$/i,
-        type: isProd ? 'asset' : 'asset/resource',
+        test: /\.(png|jpe?g|gif|svg|webp|ico|avif)$/i,
+        type: isDev ? 'asset' : 'asset/resource',
         generator: {
           filename: 'assets/img/[name][hash][ext][query]',
         },
@@ -169,8 +169,5 @@ module.exports = {
   },
   experiments: {
     asyncWebAssembly: true,
-    backCompat: false,
-    layers: false,
-    cacheUnaffected: false,
   },
 };
