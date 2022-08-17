@@ -1,4 +1,4 @@
-type content = string | Array<string> | null;
+import {content} from '@/data/types';
 
 interface ITemplate {
   parent: HTMLElement | null;
