@@ -1,3 +1,0 @@
-class Statistics {}
-
-export {Statistics};
