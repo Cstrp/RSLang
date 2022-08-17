@@ -1,6 +1,6 @@
 import './view/styles/common.scss';
-import {Home} from '@/view/pages/Home';
+import {App} from '@/view/pages/App';
 
-const home = new Home(document.body);
+const app = new App();
 
-home.render();
+app.render();

@@ -2,9 +2,9 @@ import {Template} from '@/view/Template';
 import {LSidebar} from '@/view/components/IU/LSidebar';
 import {RSidebar} from '@/view/components/IU/RSidebar';
 
-class Home_Wrapper extends Template {
+class AppContainer extends Template {
   constructor(parent: HTMLElement) {
-    super(parent, 'div', 'wrapper');
+    super(parent, 'section', 'home_section');
 
     document.title = 'Home';
 
@@ -14,4 +14,4 @@ class Home_Wrapper extends Template {
   }
 }
 
-export {Home_Wrapper};
+export {AppContainer};
