@@ -3,10 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "airbnb-base",
-    "airbnb-typescript/base"
-  ],
+  "extends": ["airbnb-base", "airbnb-typescript/base"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",
@@ -15,25 +12,16 @@
       "modules": true,
       "experimentalObjectRestSpread": true
     },
-    "project": [
-      "./tsconfig.json"
-    ]
+    "project": ["./tsconfig.json"]
   },
-  "plugins": [
-    "@typescript-eslint"
-  ],
+  "plugins": ["@typescript-eslint"],
   "rules": {
-    "@typescript-eslint/no-explicit-any": [
-      "error"
-    ],
+    "@typescript-eslint/no-explicit-any": ["error"],
     "import/no-unresolved": 0,
     "import/extensions": 0,
     "no-new": "off",
     "@typescript-eslint/no-unused-vars": 2,
-    "@typescript-eslint/object-curly-spacing": [
-      "error",
-      "never"
-    ],
+    "@typescript-eslint/object-curly-spacing": ["error", "never"],
     "@typescript-eslint/no-useless-constructor": 0,
     "@typescript-eslint/no-shadow": 0,
     "@typescript-eslint/no-unused-expressions": [
@@ -78,25 +66,13 @@
       "warn",
       {
         "blankLine": "always",
-        "prev": [
-          "const",
-          "let",
-          "var"
-        ],
+        "prev": ["const", "let", "var"],
         "next": "*"
       },
       {
         "blankLine": "any",
-        "prev": [
-          "const",
-          "let",
-          "var"
-        ],
-        "next": [
-          "const",
-          "let",
-          "var"
-        ]
+        "prev": ["const", "let", "var"],
+        "next": ["const", "let", "var"]
       },
       {
         "blankLine": "always",
@@ -134,20 +110,12 @@
         "ignoreUrls": true
       }
     ],
-    "radix": [
-      "error",
-      "as-needed"
-    ],
-    "object-shorthand": [
-      "error",
-      "methods"
-    ],
+    "radix": ["error", "as-needed"],
+    "object-shorthand": ["error", "methods"],
     "no-bitwise": [
       "error",
       {
-        "allow": [
-          "~"
-        ]
+        "allow": ["~"]
       }
     ],
     "max-statements-per-line": [
@@ -159,7 +127,7 @@
     "max-lines-per-function": [
       "error",
       {
-        "max": 40
+        "max": 60
       }
     ]
   }
