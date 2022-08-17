@@ -8,7 +8,7 @@ class LSidebar extends Template {
 
     const title = new Template(this.element, 'div', style.sidebar_wrapper);
 
-    new Template(title.element, 'h3', '123', 'RS_Lang');
+    new Template(title.element, 'h3', style.sidebar_title, 'RS Lang');
 
     const links = new Template(this.element, 'div', style.sidebar_wrapper);
 
@@ -22,7 +22,7 @@ class LSidebar extends Template {
 
     new Template(links.element, 'a', style.sidebar_link, 'Статистика', {href: link.links.statistics});
 
-    const authorization = new Template(this.element, 'div', '1');
+    const authorization = new Template(this.element, 'div', style.sidebar_wrapper);
 
     new Template(authorization.element, 'a', style.sidebar_link, 'Зарегистрироваться', {
       href: link.links.authorization,
