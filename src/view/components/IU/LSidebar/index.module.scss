@@ -1,0 +1,25 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  padding: 0 5px 0 5px;
+  justify-content: space-around;
+  background-color: #d7d7d7;
+  overflow: hidden;
+}
+
+.sidebar_wrapper {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.sidebar_link {
+  padding: 2px;
+  background-color: #b3d4fc;
+  border-radius: 2px;
+}

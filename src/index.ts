@@ -1,17 +1,6 @@
 import './view/styles/common.scss';
-import axios from 'axios';
+import {Home} from '@/view/pages/Home';
 
-// example Server usage
-// https://rslang-bc.herokuapp.com/doc/ - documentations
+const home = new Home(document.body);
 
-axios.get('https://rslang-bc.herokuapp.com/words').then((res) => {
-  console.log(res.data); // ?page=2&group=0
-}); // words
-
-axios.get('https://rslang-bc.herokuapp.com/files/img/01_0001.jpg').then((res) => {
-  console.log(res);
-}); // image
-
-axios.get('https://rslang-bc.herokuapp.com/files/sound/16_3320.mp3').then((res) => {
-  console.log(res);
-}); // mp3 files
+home.render();
