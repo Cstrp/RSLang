@@ -1,3 +1,5 @@
 type content = string | Array<string> | null;
 
-export {content};
+type timer = string | number;
+
+export {content, timer};

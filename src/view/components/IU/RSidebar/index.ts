@@ -15,6 +15,11 @@ class RSidebar extends Template {
       const call = new Calendar(calendar, {
         plugins: [dayGridPlugin],
         height: 500,
+        headerToolbar: {
+          left: 'prev,next',
+          center: 'title',
+          right: 'today',
+        },
       });
 
       call.render();
