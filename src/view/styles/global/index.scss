@@ -12,7 +12,11 @@
 }
 
 .clock {
-  font-family: 'Silkscreen', cursive;
-  font-size: 1.5em;
+  font: 1000 1.3vw 'Silkscreen', cursive;
   color: #7f00ff;
+  transition: all 0.3s;
+}
+
+.clock:hover {
+  border-bottom: #b3d4fc solid 0.2vw;
 }

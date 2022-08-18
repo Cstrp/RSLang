@@ -192,10 +192,6 @@ a {
   transition: 0.3s;
 }
 
-a:hover {
-  background-color: #c0c0c0;
-}
-
 a:active {
   transform: scale(0.9);
 }
@@ -210,6 +206,7 @@ a:hover {
 }
 
 img {
+  width: 100%;
   border: 0;
   -ms-interpolation-mode: bicubic;
 }
