@@ -24,6 +24,7 @@ module.exports = {
       return `${filePath}/[name][ext]`;
     },
     clean: {
+      dry: false,
       keep: /\.git/,
     },
   },
