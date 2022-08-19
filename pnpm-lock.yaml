@@ -7,6 +7,7 @@ specifiers:
   '@babel/preset-env': ^7.18.10
   '@babel/preset-typescript': ^7.18.6
   '@babel/runtime': ^7.18.9
+  '@csstools/postcss-sass': ^5.0.1
   '@soda/friendly-errors-webpack-plugin': ^1.8.1
   '@ttou/postcss-px-to-viewport': ^2.0.1
   '@types/jest': ^28.1.6
@@ -66,6 +67,7 @@ devDependencies:
   '@babel/preset-env': 7.18.10_@babel+core@7.18.10
   '@babel/preset-typescript': 7.18.6_@babel+core@7.18.10
   '@babel/runtime': 7.18.9
+  '@csstools/postcss-sass': 5.0.1_postcss@8.4.16
   '@soda/friendly-errors-webpack-plugin': 1.8.1_webpack@5.74.0
   '@ttou/postcss-px-to-viewport': 2.0.1_postcss@8.4.16
   '@types/jest': 28.1.6
@@ -1470,6 +1472,18 @@ packages:
       postcss-value-parser: 4.2.0
     dev: true
 
+  /@csstools/postcss-sass/5.0.1_postcss@8.4.16:
+    resolution: {integrity: sha512-GgQAOe6KfABEIHGh9KFqn/7sX2Dmx554PElvyhRFNADo2QV2N/CzlS+QHrrJmVJzaBn829f4JFcOd67mmYb5Eg==}
+    engines: {node: ^12 || ^14 || >=16}
+    peerDependencies:
+      postcss: ^8.4.6
+    dependencies:
+      '@csstools/sass-import-resolve': 1.0.0
+      postcss: 8.4.16
+      sass: 1.54.3
+      source-map: 0.7.4
+    dev: true
+
   /@csstools/postcss-stepped-value-functions/1.0.1_postcss@8.4.16:
     resolution: {integrity: sha512-dz0LNoo3ijpTOQqEJLY8nyaapl6umbmDcgj4AD0lgVQ572b2eqA1iGZYTTWhrcrHztWDDRAX2DGYyw2VBjvCvQ==}
     engines: {node: ^12 || ^14 || >=16}
@@ -1507,6 +1521,11 @@ packages:
       postcss: ^8.2
     dependencies:
       postcss: 8.4.16
+    dev: true
+
+  /@csstools/sass-import-resolve/1.0.0:
+    resolution: {integrity: sha512-pH4KCsbtBLLe7eqUrw8brcuFO8IZlN36JjdKlOublibVdAIPHCzEnpBWOVUXK5sCf+DpBi8ZtuWtjF0srybdeA==}
+    engines: {node: '>=4.0.0'}
     dev: true
 
   /@csstools/selector-specificity/2.0.2_pnx64jze6bptzcedy5bidi3zdi:
@@ -7324,6 +7343,11 @@ packages:
   /source-map/0.6.1:
     resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /source-map/0.7.4:
+    resolution: {integrity: sha512-l3BikUxvPOcn5E74dZiq5BGsTb5yEwhaTSzccU6t4sDOH8NWJCstKO5QT2CvtFoK6F0saL7p9xHAqHOlCPJygA==}
+    engines: {node: '>= 8'}
     dev: true
 
   /spdy-transport/3.0.0:
