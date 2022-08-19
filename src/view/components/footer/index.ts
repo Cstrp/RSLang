@@ -25,7 +25,7 @@ class Footer extends Template {
     const firstCat = new Template(wrapper.element, 'div', style.cat);
     const first = new Template(firstCat.element, 'a', null, null, {
       href: 'https://github.com/Cstrp',
-      title: 'Crazy Cat',
+      title: 'Crazy Cat 🤪',
     });
 
     new Template(first.element, 'img', null, null, {

@@ -1,6 +1,7 @@
 interface ILink {
   links: {
     home: string;
+    team: string;
     book: string;
     audiocall: string;
     sprint: string;

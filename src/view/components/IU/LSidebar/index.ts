@@ -14,6 +14,8 @@ class LSidebar extends Template {
 
     new Template(links.element, 'a', style.sidebar_link, 'Домашнаяя страница', {href: link.links.home});
 
+    new Template(links.element, 'a', style.sidebar_link, 'О команде', {href: link.links.team});
+
     new Template(links.element, 'a', style.sidebar_link, 'Электронный учебник', {href: link.links.book});
 
     new Template(links.element, 'a', style.sidebar_link, 'Аудио вызов', {href: link.links.audiocall});

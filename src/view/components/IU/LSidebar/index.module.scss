@@ -10,13 +10,12 @@
   justify-content: space-around;
   background-color: #d7d7d7;
   overflow: hidden;
-}
-
-.sidebar_wrapper {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  gap: 5px;
+  .sidebar_wrapper {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 5px;
+  }
 }
 
 .sidebar_link {
@@ -24,6 +23,9 @@
   font: 1000 3.3px 'Open Sans', sans-serif;
   background-color: #7f00ff;
   border-radius: 2px;
+  &:hover {
+    cursor: pointer;
+  }
 }
 .sidebar_link:hover {
   background-color: #b3d4fc;

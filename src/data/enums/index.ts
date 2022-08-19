@@ -1,5 +1,6 @@
 const enum AppPage {
   home = '/home',
+  team = '/team',
   authorization = '/authorization',
   book = '/book',
   audiocall = '/audiocall',

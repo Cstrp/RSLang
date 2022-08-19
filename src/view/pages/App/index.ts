@@ -4,7 +4,8 @@ import {Header} from '@/view/components/header';
 import {Footer} from '@/view/components/footer';
 import {Template} from '@/view/Template';
 import {Error} from '@/view/pages/Error';
-import {Home} from '@/view/home';
+import {Home} from '@/view/pages/home';
+import {Team} from '@/view/pages/Team';
 import {AppPage} from '@/data/enums';
 import {get, set} from '@/data/utils/_storage';
 
@@ -34,6 +35,9 @@ class App {
       case AppPage.home:
         page = new Home(App.element);
         break;
+      case AppPage.team:
+        page = new Team(App.element);
+        break;
       default:
         page = new Home(App.element);
     }
@@ -61,11 +65,14 @@ class App {
         case AppPage.home:
           App.init(AppPage.home);
           break;
+        case AppPage.team:
+          App.init(AppPage.team);
+          break;
         default:
           App.init(AppPage.home);
       }
 
-      if (hash !== AppPage.home) this.error = new Error(App.element);
+      if (hash !== AppPage.home && hash !== AppPage.team) this.error = new Error(App.element);
 
       if (this.footer) this.footer.removeElement();
 

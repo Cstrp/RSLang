@@ -6,21 +6,21 @@
   padding: 0 0 5px 0;
   justify-content: center;
   gap: 10px;
-}
 
-.wrapper {
-  display: flex;
-  flex-flow: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin: 0 auto;
-  gap: 15px;
-}
+  .wrapper {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto;
+    gap: 15px;
 
-.link {
-  font: 1000 3.3px 'Silkscreen', cursive;
-  color: #7f00ff;
+    .link {
+      font: 1000 3.3px 'Silkscreen', cursive;
+      color: #7f00ff;
+    }
+  }
 }
 
 .rs {
@@ -28,11 +28,11 @@
   align-items: center;
   flex-flow: row;
   gap: 5px;
-}
 
-.rs img {
-  height: 10px;
-  border-radius: 30%;
+  & img {
+    height: 10px;
+    border-radius: 30%;
+  }
 }
 
 .cat img {
