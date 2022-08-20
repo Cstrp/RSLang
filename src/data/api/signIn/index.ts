@@ -1,6 +1,6 @@
 import {signin} from '@/data/const';
 import {set} from '@/data/utils/_storage';
-import {ISignInUser} from '@/data/interfaces/ISignInUser';
+import {ISignInUser} from '../../interfaces/ISignInUser';
 
 const signIn = async (user: ISignInUser) => {
   let date: Date | string = new Date().toString();
