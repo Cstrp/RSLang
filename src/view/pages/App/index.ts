@@ -6,6 +6,7 @@ import {Template} from '@/view/Template';
 import {Error} from '@/view/pages/Error';
 import {Home} from '@/view/pages/home';
 import {Team} from '@/view/pages/Team';
+import {Authorization} from '@/view/pages/Authorization';
 import {AppPage} from '@/data/enums';
 import {get, set} from '@/data/utils/_storage';
 
@@ -38,6 +39,9 @@ class App {
       case AppPage.team:
         page = new Team(App.element);
         break;
+      case AppPage.authorization:
+        page = new Authorization(App.element);
+        break;
       default:
         page = new Home(App.element);
     }
@@ -68,11 +72,16 @@ class App {
         case AppPage.team:
           App.init(AppPage.team);
           break;
+        case AppPage.authorization:
+          App.init(AppPage.authorization);
+          break;
         default:
           App.init(AppPage.home);
       }
 
-      if (hash !== AppPage.home && hash !== AppPage.team) this.error = new Error(App.element);
+      if (hash !== AppPage.home && hash !== AppPage.team && hash !== AppPage.authorization) {
+        this.error = new Error(App.element);
+      }
 
       if (this.footer) this.footer.removeElement();
 

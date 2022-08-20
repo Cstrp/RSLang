@@ -12,4 +12,8 @@ const link: ILink = {
   },
 };
 
-export {link};
+const url = 'https://rslang-bc.herokuapp.com';
+const users = `${url}/users`;
+const signin = `${url}/signin`;
+
+export {link, users, url, signin};

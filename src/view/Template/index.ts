@@ -12,7 +12,7 @@ class Template {
   ) {
     this.element = document.createElement(tagName);
 
-    if (typeof value === 'string') this.element.innerHTML = value;
+    if (typeof value === 'string') this.element.textContent = value;
 
     if (typeof className === 'string') this.element.classList.add(...className.split(' '));
 

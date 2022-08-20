@@ -1,18 +1,25 @@
 import {Template} from '@/view/Template';
-import style from './index.module.scss';
 import {content} from '@/data/types';
 
 class Button extends Template {
-  public onClickBtn: () => void = () => {};
+  public onClick: () => void = () => {};
 
-  constructor(parent: HTMLElement, className?: content, value?: content, state: boolean = false) {
-    super(parent, 'button', style.btn, value);
+  public onSubmit: (evt: Event) => void = () => {};
 
-    if (className) this.element.classList.add(...className);
+  constructor(parent: HTMLElement, className?: string, value?: content, state: boolean = false, type?: string) {
+    super(parent, 'button', null, value);
+
+    if (className) this.element.classList.add(...className.split(' '));
 
     if (state) this.setDisable(true);
 
-    this.element.addEventListener('click', () => this.onClickBtn());
+    this.element.setAttribute('type', type as string);
+
+    if (type === 'submit') {
+      this.element.onsubmit = (evt) => this.onSubmit(evt);
+    }
+
+    this.element.onclick = () => this.onClick();
   }
 
   public setDisable(condition: boolean = false): void {
