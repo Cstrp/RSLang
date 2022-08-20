@@ -1,0 +1,147 @@
+.textbook-section {
+  max-width: fit-content;
+  background-color: #060a16;
+  margin-left: auto;
+}
+
+.textbook-container {
+  padding: 10px;
+}
+
+.menu {
+  padding: 7px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.navigation {
+  display: grid;
+  justify-items: flex-start;
+  align-items: center;
+}
+
+.section-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.menu__item-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 0.9vw;
+  color: #060a16;
+  background-color: #7f00ff;
+  padding: 2px 5px;
+  border-radius: 0px 0px 2px 0px;
+  outline: none;
+  border: 0;
+  transition: 0.7s;
+
+  &:hover {
+    position: relative;
+    top: 1px;
+    -webkit-box-shadow: 0 0 2px rgba(255, 255, 255, 0.6), inset 0 0 1px rgba(255, 255, 255, 1);
+    -moz-box-shadow: 0 0 2px rgba(255, 255, 255, 0.6), inset 0 0 1px rgba(255, 255, 255, 1);
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.6), inset 0 0 1px rgba(255, 255, 255, 1);
+  }
+
+  &:active{
+    border: 1px solid #450050;
+  }
+}
+
+.menu__item-btn_2 {
+  background: linear-gradient(to bottom, #ff5bb0 5%, #ef027d 100%);
+  background-color: #ff5bb0;
+}
+.menu__item-btn_1 {
+  background: linear-gradient(to bottom, #ffac24 5%, #df6f00 100%);
+  background-color: #ffac24;
+}
+.menu__item-btn_3 {
+  background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+  background-color: #3d94f6;
+}
+.menu__item-btn_4 {
+  background: linear-gradient(to bottom, #77d42a 5%, #5cb811 100%);
+  background-color: #77d42a;
+}
+.menu__item-btn_5 {
+  background: linear-gradient(to bottom, #fe1a00 5%, #ce0100 100%);
+  background-color: #fe1a00;
+}
+.menu__item-btn_6 {
+  background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+  background-color: #ffec64;
+}
+.menu__item-btn_7 {
+}
+
+.menu__item-btn::before {
+  content: '';
+  display: inline-block;
+  margin-right: 1em;
+  width: 1.5em;
+  height: 1.5em;
+  background-image: url('../Textbook/img/btn_icon.svg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.menu__item-btn:active {
+  position: relative;
+  top: 1px;
+}
+
+.menu__item-btn_active {
+  background: linear-gradient(
+      101.9deg,
+      rgba(201, 34, 227, 0.4) 7.67%,
+      rgba(153, 30, 234, 0.4) 52.66%,
+      rgba(73, 23, 246, 0.4) 93.7%
+    ),
+    #450050;
+  border-radius: 0px 0px 10px 0px;
+}
+
+.navigation-games {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.game-link {
+  box-shadow: 0px 1px 0px 0px #fff6af;
+  background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
+  background-color: #ffec64;
+  border-radius: 2px;
+  padding: 3px 4px;
+  transition: 0.7s;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 3px;
+  color: #333333;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #ffee66;
+  border: 1px solid #ffaa22;
+}
+
+.game-link:hover {
+  background: linear-gradient(to bottom, #ffab23 5%, #ffec64 100%);
+  background-color: #ffab23;
+}
+.game-link:active {
+  position: relative;
+  top: 1px;
+}

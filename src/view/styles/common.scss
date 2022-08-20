@@ -1,5 +1,25 @@
-@import "~normalize.css";
-@import "reset";
+@import '~normalize.css';
+@import 'reset';
 
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
 
+button {
+  cursor: pointer;
+}
 
+li {
+  list-style-type: none;
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+img {
+  max-inline-size: 100%;
+  block-size: auto;
+  height: auto;
+}

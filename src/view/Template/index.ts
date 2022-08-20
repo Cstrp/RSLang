@@ -1,4 +1,4 @@
-type content = string | Array<string> | null;
+export type content = string | null;
 
 interface ITemplate {
   parent: HTMLElement | null;
@@ -20,14 +20,20 @@ class Template implements ITemplate {
   ) {
     this.element = document.createElement(tagName);
 
-    this.element.classList.add(...(className as string));
+    if (typeof className === 'string') this.element.classList.add(...className.split(' '));
 
-    if (parent) parent.append(this.element);
+    if (parent) {
+      parent.append(this.element);
+    }
 
-    this.element.innerHTML = value as string;
+    if (value) {
+      this.element.innerHTML = value as string;
+    }
 
-    for (const [key, value] of Object.entries(attr as object)) {
-      this.element.setAttribute(key, value as string);
+    if (attr) {
+      for (const [key, value] of Object.entries(attr as object)) {
+        this.element.setAttribute(key, value as string);
+      }
     }
   }
 
