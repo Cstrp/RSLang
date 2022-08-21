@@ -1,4 +1,5 @@
 import {getWords} from '@/data/services/data.service';
+import {get, set} from '@/data/utils/_storage';
 import {Card} from '@/view/components/Card';
 import {content, Template} from '@/view/Template';
 import {textbookTemplate} from './textbook.view';
@@ -10,9 +11,21 @@ export class Textbook extends Template {
 
   private page = 0;
 
+  private pageDifficultWords = 0;
+
+  private maxPageDifficultWords = 0;
+
   private cards: Array<Card> = [];
 
-  private countPages = 30;
+  private difficultWords: Array<Array<Card>> = [[]];
+
+  private studiedWords: Array<Card> = [];
+
+  private buttonsPlaySound: NodeListOf<HTMLButtonElement> | null = null;
+
+  private countPages = 29;
+
+  private minPage = 0;
 
   private navigation: Template | null = null;
 
@@ -30,6 +43,20 @@ export class Textbook extends Template {
 
   private cardsContainer: Template | null = null;
 
+  private paginationContainer: Template | null = null;
+
+  private paginationLeftBtn: Template | null = null;
+
+  private paginationText: Template | null = null;
+
+  private paginationPageNumber: Template | null = null;
+
+  private paginationRightBtn: Template | null = null;
+
+  private lengthDifficultWords: number = 0;
+
+  private lengthStudiedWords: number = 0;
+
   constructor(
     public parent: HTMLElement | null,
     public tagName: keyof HTMLElementTagNameMap,
@@ -38,18 +65,30 @@ export class Textbook extends Template {
     public attr?: object,
   ) {
     super(parent, tagName, className, value, attr);
+
+    if (get('texbook-group') && get('texbook-page')) {
+      this.group = +get('texbook-group');
+      this.page = +get('texbook-page');
+    }
+
     this.init();
   }
 
   public init() {
-    this.createCardsContainer();
     this.createCards();
+  }
+
+  private addToLocalStorage() {
+    set('texbook-group', `${this.group}`);
+    set('texbook-page', `${this.page}`);
   }
 
   public async create() {
     new Template(this.element, 'div', 'textbook-container', this.textbookContainer);
     this.createMenu();
     this.createCardsContainer();
+    this.createPagination();
+    this.listen();
   }
 
   private createMenu() {
@@ -58,8 +97,31 @@ export class Textbook extends Template {
     this.createGameSections();
   }
 
+  private createPagination() {
+    this.paginationContainer = new Template(document.querySelector('.textbook-container'), 'div', 'pagination-texbook');
+    this.paginationLeftBtn = new Template(
+      this.paginationContainer.element,
+      'button',
+      'pagination-btn pagination-btn_left',
+    );
+    this.paginationText = new Template(this.paginationContainer.element, 'p', 'pagination-text', 'Страница: ');
+    this.paginationPageNumber = new Template(this.paginationText.element, 'span', 'page-number', '1');
+    this.paginationRightBtn = new Template(
+      this.paginationContainer.element,
+      'button',
+      'pagination-btn pagination-btn_right',
+    );
+    if (get('texbook-page')) {
+      this.page = +get('texbook-page');
+
+      if (this.paginationPageNumber) {
+        this.paginationPageNumber.element.textContent = `${this.page + 1}`;
+      }
+    }
+  }
+
   private async createSections() {
-    if (this.navigation?.element) {
+    if (this.navigation) {
       this.sectionList = new Template(this.navigation.element, 'ul', 'section-list');
       this.createSectionsItem();
     }
@@ -67,7 +129,7 @@ export class Textbook extends Template {
 
   private createSectionsItem() {
     for (let i = 0; i < this.countSection; i++) {
-      if (this.sectionList?.element) {
+      if (this.sectionList) {
         this.sectionListItem = new Template(this.sectionList.element, 'li', 'section-list__item');
         new Template(
           this.sectionListItem.element,
@@ -76,6 +138,11 @@ export class Textbook extends Template {
           `Раздел ${i + 1}`,
         );
       }
+    }
+
+    if (this.sectionList) {
+      this.sectionListItem = new Template(this.sectionList.element, 'li', 'section-list__item');
+      new Template(this.sectionListItem.element, 'button', 'texbook-btn-difficult-word', 'Сложные слова');
     }
   }
 
@@ -110,43 +177,458 @@ export class Textbook extends Template {
     const cardsData = await getWords(`page=${this.page}&group=${this.group}`);
 
     if (this.cardsContainer) {
-      cardsData.forEach((cardData) => {
+      cardsData.forEach((cardData, i) => {
         const cardElement = new Card((this.cardsContainer as Template).element, 'div', cardData, 'learn-card');
 
         this.cards.push(cardElement);
         cardElement.init();
+
+        const difficultWordsBtns = document.querySelectorAll('.add-difficult-words');
+
+        this.difficultWords.forEach((arr) => {
+          arr.forEach((elem) => {
+            if (elem.options.word === this.cards[i].options.word) {
+              difficultWordsBtns[i].textContent = 'Добавлено в сложные слова';
+              difficultWordsBtns[i].classList.add('button-difficult-word-added');
+              this.lengthDifficultWords++;
+            }
+          });
+        });
+
+        const studiedWordsBtns = document.querySelectorAll('.mark-studied');
+
+        this.studiedWords.forEach((elem) => {
+          if (elem.options.word === this.cards[i].options.word) {
+            studiedWordsBtns[i].textContent = 'Изученное слово';
+            studiedWordsBtns[i].classList.add('button-studied-word-added');
+            this.lengthStudiedWords++;
+          }
+        });
+
+        this.buttonsPlaySound = document.querySelectorAll('.play-btn');
+        this.paintText();
+
+        if (
+          this.lengthStudiedWords === 20
+          || (this.lengthDifficultWords + this.lengthStudiedWords === 20 && this.lengthStudiedWords !== 0)
+        ) {
+          const markColor = 'rgb(74 74 74)';
+
+          this.paintText(markColor);
+        }
       });
-      this.listen();
+
+      this.listenPlaySoundBtns();
+      this.listenDifficultWordsBtns();
+      this.listenStudiedWordsBtns();
     }
   }
 
-  public listen() {
-    const btns: NodeListOf<HTMLButtonElement> = document.querySelectorAll('.play-btn');
-    const btnsArr: Array<HTMLButtonElement> = [];
+  private listenStudiedWordsBtns() {
+    const studiedWordsBtns = document.querySelectorAll('.mark-studied');
 
-    btns.forEach((btn) => {
-      btnsArr.push(btn);
+    studiedWordsBtns.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        let flag = true;
+
+        this.studiedWords.forEach((elem) => {
+          if (elem.options.word === this.cards[i].options.word) {
+            flag = false;
+          }
+        });
+        if (flag) {
+          this.studiedWords.push(this.cards[i]);
+          console.log(this.studiedWords);
+          btn.textContent = 'Изученное слово';
+          btn.classList.add('button-studied-word-added');
+          this.disablePage(i);
+        }
+      });
+    });
+  }
+
+  private disablePage(i: number) {
+    this.difficultWords.forEach((arr) => {
+      arr.forEach((elem) => {
+        if (elem.options.word === this.cards[i].options.word) {
+          this.lengthDifficultWords++;
+        }
+      });
     });
 
-    btnsArr.forEach((btn) => {
+    this.studiedWords.forEach((elem) => {
+      if (elem.options.word === this.cards[i].options.word) {
+        this.lengthStudiedWords++;
+      }
+    });
+
+    if (this.lengthStudiedWords === 20 || this.lengthDifficultWords + this.lengthStudiedWords === 20) {
+      const markColor = 'rgb(74 74 74)';
+
+      this.paintText(markColor);
+    }
+  }
+
+  private paintText(markColor?: string) {
+    const bElements: NodeListOf<HTMLElement> = document.querySelectorAll('b');
+    const iElements: NodeListOf<HTMLElement> = document.querySelectorAll('i');
+    const wordElements: NodeListOf<HTMLSpanElement> = document.querySelectorAll('.word');
+
+    if (markColor) {
+      bElements.forEach((el) => {
+        el.style.color = markColor;
+      });
+
+      iElements.forEach((el) => {
+        el.style.color = markColor;
+      });
+
+      wordElements.forEach((el) => {
+        el.style.color = markColor;
+      });
+    } else {
+      let colorText: string = '';
+
+      switch (this.group) {
+        case 1:
+          colorText = 'rgb(255 51 110)';
+          break;
+        case 2:
+          colorText = 'rgb(0 216 255)';
+          break;
+        case 3:
+          colorText = 'rgb(103 255 0)';
+          break;
+        case 4:
+          colorText = 'rgb(255 1 0)';
+          break;
+        case 5:
+          colorText = '#ffe000';
+          break;
+        default:
+          colorText = '#ffac24';
+          break;
+      }
+
+      bElements.forEach((el) => {
+        el.style.color = colorText;
+      });
+
+      iElements.forEach((el) => {
+        el.style.color = colorText;
+      });
+
+      wordElements.forEach((el) => {
+        el.style.color = colorText;
+      });
+    }
+  }
+
+  public rerenderCards() {
+    this.cards.forEach((cardElem) => {
+      cardElem.toggleAudio(false);
+    });
+
+    this.cards = [];
+
+    const cardsContainer: HTMLDivElement | null = document.querySelector('.cards-container');
+
+    this.lengthDifficultWords = 0;
+    this.lengthStudiedWords = 0;
+
+    if (cardsContainer) {
+      cardsContainer.textContent = '';
+      this.createCards();
+    }
+  }
+
+  private toPrevPage() {
+    if (this.page !== this.minPage) {
+      this.page--;
+      this.rerenderCards();
+    }
+
+    if (this.paginationPageNumber) {
+      this.paginationPageNumber.element.textContent = `${this.page + 1}`;
+    }
+
+    if (this.page === this.minPage) {
+      (this.paginationLeftBtn as Template).element.classList.add('pagination-btn-disable');
+    } else {
+      (this.paginationLeftBtn as Template).element.classList.remove('pagination-btn-disable');
+    }
+
+    if (this.page === this.countPages) {
+      (this.paginationRightBtn as Template).element.classList.add('pagination-btn-disable');
+    } else {
+      (this.paginationRightBtn as Template).element.classList.remove('pagination-btn-disable');
+    }
+
+    this.addToLocalStorage();
+  }
+
+  private toNextPage() {
+    if (this.page !== this.countPages) {
+      this.page++;
+      this.rerenderCards();
+    }
+
+    if (this.paginationPageNumber) {
+      this.paginationPageNumber.element.textContent = `${this.page + 1}`;
+    }
+
+    if (this.page === this.minPage) {
+      (this.paginationLeftBtn as Template).element.classList.add('pagination-btn-disable');
+    } else {
+      (this.paginationLeftBtn as Template).element.classList.remove('pagination-btn-disable');
+    }
+
+    if (this.page === this.countPages) {
+      (this.paginationRightBtn as Template).element.classList.add('pagination-btn-disable');
+    } else {
+      (this.paginationRightBtn as Template).element.classList.remove('pagination-btn-disable');
+    }
+
+    this.addToLocalStorage();
+  }
+
+  private changeSection(num: number) {
+    if (document.querySelector('.pagination-texbook')) {
+      (document.querySelector('.pagination-texbook') as HTMLDivElement).style.display = 'flex';
+    }
+
+    this.group = num;
+    this.page = 0;
+
+    if (this.paginationPageNumber) {
+      this.paginationPageNumber.element.textContent = `${this.page + 1}`;
+    }
+
+    this.rerenderCards();
+    this.addToLocalStorage();
+  }
+
+  public listen() {
+    if (this.paginationLeftBtn && this.paginationRightBtn) {
+      this.paginationLeftBtn.element.addEventListener('click', this.toPrevPage.bind(this));
+      this.paginationRightBtn.element.addEventListener('click', this.toNextPage.bind(this));
+    }
+
+    const menuBtns = document.querySelectorAll('.menu__item-btn');
+
+    menuBtns.forEach((btn, i) => {
       btn.addEventListener('click', () => {
-        if (btnsArr.filter((elem) => elem.classList.contains('play-btn_pause')).length > 0) {
-          if (btn.classList.contains('play-btn_pause')) {
-            this.cards[btnsArr.indexOf(btn)].toggleAudio(false);
-            btn.classList.remove('play-btn_pause');
+        this.changeSection(i);
+      });
+    });
+
+    const btnDifficultWord = document.querySelectorAll('.texbook-btn-difficult-word');
+
+    btnDifficultWord.forEach((btn) => {
+      btn.addEventListener('click', this.showDifficultWords.bind(this));
+    });
+  }
+
+  private listenPlaySoundBtns() {
+    const btnsArr: Array<HTMLButtonElement> = [];
+
+    if (this.buttonsPlaySound) {
+      this.buttonsPlaySound.forEach((btn) => {
+        btnsArr.push(btn);
+      });
+
+      btnsArr.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (btnsArr.filter((elem) => elem.classList.contains('play-btn_pause')).length > 0) {
+            if (btn.classList.contains('play-btn_pause')) {
+              this.cards[btnsArr.indexOf(btn)].toggleAudio(false);
+              btn.classList.remove('play-btn_pause');
+            } else {
+              this.cards.forEach((cardElem) => {
+                cardElem.toggleAudio(false);
+              });
+
+              this.cards[btnsArr.indexOf(btn)].toggleAudio(true, btn);
+
+              if (this.buttonsPlaySound) {
+                this.buttonsPlaySound.forEach((elem) => elem.classList.remove('play-btn_pause'));
+              }
+
+              btn.classList.add('play-btn_pause');
+            }
           } else {
-            this.cards.forEach((cardElem) => {
-              cardElem.toggleAudio(false);
-            });
-
             this.cards[btnsArr.indexOf(btn)].toggleAudio(true, btn);
-
-            btns.forEach((elem) => elem.classList.remove('play-btn_pause'));
             btn.classList.add('play-btn_pause');
           }
-        } else {
-          this.cards[btnsArr.indexOf(btn)].toggleAudio(true, btn);
-          btn.classList.add('play-btn_pause');
+        });
+      });
+    }
+  }
+
+  private showDifficultWords() {
+    this.cards.forEach((cardElem) => {
+      cardElem.toggleAudio(false);
+    });
+
+    this.createDifficultWords();
+    this.buttonsPlaySound = document.querySelectorAll('.play-btn');
+    this.listenPlaySoundBtns();
+    this.listenDeleteDifficultWord();
+    this.createPaginationDifficultWords();
+    this.listenPaginationDifficultWords();
+  }
+
+  private createPaginationDifficultWords() {
+    const cardsContainer: HTMLDivElement | null = document.querySelector('.cards-container');
+
+    if (document.querySelector('.pagination-texbook')) {
+      (document.querySelector('.pagination-texbook') as HTMLDivElement).style.display = 'none';
+    }
+
+    (cardsContainer as HTMLDivElement).insertAdjacentHTML(
+      'beforeend',
+      `<div class="pagination-difficult-words">
+          <button class="pagination-difficult-words-btn pagination-difficult-words-btn_left"></button>
+          <p class="pagination-difficult-words-text">Страница:
+              <span class="pagination-difficult-words-page-number">1</span>
+          </p>
+          <button class="pagination-difficult-words-btn pagination-difficult-words-btn_right"></button>
+      </div>`,
+    );
+
+    (document.querySelector('.pagination-difficult-words-page-number') as HTMLSpanElement).textContent = `${
+      this.pageDifficultWords + 1
+    }`;
+  }
+
+  private createDifficultWords() {
+    const cardsContainer: HTMLDivElement | null = document.querySelector('.cards-container');
+
+    if (cardsContainer) {
+      cardsContainer.textContent = '';
+
+      this.difficultWords[this.pageDifficultWords].forEach((word) => {
+        const cardElement = new Card((this.cardsContainer as Template).element, 'div', word.options, 'learn-card');
+
+        cardElement.init();
+        cardElement.element.removeChild(document.querySelector('.btn-container-authorized') as HTMLDivElement);
+
+        cardElement.element.insertAdjacentHTML(
+          'beforeend',
+          '<button class="delete-difficult-words-btn">Удалить из сложных слов</button>',
+        );
+      });
+    }
+  }
+
+  private listenDeleteDifficultWord() {
+    const btnsDeleteDifficultWord = document.querySelectorAll('.delete-difficult-words-btn');
+
+    btnsDeleteDifficultWord.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        this.difficultWords[this.pageDifficultWords].splice(i, 1);
+        this.showDifficultWords();
+      });
+    });
+  }
+
+  private listenPaginationDifficultWords() {
+    const difficultWordsPrevPage: HTMLButtonElement | null = document.querySelector(
+      '.pagination-difficult-words-btn_right',
+    );
+
+    const difficultWordsNextPage: HTMLButtonElement | null = document.querySelector(
+      '.pagination-difficult-words-btn_right',
+    );
+
+    if (difficultWordsPrevPage) {
+      difficultWordsPrevPage.addEventListener('click', () => {
+        if (this.pageDifficultWords !== this.minPage) {
+          this.difficultWords[this.pageDifficultWords].forEach((cardElem) => {
+            cardElem.toggleAudio(false);
+          });
+
+          this.pageDifficultWords--;
+          console.log(this.pageDifficultWords, this.difficultWords[this.pageDifficultWords]);
+
+          this.createDifficultWords();
+          this.listenDeleteDifficultWord();
+          this.createPaginationDifficultWords();
+          this.checkDifficultWordsPageBtns();
+        }
+      });
+    }
+
+    if (difficultWordsNextPage) {
+      difficultWordsNextPage.addEventListener('click', () => {
+        if (this.pageDifficultWords !== this.maxPageDifficultWords) {
+          this.difficultWords[this.pageDifficultWords].forEach((cardElem) => {
+            cardElem.toggleAudio(false);
+          });
+
+          this.pageDifficultWords++;
+
+          this.createDifficultWords();
+          this.listenDeleteDifficultWord();
+          this.createPaginationDifficultWords();
+          this.checkDifficultWordsPageBtns();
+        }
+      });
+    }
+  }
+
+  private checkDifficultWordsPageBtns() {
+    const difficultWordsPrevPage: HTMLButtonElement | null = document.querySelector(
+      '.pagination-difficult-words-btn_right',
+    );
+
+    const difficultWordsNextPage: HTMLButtonElement | null = document.querySelector(
+      '.pagination-difficult-words-btn_right',
+    );
+
+    if (difficultWordsPrevPage && difficultWordsNextPage) {
+      if (this.pageDifficultWords === this.minPage) {
+        difficultWordsPrevPage.classList.add('pagination-btn-disable');
+      } else {
+        difficultWordsPrevPage.classList.remove('pagination-btn-disable');
+      }
+
+      if (this.pageDifficultWords === this.maxPageDifficultWords) {
+        difficultWordsNextPage.classList.add('pagination-btn-disable');
+      } else {
+        difficultWordsNextPage.classList.remove('pagination-btn-disable');
+      }
+    }
+  }
+
+  private listenDifficultWordsBtns() {
+    const difficultWordsBtns = document.querySelectorAll('.add-difficult-words');
+
+    difficultWordsBtns.forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        let flag = true;
+
+        (document.querySelector('.texbook-btn-difficult-word') as HTMLButtonElement).style.display = 'flex';
+
+        this.difficultWords.forEach((arr) => {
+          arr.forEach((elem) => {
+            if (elem.options.word === this.cards[i].options.word) {
+              flag = false;
+            }
+          });
+        });
+
+        if (flag) {
+          if (this.difficultWords[this.difficultWords.length - 1].length !== 20) {
+            this.difficultWords[this.difficultWords.length - 1].push(this.cards[i]);
+          } else {
+            this.difficultWords.push([this.cards[i]]);
+            this.maxPageDifficultWords++;
+          }
+
+          btn.textContent = 'Добавлено в сложные слова';
+          btn.classList.add('button-difficult-word-added');
+          this.disablePage(i);
         }
       });
     });

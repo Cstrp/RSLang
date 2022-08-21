@@ -12,7 +12,6 @@
   grid-template-areas:
     'image topInfo'
     'image bottomInfo';
-  /* From https://css.glass */
   background: rgba(255, 255, 255, 0.07);
   border-radius: 0px 0px 15px 0px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -32,7 +31,6 @@
   aspect-ratio: 1/1;
   grid-area: image;
   object-fit: cover;
-
   -webkit-box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 1);
   -moz-box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 1);
   box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 1);
@@ -166,7 +164,7 @@ i {
   display: none;
 }
 
-.add-compound-words {
+.add-difficult-words {
   color: white;
   box-shadow: inset 0px 1px 0px 0px #a4e271;
   background: linear-gradient(to bottom, #89c403 5%, #77a809 100%);
@@ -182,7 +180,6 @@ i {
   font-size: 3px;
   padding: 2px 3px;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #528009;
   &:hover {
     background: linear-gradient(to bottom, #77a809 5%, #89c403 100%);
     background-color: #77a809;
@@ -209,7 +206,6 @@ i {
   font-size: 3px;
   padding: 2px 3px;
   text-decoration: none;
-  text-shadow: 0px 1px 0px #9b14b3;
   &:hover {
     background: linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
     background-color: #a20dbd;
@@ -217,5 +213,37 @@ i {
   &:active {
     position: relative;
     top: 1px;
+  }
+}
+
+.button-difficult-word-added {
+  cursor: not-allowed;
+  color: black;
+  box-shadow: inset 0px 1px 0px 0px #e0e271;
+  background: linear-gradient(to bottom, #fff400 5%, #ffc704 100%);
+  border-radius: 0.533vw;
+  border: 1px solid #fff400;
+
+  &:hover {
+    color: black;
+    box-shadow: inset 0px 1px 0px 0px #e0e271;
+    background: linear-gradient(to bottom, #fff400 5%, #ffc704 100%);
+    border-radius: 0.533vw;
+    border: 1px solid #fff400;
+  }
+}
+
+.button-studied-word-added {
+  cursor: not-allowed;
+  color: black;
+  box-shadow: inset 0px 1px 0px 0px #3d94f6;
+  background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+  background-color: #3d94f6;
+  border: 1px solid #1e62d0;
+  &:hover {
+    color: black;
+    box-shadow: inset 0px 1px 0px 0px #3d94f6;
+    background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+    background-color: #3d94f6;
   }
 }

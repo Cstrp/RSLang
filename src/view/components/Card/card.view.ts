@@ -17,8 +17,8 @@ export const getCardTemplate = (options: ICard) => `
     <p class="word-desc-eng">${options.textExample}</p>
     <p class="word-desc-ru">${options.textExampleTranslate}</p>
     </div>
-    <div class="btn-container-authorized btn-container-hidden">
-      <button class="add-compound-words">Добавить в сложные слова</button>
+    <div class="btn-container-authorized">
+      <button class="add-difficult-words">Добавить в сложные слова</button>
       <button class="mark-studied">Пометить как изученное</button>
     </div>
     `;
