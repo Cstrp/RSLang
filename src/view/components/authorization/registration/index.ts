@@ -5,17 +5,23 @@ import {Button} from '@/view/components/IU/Button';
 import {createUser} from '@/data/api/user';
 import {validEmail, validPass} from '@/data/utils/_validator';
 import style from './index.module.scss';
+import {SignIn} from '@/view/components/authorization/signIn';
+import {get} from '@/data/utils/_storage';
 
 class UserRegistration extends Template {
   private createUser: (prop: IUser) => void = () => {};
 
-  private input!: Input;
+  private name: Input;
 
-  private inputEmail!: Input;
+  private email: Input;
 
-  private inputPassword!: Input;
+  private password: Input;
 
-  private button!: Button;
+  private button: Button;
+
+  private signin: Button;
+
+  private signIn!: SignIn;
 
   private state = {
     name: '',
@@ -26,20 +32,20 @@ class UserRegistration extends Template {
   constructor(parent: HTMLElement) {
     super(parent, 'div', style.regForm);
 
-    this.input = new Input(this.element, 'text', style.input, null, {
+    this.name = new Input(this.element, 'text', style.input, null, {
       placeholder: 'Введите имя пользователя...',
     });
-    this.input.getValue = (evt) => this.updateState('name', evt);
+    this.name.getValue = (evt) => this.updateState('name', evt);
 
-    this.inputEmail = new Input(this.element, 'email', style.input, null, {
+    this.email = new Input(this.element, 'email', style.input, null, {
       placeholder: 'Введите адрес электронной почты...',
     });
-    this.inputEmail.getValue = (evt) => this.updateState('email', evt);
+    this.email.getValue = (evt) => this.updateState('email', evt);
 
-    this.inputPassword = new Input(this.element, 'password', style.input, null, {
+    this.password = new Input(this.element, 'password', style.input, null, {
       placeholder: 'Введите новый пароль...',
     });
-    this.inputPassword.getValue = (evt) => this.updateState('password', evt);
+    this.password.getValue = (evt) => this.updateState('password', evt);
 
     const btns = new Template(this.element, 'div', style.btns);
 
@@ -49,15 +55,21 @@ class UserRegistration extends Template {
       if (this.validate(this.state.name, this.state.email, this.state.password)) {
         this.createUser(this.state);
       } else {
-        const err = new Template(this.element, 'div', style.error, 'Неверные данные пользователя');
+        const err = new Template(this.element, 'span', style.error, 'Неверные данные пользователя');
 
         setTimeout(() => {
           err.removeElement();
-        }, 5000);
+        }, 3000);
       }
 
       createUser(this.state);
+
       this.resetState();
+    };
+
+    this.signin = new Button(btns.element, style.signBtn, 'Войти', false, 'submit');
+    this.signin.onClick = () => {
+      new SignIn(this.element);
     };
   }
 
@@ -76,9 +88,9 @@ class UserRegistration extends Template {
   }
 
   private updateInput() {
-    (this.input.element as HTMLInputElement).value = this.state.name;
-    (this.inputEmail.element as HTMLInputElement).value = this.state.email;
-    (this.inputPassword.element as HTMLInputElement).value = this.state.password;
+    (this.name.element as HTMLInputElement).value = this.state.name;
+    (this.email.element as HTMLInputElement).value = this.state.email;
+    (this.password.element as HTMLInputElement).value = this.state.password;
 
     this.button.element.toggleAttribute(
       'disabled',
@@ -95,6 +107,14 @@ class UserRegistration extends Template {
       'disabled',
       this.state.name === '' || this.state.email === '' || this.state.password === '',
     );
+  }
+
+  private storage() {
+    const user = get('user');
+
+    if (user) {
+      this.signIn = new SignIn(this.element);
+    }
   }
 }
 

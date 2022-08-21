@@ -91,6 +91,7 @@
   "dependencies": {
     "@fullcalendar/core": "^5.11.2",
     "@fullcalendar/daygrid": "^5.11.2",
+    "@fullcalendar/interaction": "^5.11.2",
     "axios": "^0.27.2",
     "normalize.css": "^8.0.1"
   }

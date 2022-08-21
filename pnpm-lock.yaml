@@ -10,6 +10,7 @@ specifiers:
   '@csstools/postcss-sass': ^5.0.1
   '@fullcalendar/core': ^5.11.2
   '@fullcalendar/daygrid': ^5.11.2
+  '@fullcalendar/interaction': ^5.11.2
   '@soda/friendly-errors-webpack-plugin': ^1.8.1
   '@ttou/postcss-px-to-viewport': ^2.0.1
   '@types/jest': ^28.1.7
@@ -61,6 +62,7 @@ specifiers:
 dependencies:
   '@fullcalendar/core': 5.11.2
   '@fullcalendar/daygrid': 5.11.2
+  '@fullcalendar/interaction': 5.11.2
   axios: 0.27.2
   normalize.css: 8.0.1
 
@@ -1583,6 +1585,13 @@ packages:
 
   /@fullcalendar/daygrid/5.11.2:
     resolution: {integrity: sha512-WmR8EAOR8Y9wyxlCK2gBW6lG/dPSN37eM8L7vgc7YgrQE1knL7ISgaUnDfFUNBFztmLakO/ZpeQQFpz3pnJwXg==}
+    dependencies:
+      '@fullcalendar/common': 5.11.2
+      tslib: 2.4.0
+    dev: false
+
+  /@fullcalendar/interaction/5.11.2:
+    resolution: {integrity: sha512-PlUXP9pW62tLgp2DttLC2f8IX5yeRLRboY/knnRKQRlWoX9tUvmIDK2vZPyAHbXikfYcKtL/B91oCaFWF/HrRA==}
     dependencies:
       '@fullcalendar/common': 5.11.2
       tslib: 2.4.0

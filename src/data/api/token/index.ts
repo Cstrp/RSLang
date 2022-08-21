@@ -29,6 +29,8 @@ const tokenRefresher = async () => {
     set('time', date);
     set('token', res.token);
     set('refreshToken', res.refreshToken);
+    set('userID', res.userId);
+    set('userName', res.name);
 
     return get('token');
   }

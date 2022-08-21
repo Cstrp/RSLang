@@ -1,5 +1,9 @@
 import {ILink} from '@/data/interfaces/ILink';
 
+const url = 'https://rslang-bc.herokuapp.com';
+const users = `${url}/users`;
+const signin = `${url}/signin`;
+
 const link: ILink = {
   links: {
     home: '#/home',
@@ -21,9 +25,5 @@ const description = [
   Минимум одна заглавная, строчная буквы, один специальный символ, одна цифра.
   `,
 ];
-
-const url = 'https://rslang-bc.herokuapp.com';
-const users = `${url}/users`;
-const signin = `${url}/signin`;
 
 export {link, users, url, signin, description};

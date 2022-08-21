@@ -1,6 +1,7 @@
 import {signin} from '@/data/const';
 import {set} from '@/data/utils/_storage';
-import {ISignInUser} from '../../interfaces/ISignInUser';
+import {ISignUpUser} from '../../interfaces/ISignUpUser';
+import {ISignInUser} from '@/data/interfaces/ISignInUser';
 
 const signIn = async (user: ISignInUser) => {
   let date: Date | string = new Date().toString();
@@ -15,16 +16,17 @@ const signIn = async (user: ISignInUser) => {
   });
 
   if (data.status === 200) {
-    const res = await data.json();
+    const res: ISignUpUser = await data.json();
 
     date += time;
     set('time', date);
     set('token', res.token);
     set('refreshToken', res.refreshToken);
     set('userID', res.userId);
-  } else {
-    throw new Error(data.statusText);
+    set('userName', res.name);
   }
+
+  throw new Error(`${data.status} ${data.statusText}`);
 };
 
 export {signIn};
