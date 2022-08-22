@@ -17,7 +17,9 @@ class Header extends Template {
     let greeting: string = '';
 
     if (time < 12) {
-      greeting = `Good morning!${get('userName') ? get('userName') : ''} Перевод: Доброе утро!`;
+      greeting = `Good morning ${get('userName') ? get('userName') : ''} ! Перевод: Доброе утро ${
+        get('userName') ? get('userName') : ''
+      } !`;
     } else if (time >= 12 && time <= 17) {
       greeting = `Have a good day ${get('userName') ? get('userName') : 'mate'} ! Перевод: "Хорошего дня ${
         get('userName') ? get('userName') : 'Приятель'
