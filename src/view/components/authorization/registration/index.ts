@@ -6,7 +6,6 @@ import {createUser} from '@/data/api/user';
 import {validEmail, validPass} from '@/data/utils/_validator';
 import style from './index.module.scss';
 import {SignIn} from '@/view/components/authorization/signIn';
-import {get} from '@/data/utils/_storage';
 
 class UserRegistration extends Template {
   private createUser: (prop: IUser) => void = () => {};
@@ -20,8 +19,6 @@ class UserRegistration extends Template {
   private button: Button;
 
   private signin: Button;
-
-  private signIn!: SignIn;
 
   private state = {
     name: '',
@@ -62,7 +59,7 @@ class UserRegistration extends Template {
         }, 3000);
       }
 
-      createUser(this.state);
+      createUser(this.state).finally(() => {});
 
       this.resetState();
     };
@@ -107,14 +104,6 @@ class UserRegistration extends Template {
       'disabled',
       this.state.name === '' || this.state.email === '' || this.state.password === '',
     );
-  }
-
-  private storage() {
-    const user = get('user');
-
-    if (user) {
-      this.signIn = new SignIn(this.element);
-    }
   }
 }
 

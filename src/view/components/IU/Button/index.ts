@@ -13,7 +13,7 @@ class Button extends Template {
 
     if (state) this.setDisable(true);
 
-    this.element.setAttribute('type', type as string);
+    this.element.setAttribute('type', type || 'button');
 
     if (type === 'submit') {
       this.element.onsubmit = (evt) => this.onSubmit(evt);

@@ -48,13 +48,14 @@ class SignIn extends Template {
       this.resetState();
     };
 
-    this.signOut = new Button(btns.element, style.btnSig, 'Выйти', false);
+    this.close = new Button(btns.element, style.close, 'Закрыть', false);
+    this.close.onClick = () => this.element.remove();
+
+    this.signOut = new Button(btns.element, style.btnSig, 'Выйти', false, 'submit');
     this.signOut.onClick = () => {
       clear();
+      this.element.remove();
     };
-
-    this.close = new Button(this.element, style.close, 'Закрыть', false, 'signIn');
-    this.close.onClick = () => this.element.remove();
   }
 
   private updateState(key: keyof ISignInUser, evt: Event): void {

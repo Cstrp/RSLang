@@ -62,17 +62,19 @@
 }
 
 .close {
-  font: 1000 3px 'Poppins', cursive;
   position: absolute;
-  top: 50px;
-  right: 120px;
-  border: none;
+  right: 32px;
+  top: 32px;
   padding: 3px;
-  border-radius: 3px;
+  border: 1px solid #333333;
+  border-top-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  opacity: 1;
   cursor: pointer;
   transition: all 0.2s ease-in-out;
+
   &:hover {
-    transform: scale(0.95);
+    opacity: 0.3;
   }
 }
 

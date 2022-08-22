@@ -17,15 +17,15 @@ class Header extends Template {
     let greeting: string = '';
 
     if (time < 12) {
-      greeting = `Good morning ${get('userName') ? get('userName') : ''} ! Перевод: Доброе утро ${
+      greeting = `Good morning ${get('userName') ? get('userName') : ''} ! Доброе утро ${
         get('userName') ? get('userName') : ''
       } !`;
     } else if (time >= 12 && time <= 17) {
-      greeting = `Have a good day ${get('userName') ? get('userName') : 'mate'} ! Перевод: "Хорошего дня ${
+      greeting = `Have a good day ${get('userName') ? get('userName') : 'mate'} ! Хорошего дня ${
         get('userName') ? get('userName') : 'Приятель'
       }!"`;
     } else if (time >= 17 && time <= 22) {
-      greeting = `Good evening! ${get('userName') ? get('userName') : ''} Перевод: "Добрый вечер"`;
+      greeting = `Good evening! ${get('userName') ? get('userName') : ''} Добрый вечер"`;
     } else if (time <= 23) greeting = 'Good night! Good luck!';
 
     new Clock(this.element);
