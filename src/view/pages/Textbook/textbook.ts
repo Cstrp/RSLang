@@ -1,5 +1,5 @@
 import {getWords} from '@/data/services/data.service';
-import {get, set} from '@/data/utils/_storage';
+import {get, remove, set} from '@/data/utils/_storage';
 import {Card} from '@/view/components/Card';
 import {content, Template} from '@/view/Template';
 import {textbookTemplate} from './textbook.view';
@@ -24,6 +24,8 @@ export class Textbook extends Template {
   private buttonsPlaySound: NodeListOf<HTMLButtonElement> | null = null;
 
   private countPages = 29;
+
+  private countCards = 20;
 
   private minPage = 0;
 
@@ -66,16 +68,24 @@ export class Textbook extends Template {
   ) {
     super(parent, tagName, className, value, attr);
 
+    Storage.prototype.setObject = (key: string, value: Array<Array<Card>> | Array<Card>) => {
+      localStorage.setItem(key, JSON.stringify(value));
+    };
+
+    Storage.prototype.getObject = (key: string) => {
+      const value = localStorage.getItem(key);
+
+      return value && JSON.parse(value);
+    };
+
+    if (window.localStorage.getObject('studied-words')) {
+      this.studiedWords = window.localStorage.getObject('studied-words');
+    }
+
     if (get('texbook-group') && get('texbook-page')) {
       this.group = +get('texbook-group');
       this.page = +get('texbook-page');
     }
-
-    this.init();
-  }
-
-  public init() {
-    this.createCards();
   }
 
   private addToLocalStorage() {
@@ -86,9 +96,24 @@ export class Textbook extends Template {
   public async create() {
     new Template(this.element, 'div', 'textbook-container', this.textbookContainer);
     this.createMenu();
+
+    if (window.localStorage.getObject('difficult-words')) {
+      this.difficultWords = window.localStorage.getObject('difficult-words');
+      (document.querySelector('.texbook-btn-difficult-word') as HTMLButtonElement).style.display = 'flex';
+    }
+
     this.createCardsContainer();
-    this.createPagination();
     this.listen();
+
+    if (get('group-difficult-words')) {
+      this.pageDifficultWords = +get('group-difficult-words');
+      (document.querySelector('.cards-container') as HTMLDivElement).textContent = '';
+      this.showDifficultWords();
+    } else {
+      this.createCards();
+      this.createPagination();
+      this.listen();
+    }
   }
 
   private createMenu() {
@@ -177,6 +202,9 @@ export class Textbook extends Template {
     const cardsData = await getWords(`page=${this.page}&group=${this.group}`);
 
     if (this.cardsContainer) {
+      const cardsContainer: HTMLDivElement | null = document.querySelector('.cards-container');
+
+      (cardsContainer as HTMLDivElement).textContent = '';
       cardsData.forEach((cardData, i) => {
         const cardElement = new Card((this.cardsContainer as Template).element, 'div', cardData, 'learn-card');
 
@@ -207,15 +235,10 @@ export class Textbook extends Template {
 
         this.buttonsPlaySound = document.querySelectorAll('.play-btn');
         this.paintText();
+      });
 
-        if (
-          this.lengthStudiedWords === 20
-          || (this.lengthDifficultWords + this.lengthStudiedWords === 20 && this.lengthStudiedWords !== 0)
-        ) {
-          const markColor = 'rgb(74 74 74)';
-
-          this.paintText(markColor);
-        }
+      this.cards.forEach((_, i) => {
+        this.disablePage(i);
       });
 
       this.listenPlaySoundBtns();
@@ -238,7 +261,7 @@ export class Textbook extends Template {
         });
         if (flag) {
           this.studiedWords.push(this.cards[i]);
-          console.log(this.studiedWords);
+          window.localStorage.setObject('studied-words', this.studiedWords);
           btn.textContent = 'Изученное слово';
           btn.classList.add('button-studied-word-added');
           this.disablePage(i);
@@ -252,6 +275,12 @@ export class Textbook extends Template {
       arr.forEach((elem) => {
         if (elem.options.word === this.cards[i].options.word) {
           this.lengthDifficultWords++;
+
+          this.studiedWords.forEach((value) => {
+            if (elem.options.word === value.options.word) {
+              this.lengthDifficultWords--;
+            }
+          });
         }
       });
     });
@@ -259,10 +288,24 @@ export class Textbook extends Template {
     this.studiedWords.forEach((elem) => {
       if (elem.options.word === this.cards[i].options.word) {
         this.lengthStudiedWords++;
+
+        this.difficultWords.forEach((arr) => {
+          arr.forEach((value) => {
+            if (elem.options.word === value.options.word) {
+              this.lengthStudiedWords--;
+            }
+          });
+        });
       }
     });
 
-    if (this.lengthStudiedWords === 20 || this.lengthDifficultWords + this.lengthStudiedWords === 20) {
+    if (this.lengthStudiedWords === this.countCards) {
+      const markColor = 'rgb(74 74 74)';
+
+      this.paintText(markColor);
+    }
+
+    if (this.lengthDifficultWords + this.lengthStudiedWords >= this.countCards) {
       const markColor = 'rgb(74 74 74)';
 
       this.paintText(markColor);
@@ -337,7 +380,6 @@ export class Textbook extends Template {
     this.lengthStudiedWords = 0;
 
     if (cardsContainer) {
-      cardsContainer.textContent = '';
       this.createCards();
     }
   }
@@ -393,8 +435,15 @@ export class Textbook extends Template {
   }
 
   private changeSection(num: number) {
+    const cardsContainer: HTMLDivElement | null = document.querySelector('.cards-container');
+
+    (cardsContainer as HTMLDivElement).textContent = '';
+
     if (document.querySelector('.pagination-texbook')) {
       (document.querySelector('.pagination-texbook') as HTMLDivElement).style.display = 'flex';
+    } else {
+      this.createPagination();
+      this.listen();
     }
 
     this.group = num;
@@ -406,6 +455,7 @@ export class Textbook extends Template {
 
     this.rerenderCards();
     this.addToLocalStorage();
+    remove('group-difficult-words');
   }
 
   public listen() {
@@ -465,6 +515,42 @@ export class Textbook extends Template {
     }
   }
 
+  private listenDifficultPlaySoundBtns() {
+    const btnsArr: Array<HTMLButtonElement> = [];
+
+    if (this.buttonsPlaySound) {
+      this.buttonsPlaySound.forEach((btn) => {
+        btnsArr.push(btn);
+      });
+
+      btnsArr.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          if (btnsArr.filter((elem) => elem.classList.contains('play-btn_pause')).length > 0) {
+            if (btn.classList.contains('play-btn_pause')) {
+              this.difficultWords[this.pageDifficultWords][btnsArr.indexOf(btn)].toggleAudio(false);
+              btn.classList.remove('play-btn_pause');
+            } else {
+              this.difficultWords[this.pageDifficultWords].forEach((cardElem) => {
+                cardElem.toggleAudio(false);
+              });
+
+              this.difficultWords[this.pageDifficultWords][btnsArr.indexOf(btn)].toggleAudio(true, btn);
+
+              if (this.buttonsPlaySound) {
+                this.buttonsPlaySound.forEach((elem) => elem.classList.remove('play-btn_pause'));
+              }
+
+              btn.classList.add('play-btn_pause');
+            }
+          } else {
+            this.difficultWords[this.pageDifficultWords][btnsArr.indexOf(btn)].toggleAudio(true, btn);
+            btn.classList.add('play-btn_pause');
+          }
+        });
+      });
+    }
+  }
+
   private showDifficultWords() {
     this.cards.forEach((cardElem) => {
       cardElem.toggleAudio(false);
@@ -472,10 +558,10 @@ export class Textbook extends Template {
 
     this.createDifficultWords();
     this.buttonsPlaySound = document.querySelectorAll('.play-btn');
-    this.listenPlaySoundBtns();
+    this.listenDifficultPlaySoundBtns();
     this.listenDeleteDifficultWord();
     this.createPaginationDifficultWords();
-    this.listenPaginationDifficultWords();
+    set('group-difficult-words', `${this.pageDifficultWords}`);
   }
 
   private createPaginationDifficultWords() {
@@ -496,6 +582,7 @@ export class Textbook extends Template {
       </div>`,
     );
 
+    this.listenPaginationDifficultWords();
     (document.querySelector('.pagination-difficult-words-page-number') as HTMLSpanElement).textContent = `${
       this.pageDifficultWords + 1
     }`;
@@ -527,14 +614,24 @@ export class Textbook extends Template {
     btnsDeleteDifficultWord.forEach((btn, i) => {
       btn.addEventListener('click', () => {
         this.difficultWords[this.pageDifficultWords].splice(i, 1);
+        window.localStorage.setObject('difficult-words', this.difficultWords);
         this.showDifficultWords();
+        if (this.difficultWords[this.pageDifficultWords].length === 0 && this.pageDifficultWords > 0) {
+          this.difficultWords[this.pageDifficultWords].forEach((cardElem) => {
+            cardElem.toggleAudio(false);
+          });
+
+          this.pageDifficultWords--;
+          this.showDifficultWords();
+          this.checkDifficultWordsPageBtns();
+        }
       });
     });
   }
 
   private listenPaginationDifficultWords() {
     const difficultWordsPrevPage: HTMLButtonElement | null = document.querySelector(
-      '.pagination-difficult-words-btn_right',
+      '.pagination-difficult-words-btn_left',
     );
 
     const difficultWordsNextPage: HTMLButtonElement | null = document.querySelector(
@@ -549,11 +646,7 @@ export class Textbook extends Template {
           });
 
           this.pageDifficultWords--;
-          console.log(this.pageDifficultWords, this.difficultWords[this.pageDifficultWords]);
-
-          this.createDifficultWords();
-          this.listenDeleteDifficultWord();
-          this.createPaginationDifficultWords();
+          this.showDifficultWords();
           this.checkDifficultWordsPageBtns();
         }
       });
@@ -567,10 +660,7 @@ export class Textbook extends Template {
           });
 
           this.pageDifficultWords++;
-
-          this.createDifficultWords();
-          this.listenDeleteDifficultWord();
-          this.createPaginationDifficultWords();
+          this.showDifficultWords();
           this.checkDifficultWordsPageBtns();
         }
       });
@@ -579,7 +669,7 @@ export class Textbook extends Template {
 
   private checkDifficultWordsPageBtns() {
     const difficultWordsPrevPage: HTMLButtonElement | null = document.querySelector(
-      '.pagination-difficult-words-btn_right',
+      '.pagination-difficult-words-btn_left',
     );
 
     const difficultWordsNextPage: HTMLButtonElement | null = document.querySelector(
@@ -626,6 +716,7 @@ export class Textbook extends Template {
             this.maxPageDifficultWords++;
           }
 
+          window.localStorage.setObject('difficult-words', this.difficultWords);
           btn.textContent = 'Добавлено в сложные слова';
           btn.classList.add('button-difficult-word-added');
           this.disablePage(i);
