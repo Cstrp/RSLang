@@ -3,7 +3,7 @@ import {set} from '@/data/utils/_storage';
 import {ISignUpUser} from '../../interfaces/ISignUpUser';
 import {ISignInUser} from '@/data/interfaces/ISignInUser';
 
-const signIn = async (user: ISignInUser) => {
+const signIn = async (user: ISignInUser): Promise<void> => {
   try {
     let date: Date | string = new Date().toString();
     const time: number = 14400000;
@@ -25,9 +25,11 @@ const signIn = async (user: ISignInUser) => {
       set('refreshToken', res.refreshToken);
       set('userID', res.userId);
       set('userName', res.name);
+
+      document.location.reload();
     }
   } catch (err) {
-    throw new Error(`Ошибка авторизации: ${err.message}`);
+    throw new Error(`Authorization error: ${err.message}`);
   }
 };
 

@@ -19,7 +19,7 @@ class SignIn extends Template {
 
   private close: Button;
 
-  public state = {
+  private state = {
     email: '',
     password: '',
   };
@@ -44,7 +44,7 @@ class SignIn extends Template {
     this.signIn.element.setAttribute('disabled', '');
     this.signIn.onClick = () => {
       this.signUpUser(this.state);
-      signIn(this.state);
+      signIn(this.state).catch((err) => console.log(err));
       this.resetState();
     };
 
@@ -54,7 +54,7 @@ class SignIn extends Template {
     this.signOut = new Button(btns.element, style.btnSig, 'Выйти', false, 'submit');
     this.signOut.onClick = () => {
       clear();
-      this.element.remove();
+      document.location.reload();
     };
   }
 
