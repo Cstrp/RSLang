@@ -26,7 +26,7 @@ const signIn = async (user: ISignInUser): Promise<void> => {
       set('userID', res.userId);
       set('userName', res.name);
 
-      document.location.reload();
+      setTimeout(() => document.location.reload(), 1500);
     }
   } catch (err) {
     throw new Error(`Authorization error: ${err.message}`);

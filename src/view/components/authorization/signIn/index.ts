@@ -45,6 +45,7 @@ class SignIn extends Template {
     this.signIn.onClick = () => {
       this.signUpUser(this.state);
       signIn(this.state).catch((err) => console.log(err));
+
       this.resetState();
     };
 

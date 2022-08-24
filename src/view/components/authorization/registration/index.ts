@@ -59,7 +59,7 @@ class UserRegistration extends Template {
         }, 3000);
       }
 
-      createUser(this.state).finally(() => {});
+      createUser(this.state);
 
       this.resetState();
     };

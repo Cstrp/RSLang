@@ -62,7 +62,7 @@ class App {
   }
 
   private router() {
-    const echoLocation = () => {
+    const echoLocation = async () => {
       const hash = window.location.hash.replace('#', '/').slice(1);
 
       switch (hash) {
@@ -85,7 +85,7 @@ class App {
 
       if (this.footer) this.footer.removeElement();
 
-      this.footer = new Footer(App.element);
+      this.footer = await new Footer(App.element);
 
       return hash;
     };
