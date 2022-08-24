@@ -244,6 +244,14 @@ export class Textbook extends Template {
       this.listenPlaySoundBtns();
       this.listenDifficultWordsBtns();
       this.listenStudiedWordsBtns();
+
+      const containerBtns: NodeListOf<HTMLDivElement> = document.querySelectorAll('.btn-container-authorized');
+
+      if (!get('userName')) {
+        containerBtns.forEach((btn) => {
+          btn.style.display = 'none';
+        });
+      }
     }
   }
 
