@@ -237,9 +237,7 @@ export class Textbook extends Template {
         this.paintText();
       });
 
-      this.cards.forEach((_, i) => {
-        this.disablePage(i);
-      });
+      this.disablePage();
 
       this.listenPlaySoundBtns();
       this.listenDifficultWordsBtns();
@@ -272,41 +270,42 @@ export class Textbook extends Template {
           window.localStorage.setObject('studied-words', this.studiedWords);
           btn.textContent = 'Изученное слово';
           btn.classList.add('button-studied-word-added');
-          this.disablePage(i);
+
+          this.difficultWords.forEach((arr, pageIndex) => {
+            arr.forEach((elem, elemIndex) => {
+              if (elem.options.word === this.cards[i].options.word) {
+                this.lengthDifficultWords--;
+                this.difficultWords[pageIndex].splice(elemIndex, 1);
+                const difficultWordsBtns = document.querySelectorAll('.add-difficult-words');
+
+                difficultWordsBtns[i].textContent = 'Добавить в сложные слова';
+                difficultWordsBtns[i].classList.remove('button-difficult-word-added');
+                window.localStorage.setObject('difficult-words', this.difficultWords);
+              }
+            });
+          });
+
+          this.studiedWords.forEach((elem) => {
+            if (elem.options.word === this.cards[i].options.word) {
+              this.lengthStudiedWords++;
+
+              this.difficultWords.forEach((arr) => {
+                arr.forEach((value) => {
+                  if (elem.options.word === value.options.word) {
+                    this.lengthStudiedWords--;
+                  }
+                });
+              });
+            }
+          });
+
+          this.disablePage();
         }
       });
     });
   }
 
-  private disablePage(i: number) {
-    this.difficultWords.forEach((arr) => {
-      arr.forEach((elem) => {
-        if (elem.options.word === this.cards[i].options.word) {
-          this.lengthDifficultWords++;
-
-          this.studiedWords.forEach((value) => {
-            if (elem.options.word === value.options.word) {
-              this.lengthDifficultWords--;
-            }
-          });
-        }
-      });
-    });
-
-    this.studiedWords.forEach((elem) => {
-      if (elem.options.word === this.cards[i].options.word) {
-        this.lengthStudiedWords++;
-
-        this.difficultWords.forEach((arr) => {
-          arr.forEach((value) => {
-            if (elem.options.word === value.options.word) {
-              this.lengthStudiedWords--;
-            }
-          });
-        });
-      }
-    });
-
+  private disablePage() {
     if (this.lengthStudiedWords === this.countCards) {
       const markColor = 'rgb(74 74 74)';
 
@@ -464,6 +463,7 @@ export class Textbook extends Template {
     this.rerenderCards();
     this.addToLocalStorage();
     remove('group-difficult-words');
+    this.disablePage();
   }
 
   public listen() {
@@ -727,7 +727,22 @@ export class Textbook extends Template {
           window.localStorage.setObject('difficult-words', this.difficultWords);
           btn.textContent = 'Добавлено в сложные слова';
           btn.classList.add('button-difficult-word-added');
-          this.disablePage(i);
+
+          this.difficultWords.forEach((arr) => {
+            arr.forEach((elem) => {
+              if (elem.options.word === this.cards[i].options.word) {
+                this.lengthDifficultWords++;
+
+                this.studiedWords.forEach((value) => {
+                  if (elem.options.word === value.options.word) {
+                    this.lengthDifficultWords--;
+                  }
+                });
+              }
+            });
+          });
+
+          this.disablePage();
         }
       });
     });
