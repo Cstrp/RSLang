@@ -46,11 +46,7 @@ export class Sprint extends Template {
 
   private mainScreen: Template = new Template(this.sprintContent.element, 'div', 'main-screen');
 
-  private notMainScreen: Template = new Template(
-    this.sprintContent.element,
-    'div',
-    'not-main-screen sprint-content_hide',
-  );
+  private gameScreen: Template = new Template(this.sprintContent.element, 'div', 'not-main-screen sprint-content_hide');
 
   private cardContainer: Template | null = null;
 
@@ -67,6 +63,8 @@ export class Sprint extends Template {
   private sprintTrueBtn: Template | null = null;
 
   private sprintTrueArrow: Template | null = null;
+
+  private restartGameBtn: Template | null = null;
 
   private gamePointsMuteTemplate: string = gameSprintScreenTemplate();
 
@@ -98,6 +96,22 @@ export class Sprint extends Template {
 
   private falseAudio = new Audio(falseSound);
 
+  private preloader: Template | null = null;
+
+  private arrayScore: Array<number> = [];
+
+  private trueWords: Array<ICard> = [];
+
+  private falseWords: Array<ICard> = [];
+
+  private guessedWordsContainer: Template | null = null;
+
+  private notGuessedWordsContainer: Template | null = null;
+
+  private finishWordsContainer: Template | null = null;
+
+  private waitText: Template | null = null;
+
   constructor(
     public parent: HTMLElement | null,
     public tagName: keyof HTMLElementTagNameMap,
@@ -106,6 +120,20 @@ export class Sprint extends Template {
     public attr?: object,
   ) {
     super(parent, tagName, className, value, attr);
+
+    Storage.prototype.setObject = (key: string, value: Array<number>) => {
+      localStorage.setItem(key, JSON.stringify(value));
+    };
+
+    Storage.prototype.getObject = (key: string) => {
+      const value = localStorage.getItem(key);
+
+      return value && JSON.parse(value);
+    };
+
+    if (window.localStorage.getObject('sprint-score')) {
+      this.arrayScore = window.localStorage.getObject('sprint-score');
+    }
   }
 
   public renderInitialScreen() {
@@ -118,7 +146,7 @@ export class Sprint extends Template {
   }
 
   private createGameScreen(): void {
-    this.notMainScreen.element.insertAdjacentHTML('beforeend', this.gamePointsMuteTemplate);
+    this.gameScreen.element.insertAdjacentHTML('beforeend', this.gamePointsMuteTemplate);
     this.scoreElement = document.querySelector('.scoring-points');
     const muteBtn: HTMLElement | null = document.querySelector('.mute-btn');
 
@@ -137,7 +165,7 @@ export class Sprint extends Template {
   }
 
   private createGameControls() {
-    this.sprintBtnsContainer = new Template(this.notMainScreen.element, 'div', 'sprint__btn-container');
+    this.sprintBtnsContainer = new Template(this.gameScreen.element, 'div', 'sprint__btn-container');
     this.sprintFalseBtnsItems = new Template(this.sprintBtnsContainer.element, 'div', 'sprint__btn-false-items');
     this.sprintTrueBtnsItems = new Template(this.sprintBtnsContainer.element, 'div', 'sprint__btn-true-items');
 
@@ -203,20 +231,30 @@ export class Sprint extends Template {
 
   private startGame() {
     this.mainScreen.element.classList.add('sprint-content_hide');
-    this.notMainScreen.element.classList.remove('sprint-content_hide');
+    this.gameScreen.element.classList.remove('sprint-content_hide');
+    this.waitText = new Template(this.gameScreen.element, 'p', 'wait-text', 'Приготовьтесь...');
+    this.preloader = new Template(this.gameScreen.element, 'div', 'load', '<hr/><hr/><hr/><hr/>');
     this.createCards();
 
     setTimeout(() => {
-      this.timerText = new Template(this.notMainScreen.element, 'p', 'timer-text');
+      (this.preloader as Template).element.classList.add('sprint-content_hide');
+      (this.waitText as Template).element.classList.add('sprint-content_hide');
+      this.timerText = new Template(this.gameScreen.element, 'p', 'timer-text');
       this.createGameScreen();
-      this.cardContainer = new Template(this.notMainScreen.element, 'div', 'sprint-card-container');
+      this.cardContainer = new Template(this.gameScreen.element, 'div', 'sprint-card-container');
       this.createGameControls();
       this.createTimer();
     }, 3000);
   }
 
-  private checkCard() {
+  private findInitialCard() {
     const initialCard = this.initialСards.find((elem) => elem.word === (this.currentCardData as ISprintCard).word);
+
+    return initialCard;
+  }
+
+  private checkCard() {
+    const initialCard = this.findInitialCard();
 
     if (this.currentCardData?.wordTranslate === initialCard?.wordTranslate) {
       this.answer ? this.changeState(true) : this.changeState(false);
@@ -226,10 +264,16 @@ export class Sprint extends Template {
   }
 
   private changeState(state: boolean) {
+    const initialCard = this.findInitialCard();
+
     if (state) {
       this.increaseScore();
       this.queueCorrectAnswers++;
       this.trueAudio.play();
+      if (initialCard && this.currentCardNum < this.cards.length) {
+        this.trueWords.push(initialCard);
+      }
+
       if (this.queueCorrectAnswers % 4 === 0) {
         this.activeStar();
         this.defaultPoints += 10;
@@ -238,6 +282,10 @@ export class Sprint extends Template {
         this.activeDot();
       }
     } else {
+      if (initialCard && this.currentCardNum < this.cards.length) {
+        this.falseWords.push(initialCard);
+      }
+
       this.falseAudio.play();
       this.queueCorrectAnswers = 0;
       this.inactiveDots();
@@ -264,6 +312,8 @@ export class Sprint extends Template {
     starElements.forEach((elem) => {
       (elem as HTMLSpanElement).classList.add('star-inactive');
     });
+
+    this.defaultPoints = 10;
   }
 
   private inactiveDots() {
@@ -285,12 +335,20 @@ export class Sprint extends Template {
     }
   }
 
+  private checkCountCards() {
+    if (this.currentCardNum > this.cards.length) {
+      this.timeleft = 0;
+    }
+  }
+
   private trueAnswer() {
+    this.checkCountCards();
     this.answer = true;
     this.checkAnswer();
   }
 
   private falseAnswer() {
+    this.checkCountCards();
     this.answer = false;
     this.checkAnswer();
   }
@@ -321,7 +379,7 @@ export class Sprint extends Template {
   }
 
   private createTimer() {
-    if (this.notMainScreen.element) {
+    if (this.gameScreen.element) {
       this.timer = setInterval(() => {
         if (this.timerText) {
           if (this.timeleft <= 0) {
@@ -338,15 +396,66 @@ export class Sprint extends Template {
     }
   }
 
+  private showFinishWords() {
+    if (this.screenFinish) {
+      this.finishWordsContainer = new Template(this.screenFinish.element, 'div', 'finish-words-container');
+      this.showGuessedWords();
+      this.showNotGuessedWwords();
+    }
+  }
+
+  private showGuessedWords(): void {
+    if (this.finishWordsContainer) {
+      this.guessedWordsContainer = new Template(
+        this.finishWordsContainer.element,
+        'div',
+        'guessed-words-container',
+        '<h3>Угаданные слова</h3>',
+      );
+      this.trueWords.forEach((elem) => {
+        if (this.guessedWordsContainer) {
+          new Template(this.guessedWordsContainer.element, 'p', 'guessed-word', `${elem.word} - ${elem.wordTranslate}`);
+        }
+      });
+    }
+  }
+
+  private showNotGuessedWwords(): void {
+    if (this.finishWordsContainer) {
+      this.notGuessedWordsContainer = new Template(
+        this.finishWordsContainer.element,
+        'div',
+        'not-guessed-words-container',
+        '<h3>Не угаданные слова</h3>',
+      );
+      this.falseWords.forEach((elem) => {
+        if (this.notGuessedWordsContainer) {
+          new Template(
+            this.notGuessedWordsContainer.element,
+            'p',
+            'not-guessed-word',
+            `${elem.word} - ${elem.wordTranslate}`,
+          );
+        }
+      });
+    }
+  }
+
   private createFinishScreen() {
+    this.gameScreen.element.classList.add('sprint-content_hide');
     this.screenFinish = new Template(this.sprintContent.element, 'div', 'screen-finish');
     this.finalResult = new Template(this.screenFinish.element, 'p', 'final-result');
-    this.screenFinishCloseBtn = new Template(this.screenFinish.element, 'button', 'screen-finish-close', 'Закрыть');
-    this.screenFinishImgContainer = new Template(this.screenFinish.element, 'div', 'screen-finish-img-container');
-    this.screenFinishImage = new Template(this.screenFinishImgContainer.element, 'span', 'screen-finish-image');
+
+    if (this.falseWords.length !== 0 && this.trueWords.length !== 0) {
+      this.showFinishWords();
+    }
+
     if (this.scoreElement) {
       this.finalResult.element.textContent = `Ваш результат: ${this.scoreElement.textContent} баллов`;
     }
+
+    this.screenFinishImgContainer = new Template(this.screenFinish.element, 'div', 'screen-finish-img-container');
+    this.screenFinishImage = new Template(this.screenFinishImgContainer.element, 'span', 'screen-finish-image');
 
     if (this.score === 0) {
       this.screenFinishImage.element.classList.add('screen-finish-image_sad');
@@ -354,18 +463,26 @@ export class Sprint extends Template {
       this.screenFinishImage.element.classList.add('screen-finish-image_smile');
     }
 
-    this.notMainScreen.element.classList.add('sprint-content_hide');
-
+    this.arrayScore?.push(this.score);
+    window.localStorage.setObject('sprint-score', this.arrayScore);
+    this.screenFinishCloseBtn = new Template(
+      this.screenFinish.element,
+      'button',
+      'screen-finish-close',
+      'К уровням игры',
+    );
+    this.restartGameBtn = new Template(this.screenFinish.element, 'button', 'restart-game-btn', 'Играть ещё раз');
     this.listenFinishScreen();
   }
 
   private listenFinishScreen(): void {
     (this.screenFinishCloseBtn as Template).element.addEventListener('click', this.closeFinishScreen.bind(this));
+    (this.restartGameBtn as Template).element.addEventListener('click', this.restartGame.bind(this));
   }
 
   private resetGame() {
     (this.cardContainer as Template).element.textContent = '';
-    (this.notMainScreen as Template).element.textContent = '';
+    (this.gameScreen as Template).element.textContent = '';
     this.timeleft = 60;
     this.timer = null;
     this.currentSprintCard = null;
@@ -396,6 +513,51 @@ export class Sprint extends Template {
     this.screenFinishImgContainer = null;
     this.trueAudio.volume = 1;
     this.falseAudio.volume = 1;
+    this.trueWords = [];
+    this.falseWords = [];
+    const levelElements: NodeListOf<HTMLInputElement> = document.querySelectorAll('.sprint-radio-btn');
+
+    levelElements.forEach((elem) => {
+      elem.checked = false;
+    });
+  }
+
+  private restartGame() {
+    (this.screenFinish as Template).element.classList.add('sprint-content_hide');
+    (this.cardContainer as Template).element.textContent = '';
+    (this.gameScreen as Template).element.textContent = '';
+    this.timeleft = 60;
+    this.timer = null;
+    this.currentSprintCard = null;
+    this.currentCardNum = 0;
+    this.currentCardData = null;
+    this.timerText = null;
+    this.cardContainer = null;
+    this.sprintBtnsContainer = null;
+    this.sprintFalseBtnsItems = null;
+    this.sprintTrueBtnsItems = null;
+    this.sprintFalseBtn = null;
+    this.sprintFalseArrow = null;
+    this.sprintTrueBtn = null;
+    this.sprintTrueArrow = null;
+    this.gamePointsMuteTemplate = gameSprintScreenTemplate();
+    this.cards = [];
+    this.initialСards = [];
+    this.answer = true;
+    this.score = 0;
+    this.defaultPoints = 10;
+    this.queueCorrectAnswers = 0;
+    this.scoreElement = null;
+    this.screenFinish = null;
+    this.finalResult = null;
+    this.screenFinishCloseBtn = null;
+    this.screenFinishImage = null;
+    this.screenFinishImgContainer = null;
+    this.trueAudio.volume = 1;
+    this.falseAudio.volume = 1;
+    this.trueWords = [];
+    this.falseWords = [];
+    this.startGame();
   }
 
   private closeFinishScreen(): void {
