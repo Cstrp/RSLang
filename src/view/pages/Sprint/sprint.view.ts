@@ -61,6 +61,7 @@ export const initialSprintTemplate = () => `
 export const gameSprintScreenTemplate = () => `
 <div class="game-points-mute">
     <p class="scoring-points">0</p>
+    <p class="default-points">+ 10</p>
     <button class="mute-btn"></button>
 </div>
 

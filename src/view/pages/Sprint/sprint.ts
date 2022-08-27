@@ -78,6 +78,8 @@ export class Sprint extends Template {
 
   private defaultPoints = 10;
 
+  private defaultPointsElement: HTMLParagraphElement | null = null;
+
   private queueCorrectAnswers: number = 0;
 
   private scoreElement: HTMLParagraphElement | null = null;
@@ -148,6 +150,7 @@ export class Sprint extends Template {
   private createGameScreen(): void {
     this.gameScreen.element.insertAdjacentHTML('beforeend', this.gamePointsMuteTemplate);
     this.scoreElement = document.querySelector('.scoring-points');
+    this.defaultPointsElement = document.querySelector('.default-points');
     const muteBtn: HTMLElement | null = document.querySelector('.mute-btn');
 
     if (muteBtn) {
@@ -276,7 +279,6 @@ export class Sprint extends Template {
 
       if (this.queueCorrectAnswers % 4 === 0) {
         this.activeStar();
-        this.defaultPoints += 10;
         this.inactiveDots();
       } else {
         this.activeDot();
@@ -297,6 +299,8 @@ export class Sprint extends Template {
     const starElement: HTMLSpanElement | null = document.querySelector('.star-inactive');
 
     (starElement as HTMLSpanElement).classList.remove('star-inactive');
+    this.defaultPoints += this.defaultPoints;
+    (this.defaultPointsElement as HTMLParagraphElement).textContent = `+ ${this.defaultPoints}`;
   }
 
   private increaseScore() {
@@ -314,6 +318,7 @@ export class Sprint extends Template {
     });
 
     this.defaultPoints = 10;
+    (this.defaultPointsElement as HTMLParagraphElement).textContent = `+ ${this.defaultPoints}`;
   }
 
   private inactiveDots() {
@@ -336,7 +341,7 @@ export class Sprint extends Template {
   }
 
   private checkCountCards() {
-    if (this.currentCardNum > this.cards.length) {
+    if (this.currentCardNum >= this.cards.length - 1) {
       this.timeleft = 0;
     }
   }
@@ -515,6 +520,7 @@ export class Sprint extends Template {
     this.falseAudio.volume = 1;
     this.trueWords = [];
     this.falseWords = [];
+    this.defaultPointsElement = null;
     const levelElements: NodeListOf<HTMLInputElement> = document.querySelectorAll('.sprint-radio-btn');
 
     levelElements.forEach((elem) => {
@@ -557,6 +563,7 @@ export class Sprint extends Template {
     this.falseAudio.volume = 1;
     this.trueWords = [];
     this.falseWords = [];
+    this.defaultPointsElement = null;
     this.startGame();
   }
 

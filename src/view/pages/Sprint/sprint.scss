@@ -380,6 +380,16 @@ input[type='radio'] {
   color: #0e000e;
 }
 
+.default-points {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 4px;
+  color: #000000;
+  text-align: center;
+  border-radius: 3px;
+}
+
 .timer-text {
   width: 7px;
   height: 7px;
@@ -699,6 +709,7 @@ input[type='radio'] {
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 5px 10px;
 }
+
 .star-inactive {
   display: none;
 }
