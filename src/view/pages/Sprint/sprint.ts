@@ -112,6 +112,8 @@ export class Sprint extends Template {
 
   private finishWordsContainer: Template | null = null;
 
+  private loadCounter: Template | null = null;
+
   private waitText: Template | null = null;
 
   constructor(
@@ -235,19 +237,22 @@ export class Sprint extends Template {
   private startGame() {
     this.mainScreen.element.classList.add('sprint-content_hide');
     this.gameScreen.element.classList.remove('sprint-content_hide');
+    this.loadCounter = new Template(this.gameScreen.element, 'p', 'load-counter');
     this.waitText = new Template(this.gameScreen.element, 'p', 'wait-text', 'Приготовьтесь...');
     this.preloader = new Template(this.gameScreen.element, 'div', 'load', '<hr/><hr/><hr/><hr/>');
+
     this.createCards();
 
     setTimeout(() => {
       (this.preloader as Template).element.classList.add('sprint-content_hide');
       (this.waitText as Template).element.classList.add('sprint-content_hide');
+      (this.loadCounter as Template).element.classList.add('sprint-content_hide');
       this.timerText = new Template(this.gameScreen.element, 'p', 'timer-text');
       this.createGameScreen();
       this.cardContainer = new Template(this.gameScreen.element, 'div', 'sprint-card-container');
       this.createGameControls();
       this.createTimer();
-    }, 3000);
+    }, 4000);
   }
 
   private findInitialCard() {

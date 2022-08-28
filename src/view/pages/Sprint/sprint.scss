@@ -181,10 +181,9 @@
   font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 600;
-  font-size: 7px;
-  line-height: 4px;
+  font-size: 5px;
   letter-spacing: 1px;
-  padding: 4px 10px;
+  padding: 3px 7px;
   box-shadow: 0px 1px 0px 0px #fff6af;
   background: linear-gradient(to bottom, #ffec64 5%, #ffab23 100%);
   background-color: #ffec64;
@@ -195,7 +194,7 @@
 }
 
 .sprint-about {
-  font-family: 'Poppins';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 4px;
@@ -236,7 +235,7 @@
   align-items: center;
   justify-content: space-evenly;
   border-radius: 5px;
-  padding: 4px;
+  padding: 2px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
   gap: 1.5px;
   margin-top: 5px;
@@ -391,8 +390,8 @@ input[type='radio'] {
 }
 
 .timer-text {
-  width: 7px;
-  height: 7px;
+  width: 5px;
+  height: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -400,17 +399,17 @@ input[type='radio'] {
   color: #0e000e;
   font-family: 'Roboto';
   font-weight: 600;
-  font-size: 5px;
+  font-size: 4px;
   text-transform: uppercase;
   text-align: center;
 
   background: rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 3px;
+  padding: 2px;
   margin: 0 auto;
 }
 
@@ -707,7 +706,7 @@ input[type='radio'] {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 5px 10px;
+  padding: 3px 7px;
 }
 
 .star-inactive {
@@ -784,8 +783,8 @@ input[type='radio'] {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 600;
-  font-size: 4px;
-  padding: 2px 4px;
+  font-size: 3px;
+  padding: 2px 3px;
   text-shadow: 0px 1px 0px #1570cd;
   &:hover {
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
@@ -817,8 +816,8 @@ input[type='radio'] {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 600;
-  font-size: 4px;
-  padding: 2px 4px;
+  font-size: 3px;
+  padding: 2px 3px;
   text-shadow: 0px 1px 0px #528009;
 }
 
@@ -841,14 +840,13 @@ input[type='radio'] {
   box-shadow: 0 4px 30px rgb(0 0 0 / 10%);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
   animation: rotate-center 0.8s;
 }
 
 .screen-finish-image {
   display: block;
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -877,6 +875,8 @@ input[type='radio'] {
   font-weight: 600;
   font-size: 4px;
   color: #060a16;
+  text-align: center;
+  margin: 1px 0px 7px 0px;
 }
 
 .finish-words-container {
@@ -1045,6 +1045,57 @@ input[type='radio'] {
   }
 }
 // preloader end
+
+//preload counter start
+.load-counter {
+  color: #0e000e;
+  display: grid;
+  place-items: center;
+  font-family: sans-serif;
+  counter-reset: my-count 5;
+  animation: countdown 5s linear infinite;
+}
+
+.load-counter::after {
+  content: counter(my-count);
+  width: 1.867vw;
+  height: 1.867vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #0e000e;
+  font-family: 'Roboto';
+  font-weight: 600;
+  font-size: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  box-shadow: 0 1.067vw 8vw rgb(0 0 0 / 10%);
+  backdrop-filter: blur(1.333vw);
+  -webkit-backdrop-filter: blur(1.333vw);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.2vw;
+ 
+}
+
+@keyframes countdown {
+  20% {
+    counter-increment: my-count -1;
+  }
+  40% {
+    counter-increment: my-count -2;
+  }
+  60% {
+    counter-increment: my-count -3;
+  }
+  80% {
+    counter-increment: my-count -4;
+  }
+}
+
+//preload counter end
 
 .sprint-content_hide {
   display: none;
