@@ -64,10 +64,6 @@ export class AudioCall extends Template {
 
   private defaultPoints = 10;
 
-  private queueCorrectAnswers: number = 0;
-
-  private scoreElement: HTMLParagraphElement | null = null;
-
   private screenFinish: Template | null = null;
 
   private finalResult: Template | null = null;
@@ -100,6 +96,10 @@ export class AudioCall extends Template {
 
   private currentTranslateWords: Array<string> = [];
 
+  private answerNum: number = 0;
+
+  private correctAnswer: number = 0;
+
   constructor(
     public parent: HTMLElement | null,
     public tagName: keyof HTMLElementTagNameMap,
@@ -124,7 +124,7 @@ export class AudioCall extends Template {
     }
   }
 
-  public renderInitialScreen() {
+  public renderInitialScreen(): void {
     this.createInitialScreen();
     this.listenInitialScreen();
   }
@@ -135,7 +135,6 @@ export class AudioCall extends Template {
 
   private createGameScreen(): void {
     this.gameScreen.element.insertAdjacentHTML('beforeend', this.gamePointsMuteTemplate);
-    this.scoreElement = document.querySelector('.scoring-points');
     const muteBtn: HTMLElement | null = document.querySelector('.mute-btn');
 
     if (muteBtn) {
@@ -152,56 +151,87 @@ export class AudioCall extends Template {
     }
   }
 
-  private createGameControls() {
+  private createGameControls(): void {
     this.audioCallBtnsContainer = new Template(this.gameScreen.element, 'div', 'audio-call__btn-container');
     this.audioCallAnswerBtn = new Template(
       this.audioCallBtnsContainer.element,
       'button',
       'audio-call__forward',
-      '&xrArr;',
+      'Не знаю',
     );
 
     this.listenControls();
   }
 
-  private async createCards() {
-    for (let i = 0; i < 13; i++) {
-      this.initialСards.push(...(await getAudioCallWords(`page=${i}&group=${this.group - 1})`)));
-    }
-
-    this.shuffleCards();
-    this.createCard();
-  }
-
-  private getRandomInRange(min: number, max: number) {
+  private getRandomInRange(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  private shuffleCards() {
+  private async createCards(): Promise<void> {
+    const cardsPage = this.getRandomInRange(0, 29);
+
+    this.initialСards.push(...(await getAudioCallWords(`page=${cardsPage}&group=${this.group - 1})`)));
+
     const tmpArr = this.initialСards.map((a) => ({...a}));
+
     this.cards = [...tmpArr];
+    this.createCard();
   }
 
-  // private getTranslationRandomWords() {}
+  private getTranslationRandomWords(): void {
+    this.currentTranslateWords = [];
 
-  private createCard() {
+    if (this.currentCardData) {
+      const randomIndexCurrentTranslate = this.getRandomInRange(0, 4);
+
+      while (this.currentTranslateWords.length < 5) {
+        const randomIndex = this.getRandomInRange(0, 19);
+        const randomTranslateWord = this.cards[randomIndex].wordTranslate;
+
+        if (randomTranslateWord !== this.currentCardData.wordTranslate) {
+          this.currentTranslateWords.push(randomTranslateWord);
+        }
+      }
+
+      this.correctAnswer = randomIndexCurrentTranslate;
+      this.currentTranslateWords[this.correctAnswer] = this.currentCardData.wordTranslate;
+    }
+  }
+
+  private createCard(): void {
     this.currentCardData = {
       word: this.cards[this.currentCardNum].word,
       image: this.cards[this.currentCardNum].image,
       wordTranslate: this.cards[this.currentCardNum].wordTranslate,
       audio: this.cards[this.currentCardNum].audio,
     };
+
+    this.getTranslationRandomWords();
+
     this.currentAudioCallCard = new AudioCallCard(
       (this.cardContainer as Template).element,
       'div',
       this.currentCardData,
+      this.currentTranslateWords,
       'audio-call-card',
     );
 
     this.currentAudioCallCard.init();
+    this.listenTranslateWords();
   }
 
-  private listenInitialScreen() {
+  private listenTranslateWords(): void {
+    const translateWordsElements = document.querySelectorAll('.audio-call__translate-item');
+
+    translateWordsElements.forEach((elem, i) => {
+      elem.addEventListener('click', () => {
+        this.answerNum = i;
+        this.checkAnswer();
+      });
+    });
+  }
+
+  private listenInitialScreen(): void {
     const levelElements: NodeListOf<HTMLInputElement> = document.querySelectorAll('.audio-call-radio-btn');
 
     levelElements.forEach((radioBtn) => {
@@ -212,92 +242,129 @@ export class AudioCall extends Template {
     });
   }
 
-  private startGame() {
+  private startGame(): void {
     this.mainScreen.element.classList.add('audio-call-content_hide');
     this.gameScreen.element.classList.remove('audio-call-content_hide');
     this.loadCounter = new Template(this.gameScreen.element, 'p', 'load-counter');
     this.waitText = new Template(this.gameScreen.element, 'p', 'wait-text', 'Приготовьтесь...');
     this.preloader = new Template(this.gameScreen.element, 'div', 'load', '<hr/><hr/><hr/><hr/>');
 
-    this.createCards();
-
     setTimeout(() => {
       (this.preloader as Template).element.classList.add('audio-call-content_hide');
       (this.waitText as Template).element.classList.add('audio-call-content_hide');
       (this.loadCounter as Template).element.classList.add('audio-call-content_hide');
-      this.createGameScreen();
       this.cardContainer = new Template(this.gameScreen.element, 'div', 'audio-call-card-container');
+      this.createCards();
+      this.createGameScreen();
       this.createGameControls();
     }, 4000);
   }
 
-  private findInitialCard() {
-    const initialCard = this.initialСards.find((elem) => elem.word === (this.currentCardData as IAudioCallCard).word);
+  private findInitialCard(): ICard | undefined {
+    const initialCard: ICard | undefined = this.initialСards.find(
+      (elem) => elem.word === (this.currentCardData as IAudioCallCard).word,
+    );
 
     return initialCard;
   }
 
-  private checkCard() {
-    const initialCard = this.findInitialCard();
-
-    if (this.currentCardData?.wordTranslate === initialCard?.wordTranslate) {
-      this.answer ? this.changeState(true) : this.changeState(false);
+  private checkCard(): void {
+    if (this.currentCardData?.wordTranslate === this.currentTranslateWords[this.answerNum]) {
+      this.changeState(true);
     } else {
-      this.answer ? this.changeState(false) : this.changeState(true);
+      this.changeState(false);
     }
   }
 
-  private changeState(state: boolean) {
-    const initialCard = this.findInitialCard();
-
+  private changeState(state: boolean): void {
     if (state) {
-      this.increaseScore();
-      this.queueCorrectAnswers++;
-      this.trueAudio.play();
-      if (initialCard && this.currentCardNum < this.cards.length) {
-        this.trueWords.push(initialCard);
-      }
+      this.trueAnswer();
     } else {
-      if (initialCard && this.currentCardNum < this.cards.length) {
-        this.falseWords.push(initialCard);
-      }
+      this.falseAnswer();
+    }
 
-      this.falseAudio.play();
-      this.queueCorrectAnswers = 0;
+    if (this.audioCallAnswerBtn) {
+      this.audioCallAnswerBtn.element.innerHTML = '&xrArr;';
     }
   }
 
-  private increaseScore() {
-    if (this.scoreElement) {
-      this.score += this.defaultPoints;
-      this.scoreElement.textContent = `${this.score}`;
+  private trueAnswer(): void {
+    const translateWordsElements = document.querySelectorAll('.audio-call__translate-item');
+    const initialCard = this.findInitialCard();
+
+    this.increaseScore();
+    this.trueAudio.play();
+    translateWordsElements[this.answerNum].classList.add('audio-call__translate-item_active');
+    if (initialCard && this.currentCardNum < this.cards.length) {
+      this.trueWords.push(initialCard);
     }
   }
 
-  private checkCountCards() {
-    if (this.currentCardNum >= this.cards.length - 1) {
-      console.log('todo check');
+  private falseAnswer(): void {
+    const translateWordsElements = document.querySelectorAll('.audio-call__translate-item');
+    const initialCard = this.findInitialCard();
+
+    if (initialCard && this.currentCardNum < this.cards.length) {
+      this.falseWords.push(initialCard);
     }
+
+    translateWordsElements[this.correctAnswer].classList.add('audio-call__translate-item_active');
+    translateWordsElements[this.answerNum].classList.add('audio-call__translate-item_inactive');
+    this.falseAudio.play();
   }
 
-  private gameAnswer() {
-    this.checkAnswer();
+  private increaseScore(): void {
+    this.score += this.defaultPoints;
   }
 
-  private checkAnswer() {
+  private checkAnswer(): void {
     if (this.cardContainer) {
       this.checkCard();
-      this.cardContainer.element.textContent = '';
-      this.currentCardNum++;
-      this.createCard();
     }
   }
 
-  private listenControls() {
-    this.audioCallAnswerBtn?.element.addEventListener('click', this.gameAnswer.bind(this));
+  private listenControls(): void {
+    if (this.audioCallAnswerBtn) {
+      this.audioCallAnswerBtn.element.addEventListener('click', () => {
+        if (this.audioCallAnswerBtn?.element.innerHTML === 'Не знаю') {
+          this.falseAnswer();
+        } else {
+          this.nextWord();
+        }
+      });
+    }
+
+    window.addEventListener('keyup', (e) => {
+      if (e.code === 'Enter') {
+        this.falseAnswer();
+      } else if (e.code === 'Digit1') {
+        this.answerNum = 0;
+      } else if (e.code === 'Digit2') {
+        this.answerNum = 1;
+      } else if (e.code === 'Digit3') {
+        this.answerNum = 2;
+      } else if (e.code === 'Digit4') {
+        this.answerNum = 3;
+      } else if (e.code === 'Digit5') {
+        this.answerNum = 4;
+      }
+
+      this.checkAnswer();
+    });
   }
 
-  private showFinishWords() {
+  private nextWord(): void {
+    if (this.currentCardNum >= this.cards.length - 1) {
+      this.createFinishScreen();
+    } else {
+      (this.cardContainer as Template).element.textContent = '';
+      this.currentCardNum++;
+      this.createCard();
+      (this.audioCallAnswerBtn as Template).element.innerHTML = 'Не знаю';
+    }
+  }
+
+  private showFinishWords(): void {
     if (this.screenFinish) {
       this.finishWordsContainer = new Template(this.screenFinish.element, 'div', 'finish-words-container');
       this.showGuessedWords();
@@ -342,7 +409,7 @@ export class AudioCall extends Template {
     }
   }
 
-  private createFinishScreen() {
+  private createFinishScreen(): void {
     this.gameScreen.element.classList.add('audio-call-content_hide');
     this.screenFinish = new Template(this.audioCallContent.element, 'div', 'screen-finish');
     this.finalResult = new Template(this.screenFinish.element, 'p', 'final-result');
@@ -351,9 +418,7 @@ export class AudioCall extends Template {
       this.showFinishWords();
     }
 
-    if (this.scoreElement) {
-      this.finalResult.element.textContent = `Ваш результат: ${this.scoreElement.textContent} баллов`;
-    }
+    this.finalResult.element.textContent = `Ваш результат: ${this.score} баллов`;
 
     this.arrayScore?.push(this.score);
     window.localStorage.setObject('audio-call-score', this.arrayScore);
@@ -372,7 +437,7 @@ export class AudioCall extends Template {
     (this.restartGameBtn as Template).element.addEventListener('click', this.restartGame.bind(this));
   }
 
-  private resetGame() {
+  private resetGame(): void {
     (this.cardContainer as Template).element.textContent = '';
     (this.gameScreen as Template).element.textContent = '';
     this.currentAudioCallCard = null;
@@ -388,8 +453,6 @@ export class AudioCall extends Template {
     this.answer = true;
     this.score = 0;
     this.defaultPoints = 10;
-    this.queueCorrectAnswers = 0;
-    this.scoreElement = null;
     this.screenFinish = null;
     this.finalResult = null;
     this.screenFinishCloseBtn = null;
@@ -404,7 +467,7 @@ export class AudioCall extends Template {
     });
   }
 
-  private restartGame() {
+  private restartGame(): void {
     (this.screenFinish as Template).element.classList.add('audio-call-content_hide');
     (this.cardContainer as Template).element.textContent = '';
     (this.gameScreen as Template).element.textContent = '';
@@ -420,8 +483,6 @@ export class AudioCall extends Template {
     this.answer = true;
     this.score = 0;
     this.defaultPoints = 10;
-    this.queueCorrectAnswers = 0;
-    this.scoreElement = null;
     this.screenFinish = null;
     this.finalResult = null;
     this.screenFinishCloseBtn = null;

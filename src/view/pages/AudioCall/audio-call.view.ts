@@ -4,12 +4,15 @@ export const initialAudioCallTemplate = () => `
 
 <div class="audio-call-options">
 <div class="audio-call-about-container">
-  <h2 class="audio-call-title">Спринт</h2>
-  <p class="audio-call-about">Данная игра позволит вам повторить изученные ранее слова</p>
+  <h2 class="audio-call-title">Аудиовызов</h2>
+  <p class="audio-call-about">Данная игра позволит улучшит восприятие речи на слух.</p>
+  <p class="audio-call-mouse-instruction">Для игры можно использовать мышь</p>
   <div class="audio-call-instruction">
-      <p class="audio-call-mouse-instruction">Для игры можно использовать мышь</p>
     <p class="audio-call-keyboard-instruction">
-    Можно играть с помощью стрелок <b>"влево"</b> или <b>"вправо"</b> на клавиатуре</p>
+    Можно играть с помощью клавиатуры:</p>
+    <p class="audio-call-instruction-item"><b>1, 2, 3, 4, 5 - выбор ответа</b></p>
+    <p class="audio-call-instruction-item"><b>space - воспроизведение звука</b></p>
+    <p class="audio-call-instruction-item"><b>enter - пропуск вопроса</b></p>
   </div>
 </div>
 <div class="game-difficulty">
@@ -54,7 +57,7 @@ export const initialAudioCallTemplate = () => `
 
 export const gameAudioCallScreenTemplate = () => `
 <div class="game-points-mute">
-    <p class="scoring-points">0</p>
+    <p class="scoring-points audio-call-content_hide">0</p>
     <button class="mute-btn"></button>
 </div>
 `;

@@ -1,5 +1,5 @@
 .audio-call-card {
-  padding: 3px;
+  padding: 1.8vw;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -101,4 +101,15 @@
   gap: 5px;
   flex-direction: column;
   margin: 5px 0;
+}
+
+.audio-call__translate-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.audio-call-content_hide {
+  display: none;
 }
