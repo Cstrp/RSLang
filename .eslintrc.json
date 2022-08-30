@@ -24,7 +24,6 @@
     "@typescript-eslint/object-curly-spacing": ["error", "never"],
     "@typescript-eslint/no-useless-constructor": 0,
     "@typescript-eslint/no-shadow": 0,
-    "@typescript-eslint/no-implied-eval": 0,
     "@typescript-eslint/no-unused-expressions": [
       "off",
       {

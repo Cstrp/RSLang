@@ -1,33 +1,39 @@
 import {content} from '@/data/types';
 
-class Template {
-  element: HTMLElement;
+interface ITemplate {
+  parent: HTMLElement | null;
+  tagName: keyof HTMLElementTagNameMap;
+  className?: content;
+  value?: content;
+  attr?: object;
+}
 
-  constructor(
-    parent: HTMLElement,
-    tagName: keyof HTMLElementTagNameMap = 'div',
-    className: content,
+class Template implements ITemplate {
+  public element: HTMLElement;
+
+  public constructor(
+    parent: HTMLElement | null,
+    tagName: keyof HTMLElementTagNameMap = 'div' as keyof HTMLElementTagNameMap,
+    className?: content,
     value?: content,
-    attr?: Record<string, unknown>,
+    attr?: object,
   ) {
     this.element = document.createElement(tagName);
 
-<<<<<<< HEAD
-    if (typeof value === 'string') this.element.textContent = value;
-=======
-    if (typeof value === 'string') this.element.innerHTML = value;
->>>>>>> develop
-
-    if (typeof className === 'string') this.element.classList.add(...className.split(' '));
+    this.element.classList.add(...(className as string));
 
     if (parent) parent.append(this.element);
 
-    if (attr) {
-      for (const [key, value] of Object.entries(attr)) {
-        this.element.setAttribute(key, value as string);
-      }
+    this.element.innerHTML = value as string;
+
+    for (const [key, value] of Object.entries(attr as object)) {
+      this.element.setAttribute(key, value as string);
     }
   }
+
+  tagName: keyof HTMLElementTagNameMap = 'div';
+
+  parent!: HTMLElement | null;
 
   removeElement(): void {
     this.element.remove();

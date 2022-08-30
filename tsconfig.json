@@ -21,7 +21,6 @@
     "resolveJsonModule": true,
     "isolatedModules": false,
     "noFallthroughCasesInSwitch": true,
-    "plugins": [{"modules": "typescript-plugin-css-modules"}],
     "paths": {
       "@/*": ["./src/*"]
     }
