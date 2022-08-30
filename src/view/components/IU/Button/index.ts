@@ -1,5 +1,4 @@
 import {Template} from '@/view/Template';
-<<<<<<< HEAD
 import {content} from '@/data/types';
 
 class Button extends Template {
@@ -21,22 +20,6 @@ class Button extends Template {
     }
 
     this.element.onclick = () => this.onClick();
-=======
-import style from './index.module.scss';
-import {content} from '@/data/types';
-
-class Button extends Template {
-  public onClickBtn: () => void = () => {};
-
-  constructor(parent: HTMLElement, className?: content, value?: content, state: boolean = false) {
-    super(parent, 'button', style.btn, value);
-
-    if (className) this.element.classList.add(...className);
-
-    if (state) this.setDisable(true);
-
-    this.element.addEventListener('click', () => this.onClickBtn());
->>>>>>> develop
   }
 
   public setDisable(condition: boolean = false): void {

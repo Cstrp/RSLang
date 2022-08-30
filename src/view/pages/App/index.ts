@@ -6,10 +6,7 @@ import {Template} from '@/view/Template';
 import {Error} from '@/view/pages/Error';
 import {Home} from '@/view/pages/home';
 import {Team} from '@/view/pages/Team';
-<<<<<<< HEAD
 import {Authorization} from '@/view/pages/Authorization';
-=======
->>>>>>> develop
 import {AppPage} from '@/data/enums';
 import {get, set} from '@/data/utils/_storage';
 
@@ -42,12 +39,9 @@ class App {
       case AppPage.team:
         page = new Team(App.element);
         break;
-<<<<<<< HEAD
       case AppPage.authorization:
         page = new Authorization(App.element);
         break;
-=======
->>>>>>> develop
       default:
         page = new Home(App.element);
     }
@@ -68,11 +62,7 @@ class App {
   }
 
   private router() {
-<<<<<<< HEAD
     const echoLocation = async () => {
-=======
-    const echoLocation = () => {
->>>>>>> develop
       const hash = window.location.hash.replace('#', '/').slice(1);
 
       switch (hash) {
@@ -82,17 +72,13 @@ class App {
         case AppPage.team:
           App.init(AppPage.team);
           break;
-<<<<<<< HEAD
         case AppPage.authorization:
           App.init(AppPage.authorization);
           break;
-=======
->>>>>>> develop
         default:
           App.init(AppPage.home);
       }
 
-<<<<<<< HEAD
       if (hash !== AppPage.home && hash !== AppPage.team && hash !== AppPage.authorization) {
         this.error = new Error(App.element);
       }
@@ -100,13 +86,6 @@ class App {
       if (this.footer) this.footer.removeElement();
 
       this.footer = await new Footer(App.element);
-=======
-      if (hash !== AppPage.home && hash !== AppPage.team) this.error = new Error(App.element);
-
-      if (this.footer) this.footer.removeElement();
-
-      this.footer = new Footer(App.element);
->>>>>>> develop
 
       return hash;
     };

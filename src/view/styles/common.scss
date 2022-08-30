@@ -1,0 +1,21 @@
+@import '~normalize.css';
+@import 'reset';
+@import './global/index';
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  scroll-behavior: smooth;
+}
+
+body {
+  font: 500 2.5px/1.4 'Poppins', sans-serif;
+  color: #333;
+  background: #fff;
+}
+
+img {
+  width: 100%;
+  height: auto;
+}

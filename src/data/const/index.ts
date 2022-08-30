@@ -1,12 +1,9 @@
 import {ILink} from '@/data/interfaces/ILink';
 
-<<<<<<< HEAD
 const url = 'https://rslang-bc.herokuapp.com';
 const users = `${url}/users`;
 const signin = `${url}/signin`;
 
-=======
->>>>>>> develop
 const link: ILink = {
   links: {
     home: '#/home',
@@ -19,7 +16,6 @@ const link: ILink = {
   },
 };
 
-<<<<<<< HEAD
 const description = [
   'Для регстрации нового пользователя необходимо:',
   '* Поле ввода имени не может быть пустым',
@@ -31,6 +27,3 @@ const description = [
 ];
 
 export {link, users, url, signin, description};
-=======
-export {link};
->>>>>>> develop

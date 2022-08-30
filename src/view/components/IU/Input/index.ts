@@ -1,5 +1,4 @@
 import {Template} from '@/view/Template';
-
 import {content} from '@/data/types';
 
 class Input extends Template {

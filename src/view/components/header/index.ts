@@ -1,7 +1,6 @@
 import {Template} from '@/view/Template';
 import style from './index.module.scss';
 import {Clock} from '@/data/utils/_clock';
-яяяяя
 import {get} from '@/data/utils/_storage';
 
 class Header extends Template {
@@ -29,14 +28,6 @@ class Header extends Template {
     super(parent, 'header', style.header);
 
     this.greet = new Template(this.element, 'div', style.greeting, `${this.greeting()}`);
-=======
-
-class Header extends Template {
-  constructor(parent: HTMLElement) {
-    super(parent, 'header', style.header);
-
-    new Template(this.element, 'div', style.greeting, `${this.greeting()}`);
->>>>>>> develop
   }
 
   greeting(): string {
@@ -46,29 +37,17 @@ class Header extends Template {
     let greeting: string = '';
 
     if (time < 12) {
-<<<<<<< HEAD
       greeting = Header.textObj.morning;
     } else if (time >= 12 && time <= 17) {
       greeting = Header.textObj.day;
     } else if (time >= 17 && time <= 22) {
       greeting = Header.textObj.evening;
     } else if (time <= 23) greeting = Header.textObj.night;
-=======
-      greeting = 'Good morning! Перевод: Доброе утро!';
-    } else if (time >= 12 && time <= 17) {
-      greeting = 'Have a good day mate! Перевод: "Хорошего дня приятель!"';
-    } else if (time >= 17 && time <= 22) {
-      greeting = 'Good evening! Перевод: "Добрый вечер"';
-    } else if (time <= 23) greeting = 'Good night! Good luck!';
->>>>>>> develop
 
     new Clock(this.element);
 
     return greeting;
   }
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> develop
 export {Header};
