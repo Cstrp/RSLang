@@ -1,6 +1,5 @@
 import {LSidebar} from '@/view/components/IU/LSidebar';
 import {RSidebar} from '@/view/components/IU/RSidebar';
-import {Header} from '@/view/components/header';
 import {Footer} from '@/view/components/footer';
 import {Template} from '@/view/Template';
 import {Error} from '@/view/pages/Error';
@@ -9,19 +8,19 @@ import {Team} from '@/view/pages/Team';
 import {Authorization} from '@/view/pages/Authorization';
 import {AppPage} from '@/data/enums';
 import {get, set} from '@/data/utils/_storage';
+import {Sprint} from '../Sprint';
+import {Textbook} from '../Textbook/textbook';
 
 class App {
   private static element: HTMLElement = document.body;
 
   private static defaultID = 'app';
 
-  private _sidebar: LSidebar;
+  public _sidebar: LSidebar;
 
-  private sidebar_: RSidebar;
+  public sidebar_: RSidebar;
 
-  private header: Header;
-
-  private footer: Footer;
+  public footer: Footer;
 
   private error!: Error;
 
@@ -30,7 +29,7 @@ class App {
 
     if (app) app.remove();
 
-    let page: Template | null;
+    let page: Template | Textbook | Sprint | null;
 
     switch (id) {
       case AppPage.home:
@@ -41,6 +40,12 @@ class App {
         break;
       case AppPage.authorization:
         page = new Authorization(App.element);
+        break;
+      case AppPage.book:
+        page = new Textbook(App.element);
+        break;
+      case AppPage.sprint:
+        page = new Sprint(App.element);
         break;
       default:
         page = new Home(App.element);
@@ -55,7 +60,6 @@ class App {
   }
 
   constructor() {
-    this.header = new Header(App.element);
     this._sidebar = new LSidebar(App.element);
     this.sidebar_ = new RSidebar(App.element);
     this.footer = new Footer(App.element);
@@ -64,6 +68,14 @@ class App {
   private router() {
     const echoLocation = async () => {
       const hash = window.location.hash.replace('#', '/').slice(1);
+
+      if (this.footer) this.footer.removeElement();
+
+      this.footer = await new Footer(App.element);
+
+      if (this.sidebar_) this.sidebar_.removeElement();
+
+      this.sidebar_ = new RSidebar(App.element);
 
       switch (hash) {
         case AppPage.home:
@@ -75,17 +87,27 @@ class App {
         case AppPage.authorization:
           App.init(AppPage.authorization);
           break;
+        case AppPage.book:
+          App.init(AppPage.book);
+          this.footer.removeElement();
+          this.sidebar_.removeElement();
+          break;
+        case AppPage.sprint:
+          App.init(AppPage.sprint);
+          break;
         default:
           App.init(AppPage.home);
       }
 
-      if (hash !== AppPage.home && hash !== AppPage.team && hash !== AppPage.authorization) {
+      if (
+        hash !== AppPage.home &&
+        hash !== AppPage.team &&
+        hash !== AppPage.authorization &&
+        hash !== AppPage.sprint &&
+        hash !== AppPage.book
+      ) {
         this.error = new Error(App.element);
       }
-
-      if (this.footer) this.footer.removeElement();
-
-      this.footer = await new Footer(App.element);
 
       return hash;
     };

@@ -21,12 +21,27 @@
     "resolveJsonModule": true,
     "isolatedModules": false,
     "noFallthroughCasesInSwitch": true,
-    "plugins": [{"modules": "typescript-plugin-css-modules"}],
+    "types": [
+      "node"
+    ],
+    "plugins": [
+      {
+        "modules": "typescript-plugin-css-modules"
+      }
+    ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.js", "custom.d.ts"],
-  "exclude": ["node_modules"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.js",
+    "custom.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "compileOnSave": false
 }
