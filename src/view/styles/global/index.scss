@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+.wrapper {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  max-width: 1920px;
+  margin: 0 auto;
+}
+
+.clock {
+  font: 1000 1.3vw 'Silkscreen', cursive;
+  color: #7f00ff;
+  transition: all 0.3s;
+}
+
+.clock:hover {
+  border-bottom: #b3d4fc solid 0.2vw;
+}
