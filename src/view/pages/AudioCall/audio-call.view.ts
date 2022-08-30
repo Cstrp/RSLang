@@ -12,7 +12,7 @@ export const initialAudioCallTemplate = () => `
     Можно играть с помощью клавиатуры:</p>
     <p class="audio-call-instruction-item"><b>1, 2, 3, 4, 5 - выбор ответа</b></p>
     <p class="audio-call-instruction-item"><b>space - воспроизведение звука</b></p>
-    <p class="audio-call-instruction-item"><b>enter - пропуск вопроса</b></p>
+    <p class="audio-call-instruction-item"><b>enter - просмотр правильного ответа и пропуск вопроса</b></p>
   </div>
 </div>
 <div class="game-difficulty">
@@ -57,7 +57,6 @@ export const initialAudioCallTemplate = () => `
 
 export const gameAudioCallScreenTemplate = () => `
 <div class="game-points-mute">
-    <p class="scoring-points audio-call-content_hide">0</p>
     <button class="mute-btn"></button>
 </div>
 `;

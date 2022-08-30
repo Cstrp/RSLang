@@ -58,8 +58,6 @@ export class AudioCall extends Template {
 
   private initialСards: Array<ICard> = [];
 
-  private answer: boolean = true;
-
   private score: number = 0;
 
   private defaultPoints = 10;
@@ -96,7 +94,7 @@ export class AudioCall extends Template {
 
   private currentTranslateWords: Array<string> = [];
 
-  private answerNum: number = 0;
+  private answerNum: number | null = null;
 
   private correctAnswer: number = 0;
 
@@ -253,9 +251,9 @@ export class AudioCall extends Template {
       (this.preloader as Template).element.classList.add('audio-call-content_hide');
       (this.waitText as Template).element.classList.add('audio-call-content_hide');
       (this.loadCounter as Template).element.classList.add('audio-call-content_hide');
+      this.createGameScreen();
       this.cardContainer = new Template(this.gameScreen.element, 'div', 'audio-call-card-container');
       this.createCards();
-      this.createGameScreen();
       this.createGameControls();
     }, 4000);
   }
@@ -269,10 +267,12 @@ export class AudioCall extends Template {
   }
 
   private checkCard(): void {
-    if (this.currentCardData?.wordTranslate === this.currentTranslateWords[this.answerNum]) {
-      this.changeState(true);
-    } else {
-      this.changeState(false);
+    if (this.answerNum) {
+      if (this.currentCardData?.wordTranslate === this.currentTranslateWords[this.answerNum]) {
+        this.changeState(true);
+      } else {
+        this.changeState(false);
+      }
     }
   }
 
@@ -294,7 +294,10 @@ export class AudioCall extends Template {
 
     this.increaseScore();
     this.trueAudio.play();
-    translateWordsElements[this.answerNum].classList.add('audio-call__translate-item_active');
+    if (this.answerNum) {
+      translateWordsElements[this.answerNum].classList.add('audio-call__translate-item_active');
+    }
+
     if (initialCard && this.currentCardNum < this.cards.length) {
       this.trueWords.push(initialCard);
     }
@@ -309,7 +312,10 @@ export class AudioCall extends Template {
     }
 
     translateWordsElements[this.correctAnswer].classList.add('audio-call__translate-item_active');
-    translateWordsElements[this.answerNum].classList.add('audio-call__translate-item_inactive');
+    if (this.answerNum) {
+      translateWordsElements[this.answerNum].classList.add('audio-call__translate-item_inactive');
+    }
+
     this.falseAudio.play();
   }
 
@@ -323,11 +329,26 @@ export class AudioCall extends Template {
     }
   }
 
+  private wordPass(): void {
+    const translateWordsElements = document.querySelectorAll('.audio-call__translate-item');
+    const initialCard = this.findInitialCard();
+
+    if (initialCard && this.currentCardNum < this.cards.length) {
+      this.falseWords.push(initialCard);
+    }
+
+    translateWordsElements[this.correctAnswer].classList.add('audio-call__translate-item_active');
+    this.falseAudio.play();
+  }
+
   private listenControls(): void {
     if (this.audioCallAnswerBtn) {
       this.audioCallAnswerBtn.element.addEventListener('click', () => {
         if (this.audioCallAnswerBtn?.element.innerHTML === 'Не знаю') {
-          this.falseAnswer();
+          this.wordPass();
+          if (this.audioCallAnswerBtn) {
+            this.audioCallAnswerBtn.element.innerHTML = '&xrArr;';
+          }
         } else {
           this.nextWord();
         }
@@ -335,8 +356,12 @@ export class AudioCall extends Template {
     }
 
     window.addEventListener('keyup', (e) => {
-      if (e.code === 'Enter') {
-        this.falseAnswer();
+      if (e.code === 'Enter' && this.audioCallAnswerBtn?.element.textContent === 'Не знаю') {
+        e.preventDefault();
+        this.wordPass();
+        if (this.audioCallAnswerBtn) {
+          this.audioCallAnswerBtn.element.innerHTML = '&xrArr;';
+        }
       } else if (e.code === 'Digit1') {
         this.answerNum = 0;
       } else if (e.code === 'Digit2') {
@@ -450,7 +475,6 @@ export class AudioCall extends Template {
     this.gamePointsMuteTemplate = gameAudioCallScreenTemplate();
     this.cards = [];
     this.initialСards = [];
-    this.answer = true;
     this.score = 0;
     this.defaultPoints = 10;
     this.screenFinish = null;
@@ -480,7 +504,6 @@ export class AudioCall extends Template {
     this.gamePointsMuteTemplate = gameAudioCallScreenTemplate();
     this.cards = [];
     this.initialСards = [];
-    this.answer = true;
     this.score = 0;
     this.defaultPoints = 10;
     this.screenFinish = null;
