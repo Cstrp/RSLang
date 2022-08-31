@@ -5,13 +5,14 @@ import {get} from '@/data/utils/_storage';
 
 class Header extends Template {
   private static textObj = {
-    morning: `Good morning ! Dear ${get('userName') ? get('userName') : 'mate'}`,
-
-    day: `Have a good day ! Dear ${get('userName') ? get('userName') : 'mate'}`,
-
-    evening: `Good evening ! Dear ${get('userName') ? get('userName') : 'mate'}`,
-
-    night: `Good night! Good luck! ${get('userName') ? get('userName') : 'mate'}`,
+    morning: `Good morning ${get('userName') ? get('userName') : ''} ! Доброе утро ${
+      get('userName') ? get('userName') : ''
+    } !`,
+    day: `Have a good day ${get('userName') ? get('userName') : 'mate'} ! Хорошего дня ${
+      get('userName') ? get('userName') : 'Приятель'
+    }!"`,
+    evening: `Good evening! ${get('userName') ? get('userName') : ''} Добрый вечер"`,
+    night: 'Good night! Good luck!',
   };
 
   private readonly greet: Template;
@@ -20,25 +21,25 @@ class Header extends Template {
     super(parent, 'header', style.header, null, {id: 'header'});
 
     this.greet = new Template(this.element, 'div', style.greeting, `${this.greeting()}`);
-
-    new Clock(this.greet.element);
   }
 
   greeting(): string {
     const date: Date = new Date();
     const time: number = date.getHours();
 
-    let greeting: string = '';
+    let greet: string = '';
 
-    if (time < 12) {
-      greeting = Header.textObj.morning;
-    } else if (time >= 12 && time <= 17) {
-      greeting = Header.textObj.day;
-    } else if (time >= 17 && time <= 22) {
-      greeting = Header.textObj.evening;
-    } else if (time <= 23) greeting = Header.textObj.night;
+    if (time < 12) greet = Header.textObj.morning;
 
-    return greeting;
+    if (time >= 12 && time <= 17) greet = Header.textObj.day;
+
+    if (time >= 17 && time <= 22) greet = Header.textObj.evening;
+
+    if (time <= 23) greet = Header.textObj.night;
+
+    new Clock(this.element);
+
+    return greet;
   }
 }
 
