@@ -1,5 +1,5 @@
 import {getAudioCallWords} from '@/data/services/data.audio-call';
-import {content, Template} from '@/view/Template';
+import {Template} from '@/view/Template';
 import {gameAudioCallScreenTemplate, initialAudioCallTemplate} from './audio-call.view';
 import trueSound from './audio/true.mp3';
 import falseSound from './audio/false.mp3';
@@ -98,14 +98,8 @@ export class AudioCall extends Template {
 
   private correctAnswer: number = 0;
 
-  constructor(
-    public parent: HTMLElement | null,
-    public tagName: keyof HTMLElementTagNameMap,
-    public className?: content,
-    public value?: content,
-    public attr?: object,
-  ) {
-    super(parent, tagName, className, value, attr);
+  constructor(parent: HTMLElement) {
+    super(parent, 'main', '123');
 
     Storage.prototype.setObject = (key: string, value: Array<number>) => {
       localStorage.setItem(key, JSON.stringify(value));
@@ -120,6 +114,8 @@ export class AudioCall extends Template {
     if (window.localStorage.getObject('audio-call-score')) {
       this.arrayScore = window.localStorage.getObject('audio-call-score');
     }
+
+    this.renderInitialScreen();
   }
 
   public renderInitialScreen(): void {

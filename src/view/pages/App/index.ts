@@ -3,13 +3,14 @@ import {RSidebar} from '@/view/components/IU/RSidebar';
 import {Footer} from '@/view/components/footer';
 import {Template} from '@/view/Template';
 import {Error} from '@/view/pages/Error';
-import {Home} from '@/view/pages/home';
 import {Team} from '@/view/pages/Team';
 import {Authorization} from '@/view/pages/Authorization';
 import {AppPage} from '@/data/enums';
 import {get, set} from '@/data/utils/_storage';
 import {Sprint} from '../Sprint';
 import {Textbook} from '../Textbook/textbook';
+import {AudioCall} from '@/view/pages/AudioCall';
+import {Home} from '@/view/pages/home';
 
 class App {
   private static element: HTMLElement = document.body;
@@ -43,6 +44,9 @@ class App {
         break;
       case AppPage.book:
         page = new Textbook(App.element);
+        break;
+      case AppPage.audiocall:
+        page = new AudioCall(App.element);
         break;
       case AppPage.sprint:
         page = new Sprint(App.element);
@@ -82,6 +86,9 @@ class App {
         case AppPage.book:
           App.init(AppPage.book);
           break;
+        case AppPage.audiocall:
+          App.init(AppPage.audiocall);
+          break;
         case AppPage.sprint:
           App.init(AppPage.sprint);
           break;
@@ -93,8 +100,9 @@ class App {
         hash !== AppPage.home &&
         hash !== AppPage.team &&
         hash !== AppPage.authorization &&
-        hash !== AppPage.sprint &&
-        hash !== AppPage.book
+        hash !== AppPage.book &&
+        hash !== AppPage.audiocall &&
+        hash !== AppPage.sprint
       ) {
         this.error = new Error(App.element);
       }

@@ -1,6 +1,7 @@
-import {content, Template} from '@/view/Template';
+import {Template} from '@/view/Template';
 import {getAudioCallTemplate} from './audio-call-card.view';
 import {IAudioCallCard} from './models';
+import {content} from '@/data/types';
 
 export class AudioCallCard extends Template {
   constructor(
@@ -10,9 +11,9 @@ export class AudioCallCard extends Template {
     public translationWords: Array<string>,
     public className?: content,
     public value?: content,
-    public attr?: object,
+    public attr?: Record<string, unknown>,
   ) {
-    super(parent, tagName, className, value, attr);
+    super(<HTMLElement>parent, tagName, <string>className, value, attr);
   }
 
   public init(): void {
