@@ -1,7 +1,10 @@
 const autoprefixer = require('autoprefixer');
 const postcssPxToViewport = require('@ttou/postcss-px-to-viewport');
+const postcssPresetEnv = require('postcss-preset-env');
+const postcssSass = require('@csstools/postcss-sass');
 
 module.exports = {
+  syntax: require('postcss-scss'),
   plugins: [
     autoprefixer,
     postcssPxToViewport({
@@ -13,5 +16,14 @@ module.exports = {
       minPixelValue: 1,
       exclude: /([\/\\])(node_modules)([\/\\])/,
     }),
+    postcssPresetEnv({
+      stage: 0,
+      features: {
+        'custom-properties': {
+          preserve: true,
+        },
+      },
+    }),
+    postcssSass,
   ],
 };
