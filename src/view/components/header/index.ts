@@ -20,25 +20,25 @@ class Header extends Template {
     super(parent, 'header', style.header, null, {id: 'header'});
 
     this.greet = new Template(this.element, 'div', style.greeting, `${this.greeting()}`);
-
-    new Clock(this.greet.element);
   }
 
   greeting(): string {
     const date: Date = new Date();
     const time: number = date.getHours();
 
-    let greeting: string = '';
+    let greet: string = '';
 
-    if (time < 12) {
-      greeting = Header.textObj.morning;
-    } else if (time >= 12 && time <= 17) {
-      greeting = Header.textObj.day;
-    } else if (time >= 17 && time <= 22) {
-      greeting = Header.textObj.evening;
-    } else if (time <= 23) greeting = Header.textObj.night;
+    if (time < 12) greet = Header.textObj.morning;
 
-    return greeting;
+    if (time >= 12 && time <= 17) greet = Header.textObj.day;
+
+    if (time >= 17 && time <= 22) greet = Header.textObj.evening;
+
+    if (time <= 23) greet = Header.textObj.night;
+
+    new Clock(this.element);
+
+    return greet;
   }
 }
 
