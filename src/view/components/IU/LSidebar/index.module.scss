@@ -4,12 +4,12 @@
   height: 100%;
   display: flex;
   flex-flow: column;
-  width: 40px;
   text-align: center;
   padding: 0 5px 0 5px;
   justify-content: space-around;
-  background-color: #d7d7d7;
-  overflow: hidden;
+  background-color: #15202b;
+  border-top-right-radius: 3%;
+  border-bottom-right-radius: 3%;
 
   .sidebar_wrapper {
     display: flex;
@@ -22,8 +22,6 @@
 .sidebar_link {
   padding: 2px;
   font: 1000 3.3px 'Open Sans', sans-serif;
-  background-color: #7f00ff;
-  border-radius: 2px;
 
   &:hover {
     cursor: pointer;
@@ -31,13 +29,15 @@
 }
 
 .sidebar_link:hover {
-  background-color: #b3d4fc;
+  background-color: rgba(179, 212, 252, 0.1);
+  border-radius: 4px;
 }
 
 .sidebar_title {
   font: 1000 4px 'Silkscreen', cursive;
   padding: 2px 5px 2px 5px;
-  border: 0.2vw dashed #7f00ff;
+  border: 0.2vw dashed #f7f9f9;
   border-bottom-right-radius: 2px;
   border-top-left-radius: 2px;
+  color: #f7f9f9;
 }

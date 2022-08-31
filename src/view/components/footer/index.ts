@@ -3,7 +3,7 @@ import style from './index.module.scss';
 
 class Footer extends Template {
   constructor(parent: HTMLElement) {
-    super(parent, 'footer', style.footer);
+    super(parent, 'footer', style.footer, null, {id: 'footer'});
     const wrapper = new Template(this.element, 'div', style.wrapper);
 
     const mainCat = new Template(wrapper.element, 'div', style.rs);

@@ -1,5 +1,4 @@
 import {LSidebar} from '@/view/components/IU/LSidebar';
-import {RSidebar} from '@/view/components/IU/RSidebar';
 import {Footer} from '@/view/components/footer';
 import {Template} from '@/view/Template';
 import {Error} from '@/view/pages/Error';
@@ -11,17 +10,18 @@ import {Sprint} from '../Sprint';
 import {Textbook} from '../Textbook/textbook';
 import {AudioCall} from '@/view/pages/AudioCall';
 import {Home} from '@/view/pages/home';
+import {Header} from '@/view/components/header';
 
 class App {
   private static element: HTMLElement = document.body;
 
   private static defaultID = 'app';
 
-  public _sidebar: LSidebar;
+  private header!: Header;
 
-  public sidebar_: RSidebar;
+  private _sidebar: LSidebar;
 
-  public footer: Footer;
+  private footer!: Footer;
 
   private error!: Error;
 
@@ -64,8 +64,8 @@ class App {
   }
 
   constructor() {
+    this.header = new Header(App.element);
     this._sidebar = new LSidebar(App.element);
-    this.sidebar_ = new RSidebar(App.element);
     this.footer = new Footer(App.element);
   }
 
@@ -73,37 +73,19 @@ class App {
     const echoLocation = async () => {
       const hash = window.location.hash.replace('#', '/').slice(1);
 
-      switch (hash) {
-        case AppPage.home:
-          App.init(AppPage.home);
-          break;
-        case AppPage.team:
-          App.init(AppPage.team);
-          break;
-        case AppPage.authorization:
-          App.init(AppPage.authorization);
-          break;
-        case AppPage.book:
-          App.init(AppPage.book);
-          break;
-        case AppPage.audiocall:
-          App.init(AppPage.audiocall);
-          break;
-        case AppPage.sprint:
-          App.init(AppPage.sprint);
-          break;
-        default:
-          App.init(AppPage.home);
-      }
-
-      if (
-        hash !== AppPage.home &&
-        hash !== AppPage.team &&
-        hash !== AppPage.authorization &&
-        hash !== AppPage.book &&
-        hash !== AppPage.audiocall &&
-        hash !== AppPage.sprint
-      ) {
+      if (hash === AppPage.home) {
+        App.init(AppPage.home);
+      } else if (hash === AppPage.team) {
+        App.init(AppPage.team);
+      } else if (hash === AppPage.authorization) {
+        App.init(AppPage.authorization);
+      } else if (hash === AppPage.book) {
+        App.init(AppPage.book);
+      } else if (hash === AppPage.audiocall) {
+        App.init(AppPage.audiocall);
+      } else if (hash === AppPage.sprint) {
+        App.init(AppPage.sprint);
+      } else {
         this.error = new Error(App.element);
       }
 
@@ -112,12 +94,6 @@ class App {
       }
 
       this.footer = await new Footer(App.element);
-
-      if (hash === AppPage.book) {
-        if (this.sidebar_) this.sidebar_.removeElement();
-        this.sidebar_ = new RSidebar(App.element);
-        this.footer.removeElement();
-      }
 
       return hash;
     };

@@ -11,14 +11,13 @@
   max-width: 200px;
   border-radius: 3%;
   z-index: -1;
-  margin-left: -15px;
 }
 
 .root {
   font: 1000 5px 'Poppins', sans-serif;
   margin-left: -200px;
-  text-shadow: -3px -3px 0px #000;
-  background: repeating-linear-gradient(45deg, #7f00ff, #7f00ff 0.3px, #fff 2px, white 3.5px);
+  text-shadow: -3px -1.4px 0px rgba(192, 166, 166, 0.31);
+  background: repeating-linear-gradient(45deg, #000000, #000000 1px, #fff 3px, white 3.5px);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   border: 1px solid transparent;
@@ -26,13 +25,9 @@
 
 .text {
   font: 1000 5px 'Poppins', sans-serif;
-  transform: rotate(-3deg);
   max-width: 200px;
   transition: all 0.3s ease-in-out;
-}
-
-.text:hover {
-  transform: rotate(3deg);
+  color: white;
 }
 
 .header {

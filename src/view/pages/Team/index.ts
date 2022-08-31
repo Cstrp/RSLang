@@ -25,7 +25,7 @@ class Team extends Template {
     });
 
     new Template(link.element, 'img', style.img, null, {
-      src: 'https://flyclipart.com/thumb2/iconsetc-simple-purple-social-media-github-icon-813502.png',
+      src: 'https://cdn.worldvectorlogo.com/logos/github-icon.svg',
     });
 
     new Template(
@@ -55,7 +55,7 @@ class Team extends Template {
     });
 
     new Template(link.element, 'img', style.img, null, {
-      src: 'https://flyclipart.com/thumb2/iconsetc-simple-purple-social-media-github-icon-813502.png',
+      src: 'https://cdn.worldvectorlogo.com/logos/github-icon.svg',
     });
 
     new Template(
@@ -84,7 +84,7 @@ class Team extends Template {
     });
 
     new Template(link.element, 'img', style.img, null, {
-      src: 'https://flyclipart.com/thumb2/iconsetc-simple-purple-social-media-github-icon-813502.png',
+      src: 'https://cdn.worldvectorlogo.com/logos/github-icon.svg',
     });
 
     new Template(

@@ -1,9 +1,9 @@
 import {Template} from '@/view/Template';
 import style from './index.module.scss';
-import {get} from '@/data/utils/_storage';
 import {Clock} from '@/data/utils/_clock';
+import {get} from '@/data/utils/_storage';
 
-class RSidebar extends Template {
+class Header extends Template {
   private static textObj = {
     morning: `Good morning ! Dear ${get('userName') ? get('userName') : 'mate'}`,
 
@@ -14,10 +14,10 @@ class RSidebar extends Template {
     night: `Good night! Good luck! ${get('userName') ? get('userName') : 'mate'}`,
   };
 
-  private readonly greet!: Template;
+  private readonly greet: Template;
 
   constructor(parent: HTMLElement) {
-    super(parent, 'div', style.sidebar);
+    super(parent, 'header', style.header, null, {id: 'header'});
 
     this.greet = new Template(this.element, 'div', style.greeting, `${this.greeting()}`);
 
@@ -31,15 +31,15 @@ class RSidebar extends Template {
     let greeting: string = '';
 
     if (time < 12) {
-      greeting = RSidebar.textObj.morning;
+      greeting = Header.textObj.morning;
     } else if (time >= 12 && time <= 17) {
-      greeting = RSidebar.textObj.day;
+      greeting = Header.textObj.day;
     } else if (time >= 17 && time <= 22) {
-      greeting = RSidebar.textObj.evening;
-    } else if (time <= 23) greeting = RSidebar.textObj.night;
+      greeting = Header.textObj.evening;
+    } else if (time <= 23) greeting = Header.textObj.night;
 
     return greeting;
   }
 }
 
-export {RSidebar};
+export {Header};
