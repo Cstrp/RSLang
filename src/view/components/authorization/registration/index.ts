@@ -6,6 +6,7 @@ import {createUser} from '@/data/api/user';
 import {validEmail, validPass, validUserName} from '@/data/utils/_validator';
 import style from './index.module.scss';
 import {SignIn} from '@/view/components/authorization/signIn';
+import {tokenValidation} from '@/data/api/token';
 
 class UserRegistration extends Template {
   private createUser: (prop: IUser) => void = () => {};
@@ -59,6 +60,7 @@ class UserRegistration extends Template {
         }, 3000);
       }
 
+      tokenValidation();
       createUser(this.state);
 
       this.resetState();
