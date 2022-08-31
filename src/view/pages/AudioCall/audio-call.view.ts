@@ -12,7 +12,7 @@ export const initialAudioCallTemplate = () => `
     Можно играть с помощью клавиатуры:</p>
     <p class="audio-call-instruction-item"><b>1, 2, 3, 4, 5 - выбор ответа</b></p>
     <p class="audio-call-instruction-item"><b>space - воспроизведение звука</b></p>
-    <p class="audio-call-instruction-item"><b>enter - просмотр правильного ответа и пропуск вопроса</b></p>
+    <p class="audio-call-instruction-item"><b>enter - просмотр правильного ответа</b></p>
   </div>
 </div>
 <div class="game-difficulty">

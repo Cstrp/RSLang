@@ -166,11 +166,11 @@ export class AudioCall extends Template {
   }
 
   private async createCards(): Promise<void> {
-    const cardsPage = this.getRandomInRange(0, 29);
+    const cardsPage: number = this.getRandomInRange(0, 29);
 
     this.initialСards.push(...(await getAudioCallWords(`page=${cardsPage}&group=${this.group - 1})`)));
 
-    const tmpArr = this.initialСards.map((a) => ({...a}));
+    const tmpArr: ICard[] = this.initialСards.map((a) => ({...a}));
 
     this.cards = [...tmpArr];
     this.createCard();
@@ -180,11 +180,11 @@ export class AudioCall extends Template {
     this.currentTranslateWords = [];
 
     if (this.currentCardData) {
-      const randomIndexCurrentTranslate = this.getRandomInRange(0, 4);
+      const randomIndexCurrentTranslate: number = this.getRandomInRange(0, 4);
 
       while (this.currentTranslateWords.length < 5) {
-        const randomIndex = this.getRandomInRange(0, 19);
-        const randomTranslateWord = this.cards[randomIndex].wordTranslate;
+        const randomIndex: number = this.getRandomInRange(0, 19);
+        const randomTranslateWord: string = this.cards[randomIndex].wordTranslate;
 
         if (randomTranslateWord !== this.currentCardData.wordTranslate) {
           this.currentTranslateWords.push(randomTranslateWord);
@@ -219,7 +219,7 @@ export class AudioCall extends Template {
   }
 
   private listenTranslateWords(): void {
-    const translateWordsElements = document.querySelectorAll('.audio-call__translate-item');
+    const translateWordsElements: NodeListOf<HTMLElement> = document.querySelectorAll('.audio-call__translate-item');
 
     translateWordsElements.forEach((elem, i) => {
       elem.addEventListener('click', () => {
@@ -267,7 +267,7 @@ export class AudioCall extends Template {
   }
 
   private checkCard(): void {
-    if (this.answerNum) {
+    if (this.answerNum !== undefined && this.answerNum !== null) {
       if (this.currentCardData?.wordTranslate === this.currentTranslateWords[this.answerNum]) {
         this.changeState(true);
       } else {
@@ -289,12 +289,12 @@ export class AudioCall extends Template {
   }
 
   private trueAnswer(): void {
-    const translateWordsElements = document.querySelectorAll('.audio-call__translate-item');
-    const initialCard = this.findInitialCard();
+    const translateWordsElements: NodeListOf<HTMLElement> = document.querySelectorAll('.audio-call__translate-item');
+    const initialCard: ICard | undefined = this.findInitialCard();
 
     this.increaseScore();
     this.trueAudio.play();
-    if (this.answerNum) {
+    if (this.answerNum !== undefined && this.answerNum !== null) {
       translateWordsElements[this.answerNum].classList.add('audio-call__translate-item_active');
     }
 
@@ -304,15 +304,15 @@ export class AudioCall extends Template {
   }
 
   private falseAnswer(): void {
-    const translateWordsElements = document.querySelectorAll('.audio-call__translate-item');
-    const initialCard = this.findInitialCard();
+    const translateWordsElements: NodeListOf<HTMLElement> = document.querySelectorAll('.audio-call__translate-item');
+    const initialCard: ICard | undefined = this.findInitialCard();
 
     if (initialCard && this.currentCardNum < this.cards.length) {
       this.falseWords.push(initialCard);
     }
 
     translateWordsElements[this.correctAnswer].classList.add('audio-call__translate-item_active');
-    if (this.answerNum) {
+    if (this.answerNum !== undefined && this.answerNum !== null) {
       translateWordsElements[this.answerNum].classList.add('audio-call__translate-item_inactive');
     }
 
@@ -330,8 +330,8 @@ export class AudioCall extends Template {
   }
 
   private wordPass(): void {
-    const translateWordsElements = document.querySelectorAll('.audio-call__translate-item');
-    const initialCard = this.findInitialCard();
+    const translateWordsElements: NodeListOf<HTMLElement> = document.querySelectorAll('.audio-call__translate-item');
+    const initialCard: ICard | undefined = this.findInitialCard();
 
     if (initialCard && this.currentCardNum < this.cards.length) {
       this.falseWords.push(initialCard);

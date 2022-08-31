@@ -889,53 +889,52 @@ input[type='radio'] {
   top: 1px;
 }
 
-
 .audio-call__translate-item_active {
-  box-shadow:inset 0px 1px 0px 0px #54a3f7;
-	background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
-	background-color:#007dc1;
-	border-radius:2px;
-	border:1px solid #124d77;
-	display:inline-block;
-	cursor:pointer;
-	color: white;
+  box-shadow: inset 0px 1px 0px 0px #54a3f7;
+  background: linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+  background-color: #007dc1;
+  border-radius: 2px;
+  border: 1px solid #124d77;
+  display: inline-block;
+  cursor: pointer;
+  color: white;
   font-family: Roboto;
   font-size: 4px;
   font-weight: 300;
   padding: 2px 3px;
-	text-shadow:0px 1px 0px #154682;
+  text-shadow: 0px 1px 0px #154682;
 }
 
 .audio-call__translate-item_active:hover {
-	background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
-	background-color:#0061a7;
+  background: linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
+  background-color: #0061a7;
 }
 
 .audio-call__translate-item_active:active {
-	position:relative;
-	top:1px;
+  position: relative;
+  top: 1px;
 }
 
 .audio-call__translate-item_inactive {
-	box-shadow:inset 0px 1px 0px 0px #cf866c;
-	background:linear-gradient(to bottom, #d0451b 5%, #bc3315 100%);
-	background-color:#d0451b;
-	border-radius:2px;
-	border:1px solid #942911;
-	display:inline-block;
-	cursor:pointer;
-	color: white;
+  box-shadow: inset 0px 1px 0px 0px #cf866c;
+  background: linear-gradient(to bottom, #d0451b 5%, #bc3315 100%);
+  background-color: #d0451b;
+  border-radius: 2px;
+  border: 1px solid #942911;
+  display: inline-block;
+  cursor: pointer;
+  color: white;
   font-family: Roboto;
   font-size: 4px;
   font-weight: 300;
   padding: 2px 3px;
-	text-shadow:0px 1px 0px #854629;
+  text-shadow: 0px 1px 0px #854629;
 }
 .audio-call__translate-item_inactive:hover {
-	background:linear-gradient(to bottom, #bc3315 5%, #d0451b 100%);
-	background-color:#bc3315;
+  background: linear-gradient(to bottom, #bc3315 5%, #d0451b 100%);
+  background-color: #bc3315;
 }
 .audio-call__translate-item_inactive:active {
-	position:relative;
-	top:1px;
+  position: relative;
+  top: 1px;
 }

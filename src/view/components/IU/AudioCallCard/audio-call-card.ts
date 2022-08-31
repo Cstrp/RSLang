@@ -15,7 +15,7 @@ export class AudioCallCard extends Template {
     super(parent, tagName, className, value, attr);
   }
 
-  public init() {
+  public init(): void {
     this.create();
     this.listen();
   }
