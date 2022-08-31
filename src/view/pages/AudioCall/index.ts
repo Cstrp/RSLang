@@ -1,3 +1,2 @@
-class AudioCall {}
-
-export {AudioCall};
+export * from './audio-call';
+export * from './audio-call.view';

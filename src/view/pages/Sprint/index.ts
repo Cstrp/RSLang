@@ -1,3 +1,2 @@
-class Sprint {}
-
-export {Sprint};
+export * from './sprint';
+export * from './sprint.view';

@@ -1,0 +1,237 @@
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 5px;
+  width: 300px;
+  margin-left: 50px;
+}
+
+.learn-card {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 0.7fr;
+  gap: 10px;
+
+  grid-template-areas:
+    'image topInfo'
+    'image bottomInfo';
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 0px 0px 15px 0px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 5px;
+}
+
+.card-image {
+  display: block;
+  grid-column: 1/2;
+  grid-row: 1/5;
+  width: 50px;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1/1;
+  grid-area: image;
+  object-fit: cover;
+  -webkit-box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 1);
+  -moz-box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 1);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.6), inset 0 0 10px rgba(255, 255, 255, 1);
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.card-top {
+  grid-column: 2/5;
+  grid-row: 1/2;
+  grid-area: topInfo;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.play-btn {
+  grid-column: 2/5;
+  grid-row: 2/5;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-size: cover;
+  background: #450050
+    linear-gradient(
+      101.9deg,
+      rgba(201, 34, 227, 0.4) 7.67%,
+      rgba(153, 30, 234, 0.4) 52.66%,
+      rgba(73, 23, 246, 0.4) 93.7%
+    )
+    no-repeat center;
+  outline: none;
+  transition: 0.7s;
+  border: none;
+
+  &:hover {
+    position: relative;
+    top: 1px;
+    -webkit-box-shadow: 0 0 2px rgba(255, 255, 255, 0.6), inset 0 0 2px rgba(255, 255, 255, 1);
+    -moz-box-shadow: 0 0 2px rgba(255, 255, 255, 0.6), inset 0 0 2px rgba(255, 255, 255, 1);
+    box-shadow: 0 0 2px rgba(255, 255, 255, 0.6), inset 0 0 2px rgba(255, 255, 255, 1);
+  }
+}
+
+.play-btn_play {
+  background-image: url('./images/play_audio.svg');
+}
+
+.play-btn_pause {
+  background-image: url('./images/pause_audio.svg');
+}
+
+.word-container {
+  font: normal 700 3px 'Poppins', sans-serif;
+  color: white;
+}
+
+.word {
+  font-size: 3.3px;
+  background-color: black;
+  padding: 1.3px;
+  border-radius: 3px;
+}
+
+.transcription {
+  font: 400 3px 'Poppins', sans-serif;
+  color: #fff;
+}
+
+.translate {
+  font: 1000 4px 'Poppins', sans-serif;
+  color: #fff;
+}
+
+.card-bottom {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 3px;
+  grid-area: bottomInfo;
+  letter-spacing: 1px;
+}
+
+.word-desc-eng {
+  font: normal 400 2.7px 'Poppins', sans-serif;
+  line-height: 6px;
+  color: #fff;
+}
+
+b,
+i {
+  font: 1000 3.4px 'Poppins', sans-serif;
+  color: #ffac24;
+  background-color: black;
+  padding: 1.3px;
+  border-radius: 3px;
+}
+
+.word-desc-ru {
+  font: normal 1100 3px 'Open Sans', sans-serif;
+  color: #fff6af;
+}
+
+.btn-container-authorized {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.btn-container-hidden {
+  display: none;
+}
+
+.add-difficult-words {
+  color: white;
+  box-shadow: inset 0px 1px 0px 0px #a4e271;
+  background: linear-gradient(to bottom, #89c403 5%, #77a809 100%);
+  background-color: #89c403;
+  border-radius: 0.533vw;
+  border: 1px solid #74b807;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.7s;
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 3px;
+  padding: 2px 3px;
+  text-decoration: none;
+  &:hover {
+    background: linear-gradient(to bottom, #77a809 5%, #89c403 100%);
+    background-color: #77a809;
+  }
+  &:active {
+    position: relative;
+    top: 1px;
+  }
+}
+
+.mark-studied {
+  color: white;
+  box-shadow: inset 0 1px 0 0 #e184f3;
+  background: linear-gradient(to bottom, #c123de 5%, #a20dbd 100%);
+  background-color: #c123de;
+  border-radius: 0.533vw;
+  border: 1px solid #a511c0;
+  display: inline-block;
+  cursor: pointer;
+  transition: 0.7s;
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 3px;
+  padding: 2px 2px;
+  text-decoration: none;
+  &:hover {
+    background: linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);
+    background-color: #a20dbd;
+  }
+  &:active {
+    position: relative;
+    top: 1px;
+  }
+}
+
+.button-difficult-word-added {
+  cursor: not-allowed;
+  color: black;
+  box-shadow: inset 0px 1px 0px 0px #e0e271;
+  background: linear-gradient(to bottom, #fff400 5%, #ffc704 100%);
+  border-radius: 0.533vw;
+  border: 1px solid #fff400;
+
+  &:hover {
+    color: black;
+    box-shadow: inset 0px 1px 0px 0px #e0e271;
+    background: linear-gradient(to bottom, #fff400 5%, #ffc704 100%);
+    border-radius: 0.533vw;
+    border: 1px solid #fff400;
+  }
+}
+
+.button-studied-word-added {
+  cursor: not-allowed;
+  color: black;
+  box-shadow: inset 0px 1px 0px 0px #3d94f6;
+  background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+  background-color: #3d94f6;
+  border: 1px solid #1e62d0;
+  &:hover {
+    color: black;
+    box-shadow: inset 0px 1px 0px 0px #3d94f6;
+    background: linear-gradient(to bottom, #3d94f6 5%, #1e62d0 100%);
+    background-color: #3d94f6;
+  }
+}
