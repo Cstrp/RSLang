@@ -11,7 +11,7 @@ class Header extends Template {
 
     evening: `Good evening ! Dear ${get('userName') ? get('userName') : 'mate'}`,
 
-    night: `Good night! Good luck! ${get('userName') ? get('userName') : 'mate'}`,
+    night: `Good night! Good luck! ${get('userName') ? get('userName') : ''}`,
   };
 
   private readonly greet: Template;
