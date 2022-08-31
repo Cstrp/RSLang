@@ -5,13 +5,13 @@ import {Clock} from '@/data/utils/_clock';
 
 class RSidebar extends Template {
   private static textObj = {
-    morning: `Good morning ! Dear ${get('userName') ? get('userName') : ''}`,
+    morning: `Good morning ! Dear ${get('userName') ? get('userName') : 'mate'}`,
 
-    day: `Have a good day ! Dear ${get('userName') ? get('userName') : ''}`,
+    day: `Have a good day ! Dear ${get('userName') ? get('userName') : 'mate'}`,
 
-    evening: `Good evening ! Dear ${get('userName') ? get('userName') : ''}`,
+    evening: `Good evening ! Dear ${get('userName') ? get('userName') : 'mate'}`,
 
-    night: `Good night! Good luck! ${get('userName') ? get('userName') : ''}`,
+    night: `Good night! Good luck! ${get('userName') ? get('userName') : 'mate'}`,
   };
 
   private readonly greet!: Template;

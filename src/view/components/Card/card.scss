@@ -5,10 +5,7 @@
   padding-top: 5px;
   width: 300px;
   margin-left: 50px;
-
 }
-
-
 
 .learn-card {
   display: grid;
@@ -63,12 +60,14 @@
   height: 10px;
   border-radius: 50%;
   background-size: cover;
-  background: #450050 linear-gradient(
-                  101.9deg,
-                  rgba(201, 34, 227, 0.4) 7.67%,
-                  rgba(153, 30, 234, 0.4) 52.66%,
-                  rgba(73, 23, 246, 0.4) 93.7%
-  ) no-repeat center;
+  background: #450050
+    linear-gradient(
+      101.9deg,
+      rgba(201, 34, 227, 0.4) 7.67%,
+      rgba(153, 30, 234, 0.4) 52.66%,
+      rgba(73, 23, 246, 0.4) 93.7%
+    )
+    no-repeat center;
   outline: none;
   transition: 0.7s;
   border: none;
@@ -193,7 +192,7 @@ i {
   font-style: normal;
   font-weight: bold;
   font-size: 3px;
-  padding: 2px 3px;
+  padding: 2px 2px;
   text-decoration: none;
   &:hover {
     background: linear-gradient(to bottom, #a20dbd 5%, #c123de 100%);

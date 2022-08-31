@@ -3,7 +3,7 @@ import {IUser} from '@/data/interfaces/IUser';
 import {Input} from '@/view/components/IU/Input';
 import {Button} from '@/view/components/IU/Button';
 import {createUser} from '@/data/api/user';
-import {validEmail, validPass} from '@/data/utils/_validator';
+import {validEmail, validPass, validUserName} from '@/data/utils/_validator';
 import style from './index.module.scss';
 import {SignIn} from '@/view/components/authorization/signIn';
 
@@ -81,7 +81,7 @@ class UserRegistration extends Template {
   }
 
   private validate(name: string, email: string, password: string): boolean {
-    return name !== '' && validEmail(email) && validPass(password);
+    return validUserName(name) && validEmail(email) && validPass(password);
   }
 
   private updateInput() {

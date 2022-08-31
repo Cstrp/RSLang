@@ -69,14 +69,6 @@ class App {
     const echoLocation = async () => {
       const hash = window.location.hash.replace('#', '/').slice(1);
 
-      if (this.footer) this.footer.removeElement();
-
-      this.footer = await new Footer(App.element);
-
-      if (this.sidebar_) this.sidebar_.removeElement();
-
-      this.sidebar_ = new RSidebar(App.element);
-
       switch (hash) {
         case AppPage.home:
           App.init(AppPage.home);
@@ -89,8 +81,6 @@ class App {
           break;
         case AppPage.book:
           App.init(AppPage.book);
-          this.footer.removeElement();
-          this.sidebar_.removeElement();
           break;
         case AppPage.sprint:
           App.init(AppPage.sprint);
@@ -107,6 +97,18 @@ class App {
         hash !== AppPage.book
       ) {
         this.error = new Error(App.element);
+      }
+
+      if (this.footer) {
+        this.footer.removeElement();
+      }
+
+      this.footer = await new Footer(App.element);
+
+      if (hash === AppPage.book) {
+        if (this.sidebar_) this.sidebar_.removeElement();
+        this.sidebar_ = new RSidebar(App.element);
+        this.footer.removeElement();
       }
 
       return hash;
