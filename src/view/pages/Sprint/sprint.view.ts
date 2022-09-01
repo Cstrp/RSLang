@@ -9,7 +9,7 @@ export const initialSprintTemplate = () => `
   <div class="sprint-instruction">
       <p class=" sprint-mouse-instruction">Для игры можно использовать мышь</p>
     <p class="sprint-keyboard-instruction">
-    Можно играть с помощью стрелок <b>"влево"</b> или <b>"вправо"</b> на клавиатуре</p>
+    Можно играть с помощью стрелок "влево" или "вправо" на клавиатуре</p>
   </div>
 </div>
 

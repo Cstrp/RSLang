@@ -241,7 +241,8 @@ export class AudioCall extends Template {
     this.gameScreen.element.classList.remove('audio-call-content_hide');
     this.loadCounter = new Template(this.gameScreen.element, 'p', 'load-counter');
     this.waitText = new Template(this.gameScreen.element, 'p', 'wait-text', 'Приготовьтесь...');
-    this.preloader = new Template(this.gameScreen.element, 'div', 'load', '<hr/><hr/><hr/><hr/>');
+    this.preloader = new Template(this.gameScreen.element, 'div', 'load');
+    this.preloader.element.insertAdjacentHTML('beforeend', '<hr/><hr/><hr/><hr/>');
 
     setTimeout(() => {
       (this.preloader as Template).element.classList.add('audio-call-content_hide');
@@ -395,12 +396,8 @@ export class AudioCall extends Template {
 
   private showGuessedWords(): void {
     if (this.finishWordsContainer) {
-      this.guessedWordsContainer = new Template(
-        this.finishWordsContainer.element,
-        'div',
-        'guessed-words-container',
-        '<h3>Угаданные слова</h3>',
-      );
+      this.guessedWordsContainer = new Template(this.finishWordsContainer.element, 'div', 'guessed-words-container');
+      this.guessedWordsContainer.element.insertAdjacentHTML('beforeend', '<h3>Угаданные слова</h3>');
       this.trueWords.forEach((elem) => {
         if (this.guessedWordsContainer) {
           new Template(this.guessedWordsContainer.element, 'p', 'guessed-word', `${elem.word} - ${elem.wordTranslate}`);
@@ -415,8 +412,8 @@ export class AudioCall extends Template {
         this.finishWordsContainer.element,
         'div',
         'not-guessed-words-container',
-        '<h3>Не угаданные слова</h3>',
       );
+      this.notGuessedWordsContainer.element.insertAdjacentHTML('beforeend', '<h3>Не угаданные слова</h3>');
       this.falseWords.forEach((elem) => {
         if (this.notGuessedWordsContainer) {
           new Template(
@@ -435,7 +432,7 @@ export class AudioCall extends Template {
     this.screenFinish = new Template(this.audioCallContent.element, 'div', 'screen-finish');
     this.finalResult = new Template(this.screenFinish.element, 'p', 'final-result');
 
-    if (this.falseWords.length !== 0 && this.trueWords.length !== 0) {
+    if (this.falseWords.length !== 0 || this.trueWords.length !== 0) {
       this.showFinishWords();
     }
 

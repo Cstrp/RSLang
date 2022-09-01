@@ -143,6 +143,7 @@ export class Sprint extends Template {
 
   private createInitialScreen(): void {
     this.mainScreen.element.insertAdjacentHTML('beforeend', this.sprintGameInstruction);
+    this.gameScreen.element.style.display = 'none';
   }
 
   private createGameScreen(): void {
@@ -231,18 +232,19 @@ export class Sprint extends Template {
   }
 
   private startGame() {
-    this.mainScreen.element.classList.add('sprint-content_hide');
-    this.gameScreen.element.classList.remove('sprint-content_hide');
+    this.mainScreen.element.style.display = 'none';
+    this.gameScreen.element.style.display = 'flex';
     this.loadCounter = new Template(this.gameScreen.element, 'p', 'load-counter');
     this.waitText = new Template(this.gameScreen.element, 'p', 'wait-text', 'Приготовьтесь...');
-    this.preloader = new Template(this.gameScreen.element, 'div', 'load', '<hr/><hr/><hr/><hr/>');
+    this.preloader = new Template(this.gameScreen.element, 'div', 'load');
+    this.preloader.element.insertAdjacentHTML('beforeend', '<hr/><hr/><hr/><hr/>');
 
     this.createCards();
 
     setTimeout(() => {
-      (this.preloader as Template).element.classList.add('sprint-content_hide');
-      (this.waitText as Template).element.classList.add('sprint-content_hide');
-      (this.loadCounter as Template).element.classList.add('sprint-content_hide');
+      (this.preloader as Template).element.style.display = 'none';
+      (this.waitText as Template).element.style.display = 'none';
+      (this.loadCounter as Template).element.style.display = 'none';
       this.timerText = new Template(this.gameScreen.element, 'p', 'timer-text');
       this.createGameScreen();
       this.cardContainer = new Template(this.gameScreen.element, 'div', 'sprint-card-container');
@@ -412,12 +414,8 @@ export class Sprint extends Template {
 
   private showGuessedWords(): void {
     if (this.finishWordsContainer) {
-      this.guessedWordsContainer = new Template(
-        this.finishWordsContainer.element,
-        'div',
-        'guessed-words-container',
-        '<h3>Угаданные слова</h3>',
-      );
+      this.guessedWordsContainer = new Template(this.finishWordsContainer.element, 'div', 'guessed-words-container');
+      this.guessedWordsContainer.element.insertAdjacentHTML('beforeend', '<h3>Угаданные слова</h3>');
       this.trueWords.forEach((elem) => {
         if (this.guessedWordsContainer) {
           new Template(this.guessedWordsContainer.element, 'p', 'guessed-word', `${elem.word} - ${elem.wordTranslate}`);
@@ -432,8 +430,8 @@ export class Sprint extends Template {
         this.finishWordsContainer.element,
         'div',
         'not-guessed-words-container',
-        '<h3>Не угаданные слова</h3>',
       );
+      this.notGuessedWordsContainer.element.insertAdjacentHTML('beforeend', '<h3>Не угаданные слова</h3>');
       this.falseWords.forEach((elem) => {
         if (this.notGuessedWordsContainer) {
           new Template(
@@ -448,7 +446,7 @@ export class Sprint extends Template {
   }
 
   private createFinishScreen() {
-    this.gameScreen.element.classList.add('sprint-content_hide');
+    this.gameScreen.element.style.display = 'none';
     this.screenFinish = new Template(this.sprintContent.element, 'div', 'screen-finish');
     this.finalResult = new Template(this.screenFinish.element, 'p', 'final-result');
 
@@ -530,7 +528,7 @@ export class Sprint extends Template {
   }
 
   private restartGame() {
-    (this.screenFinish as Template).element.classList.add('sprint-content_hide');
+    (this.screenFinish as Template).element.style.display = 'none';
     (this.cardContainer as Template).element.textContent = '';
     (this.gameScreen as Template).element.textContent = '';
     this.timeleft = 60;
@@ -570,10 +568,10 @@ export class Sprint extends Template {
 
   private closeFinishScreen(): void {
     if (this.screenFinish) {
-      this.screenFinish.element.classList.add('sprint-content_hide');
+      this.screenFinish.element.style.display = 'none';
     }
 
-    this.mainScreen.element.classList.remove('sprint-content_hide');
+    this.mainScreen.element.style.display = 'flex';
     this.resetGame();
   }
 }

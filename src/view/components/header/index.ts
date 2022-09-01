@@ -28,13 +28,15 @@ class Header extends Template {
 
     let greet: string = '';
 
-    if (time < 12) greet = Header.textObj.morning;
-
-    if (time >= 12 && time <= 17) greet = Header.textObj.day;
-
-    if (time >= 17 && time <= 22) greet = Header.textObj.evening;
-
-    if (time <= 23) greet = Header.textObj.night;
+    if (time < 12) {
+      greet = Header.textObj.morning;
+    } else if (time >= 12 && time <= 17) {
+      greet = Header.textObj.day;
+    } else if (time >= 17 && time <= 22) {
+      greet = Header.textObj.evening;
+    } else if (time <= 23) {
+      greet = Header.textObj.night;
+    }
 
     new Clock(this.element);
 
