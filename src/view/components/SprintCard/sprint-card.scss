@@ -61,17 +61,17 @@
   width: 100%;
 }
 
+.sprint-content .game-points-mute {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .sprint-audio-figcaption {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-size: 4px;
-}
-
-.sprint-content .game-points-mute {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .sprint-audio-play {
