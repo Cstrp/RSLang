@@ -68,6 +68,12 @@
   font-size: 4px;
 }
 
+.sprint-content .game-points-mute {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .sprint-audio-play {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 16px;
