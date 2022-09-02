@@ -8,4 +8,9 @@ const enum AppPage {
   statistics = '/statistics',
 }
 
-export {AppPage};
+const enum Games {
+  audio_call,
+  sprint,
+}
+
+export {AppPage, Games};

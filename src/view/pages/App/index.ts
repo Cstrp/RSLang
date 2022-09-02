@@ -11,6 +11,7 @@ import {Textbook} from '../Textbook/textbook';
 import {AudioCall} from '@/view/pages/AudioCall';
 import {Home} from '@/view/pages/home';
 import {Header} from '@/view/components/header';
+import {Statistics} from '@/view/pages/Statistics';
 
 class App {
   private static element: HTMLElement = document.body;
@@ -51,6 +52,9 @@ class App {
       case AppPage.sprint:
         page = new Sprint(App.element);
         break;
+      case AppPage.statistics: // remove
+        page = new Statistics(App.element);
+        break;
       default:
         page = new Home(App.element);
     }
@@ -85,6 +89,9 @@ class App {
         App.init(AppPage.audiocall);
       } else if (hash === AppPage.sprint) {
         App.init(AppPage.sprint);
+      } else if (hash === AppPage.statistics) {
+        // remove
+        App.init(AppPage.statistics);
       } else {
         this.error = new Error(App.element);
       }
