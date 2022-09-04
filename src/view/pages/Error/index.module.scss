@@ -9,44 +9,42 @@
   top: 0;
   overflow: hidden;
   z-index: 100;
+  .error {
+    font: 2.3vw 'Cantarell Thin', Serif;
+    display: flex;
+    justify-content: center;
+    color: #ff0000;
+    &:before,
+    &:after {
+      content: '404:   Error! Page is not found...';
+      position: absolute;
+      top: 0;
+      min-height: 100vh;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    &::before {
+      left: 2px;
+      text-shadow: -1px 0 rgb(255, 255, 255);
+      clip: rect(424px, 450px, 516px, 0);
+      animation: glitchText 1.5s infinite linear alternate-reverse;
+    }
+
+    &::after {
+      left: -2px;
+      text-shadow: -1px solid rgb(0, 0, 0);
+      clip: rect(424px, 450px, 526px, 0);
+      animation: glitch 1.5s infinite linear alternate-reverse;
+      overflow: hidden;
+    }
+  }
 }
 
-.error {
-  font: 2.3vw 'Cantarell Thin', Serif;
-  display: flex;
-  justify-content: center;
-  color: #ff0000;
-}
-
-.error:before,
-.error:after {
-  content: '404:   Error! Page is not found...';
-  position: absolute;
-  top: 0;
-  min-height: 100vh;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.error::before {
-  left: 2px;
-  text-shadow: -1px 0 rgb(255, 255, 255);
-  clip: rect(424px, 450px, 516px, 0);
-  animation: glitchText 1.5s infinite linear alternate-reverse;
-}
-
-.error::after {
-  left: -2px;
-  text-shadow: -1px solid rgb(0, 0, 0);
-  clip: rect(424px, 450px, 526px, 0);
-  animation: subglitchText 1.5s infinite linear alternate-reverse;
-  overflow: hidden;
-}
-
-@keyframes subglitchText {
+@keyframes glitch {
   0% {
     clip: rect(412px, 9999px, 237px, 0);
   }

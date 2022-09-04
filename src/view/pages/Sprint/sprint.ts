@@ -5,6 +5,9 @@ import {Template} from '@/view/Template';
 import {gameSprintScreenTemplate, initialSprintTemplate} from './sprint.view';
 import trueSound from './audio/true.mp3';
 import falseSound from './audio/false.mp3';
+import {getGameStatistics, getStatistics} from '@/data/api/statistics';
+import {get} from '@/data/utils/_storage';
+import {IGame, IStatistics} from '@/data/interfaces/IStatistics';
 
 interface ICard {
   audio: string;
@@ -100,7 +103,7 @@ export class Sprint extends Template {
 
   private preloader: Template | null = null;
 
-  private arrayScore: Array<number> = [];
+  private readonly arrayScore: Array<number> = [];
 
   private trueWords: Array<ICard> = [];
 
@@ -132,6 +135,32 @@ export class Sprint extends Template {
     if (window.localStorage.getObject('sprint-score')) {
       this.arrayScore = window.localStorage.getObject('sprint-score');
     }
+
+    const sprintResult: IStatistics = {
+      game: IGame.sprint,
+      totalCountOfWords: 0,
+      newWordsOfDay: 3,
+      rightWords: this.trueWords.length,
+      wrongWords: 3,
+    };
+
+    getStatistics(get('userID'))
+      .then((res) => {
+        getGameStatistics(
+          {
+            optional: {...res.optional, [new Date().toISOString()]: sprintResult},
+          },
+          get('userID'),
+        );
+      })
+      .catch(() => {
+        getGameStatistics(
+          {
+            optional: {[new Date().toISOString()]: sprintResult},
+          },
+          get('userID'),
+        );
+      });
 
     this.renderInitialScreen();
   }

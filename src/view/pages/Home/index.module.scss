@@ -1,0 +1,31 @@
+.wrapper {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  gap: 7px;
+  padding-top: 15px;
+  max-width: 500px;
+
+  & img {
+    max-width: 170px;
+    border-radius: 3%;
+    z-index: -1;
+  }
+
+  .text {
+    font: 1000 5px 'Poppins', sans-serif;
+    max-width: 200px;
+    transition: all 0.3s ease-in-out;
+    color: white;
+  }
+
+  .root {
+    font: 1000 5px 'Poppins', sans-serif;
+    margin-left: -200px;
+    text-shadow: -3px -1.4px 0px rgba(255, 255, 255);
+    background: repeating-linear-gradient(45deg, #000000, #000000 1px, #fff 3px, white 3.5px);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border: 1px solid transparent;
+  }
+}

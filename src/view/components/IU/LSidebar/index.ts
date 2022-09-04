@@ -12,7 +12,7 @@ class LSidebar extends Template {
 
     const links = new Template(this.element, 'div', style.sidebar_wrapper);
 
-    new Template(links.element, 'a', style.sidebar_link, 'Домашнаяя страница', {href: link.links.home});
+    new Template(links.element, 'a', style.sidebar_link, 'Домашняя страница', {href: link.links.home});
 
     new Template(links.element, 'a', style.sidebar_link, 'О команде', {href: link.links.team});
 

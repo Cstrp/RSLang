@@ -10,8 +10,7 @@ const tokenValidation = async () => {
 };
 
 const tokenRefresher = async () => {
-  let date: Date | string = new Date().toString();
-  const time: number = 14400000;
+  const date: Date | string = new Date().toString();
 
   const data = await fetch(`${users}/${get('userID')}/tokens`, {
     method: 'GET',
@@ -24,8 +23,6 @@ const tokenRefresher = async () => {
   if (data.status === 200) {
     const res = await data.json();
 
-    date += time;
-
     set('time', date);
     set('token', res.token);
     set('refreshToken', res.refreshToken);
@@ -37,7 +34,7 @@ const tokenRefresher = async () => {
 
   set('userID', '');
   set('token', '');
-  set('newToken', '');
+  set('refreshToken', '');
   set('time', '');
 };
 

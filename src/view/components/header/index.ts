@@ -1,6 +1,6 @@
 import {Template} from '@/view/Template';
 import style from './index.module.scss';
-import {Clock} from '@/data/utils/_clock';
+import {Clock} from '@/view/components/clock';
 import {get} from '@/data/utils/_storage';
 
 class Header extends Template {
