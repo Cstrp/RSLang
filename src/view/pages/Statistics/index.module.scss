@@ -1,7 +1,21 @@
 .main {
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 90vh;
+  gap: 20px;
+
+  .wrapper {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
+    gap: 10px;
+    padding-top: 15px;
+
+    .text {
+      font: normal 100 4px 'Fira Code', sans-serif;
+      color: #222222;
+    }
+  }
 }

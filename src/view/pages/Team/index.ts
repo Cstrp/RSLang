@@ -6,6 +6,7 @@ class Team extends Template {
 
   constructor(parent: HTMLElement) {
     super(parent, 'main', null);
+
     this.lead();
     this.firstDeveloper();
     this.secondDeveloper();
@@ -33,9 +34,10 @@ class Team extends Template {
       'pre',
       style.text,
       `Фронтенд разработчик
-1. 
-2.
-3. 
+1. Backend, общая архитектура проекта 
+2. Авторизация, раздел о команде
+3. Страница статистики
+4. Ел печенье, запивал чаемц
     `,
     );
   }
@@ -63,9 +65,9 @@ class Team extends Template {
       'pre',
       style.text,
       `Фронтенд разработчик
-1.
-2.
-3.`,
+1. Функционал учебника
+2. Функционал игры "Спринт"
+3. Дизайн игры  "Спринт"`,
     );
   }
 
@@ -92,9 +94,9 @@ class Team extends Template {
       'pre',
       style.text,
       `Фронтенд разработчик
-1.
-2.
-3.`,
+1. Функционал учебника
+2. Функционал игры "Аудиовызов"
+3. Дизайн игры "Аудиовызов"`,
     );
   }
 }

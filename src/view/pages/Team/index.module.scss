@@ -5,10 +5,11 @@
   justify-content: center;
   order: 1;
   align-items: center;
-  margin-left: 40px;
-  gap: 20px;
+  margin-left: 60px;
+  gap: 10px;
+
   .img {
-    max-width: 20px;
+    width: 13px;
     border-radius: 30%;
   }
 
@@ -29,6 +30,7 @@
   align-items: flex-start;
   border-radius: 5px;
   gap: 5px;
+  z-index: 666;
   padding: 3px;
   background-color: rgba(21, 20, 43, 0.3);
   box-shadow: 1px 1px 1px -1px rgba(255, 255, 255, 0.1), 0px 1px 1px 0px rgba(255, 255, 255, 0.14),

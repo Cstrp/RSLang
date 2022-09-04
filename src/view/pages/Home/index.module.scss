@@ -10,22 +10,27 @@
     max-width: 170px;
     border-radius: 3%;
     z-index: -1;
+    webkit-border-radius: 20px;
+    -webkit-border-top-right-radius: 2px;
+    -webkit-border-bottom-left-radius: 2px;
+    -moz-border-radius: 20px;
+    -moz-border-radius-topright: 2px;
+    -moz-border-radius-bottomleft: 2px;
+    border-radius: 20px;
+    border-top-right-radius: 2px;
+    border-bottom-left-radius: 2px;
   }
 
   .text {
     font: 1000 5px 'Poppins', sans-serif;
     max-width: 200px;
     transition: all 0.3s ease-in-out;
-    color: white;
+    color: #333333;
   }
 
   .root {
-    font: 1000 5px 'Poppins', sans-serif;
-    margin-left: -200px;
-    text-shadow: -3px -1.4px 0px rgba(255, 255, 255);
-    background: repeating-linear-gradient(45deg, #000000, #000000 1px, #fff 3px, white 3.5px);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    border: 1px solid transparent;
+    font: 1000 4px 'Roboto', sans-serif;
+    margin-left: -170px;
+    color: #333333;
   }
 }

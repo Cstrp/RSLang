@@ -5,11 +5,11 @@ import {get} from '@/data/utils/_storage';
 
 class Header extends Template {
   private static textObj = {
-    morning: `Good morning ! Dear ${get('userName') ? get('userName') : 'mate'}`,
+    morning: `Good morning! Dear ${get('userName') ? get('userName') : '...'}`,
 
-    day: `Have a good day ! Dear ${get('userName') ? get('userName') : 'mate'}`,
+    day: `Have a good day! Dear ${get('userName') ? get('userName') : '...'}`,
 
-    evening: `Good evening ! Dear ${get('userName') ? get('userName') : 'mate'}`,
+    evening: `Good evening! Dear ${get('userName') ? get('userName') : '...'}`,
 
     night: `Good night! Good luck! ${get('userName') ? get('userName') : ''}`,
   };

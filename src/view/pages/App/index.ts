@@ -1,10 +1,10 @@
-import {LSidebar} from '@/view/components/IU/LSidebar';
+import {Sidebar} from '@/view/components/IU/Sidebar';
 import {Footer} from '@/view/components/footer';
 import {Template} from '@/view/Template';
 import {Error} from '@/view/pages/Error';
 import {Team} from '@/view/pages/Team';
 import {Authorization} from '@/view/pages/Authorization';
-import {AppPage} from '@/data/enums';
+import {AppPage, Title} from '@/data/enums';
 import {get, set} from '@/data/utils/_storage';
 import {Sprint} from '../Sprint';
 import {Textbook} from '../Textbook/textbook';
@@ -20,7 +20,7 @@ class App {
 
   private header!: Header;
 
-  private _sidebar: LSidebar;
+  private _sidebar: Sidebar;
 
   private footer!: Footer;
 
@@ -69,42 +69,49 @@ class App {
 
   constructor() {
     this.header = new Header(App.element);
-    this._sidebar = new LSidebar(App.element);
+    this._sidebar = new Sidebar(App.element);
     this.footer = new Footer(App.element);
   }
 
-  private router() {
+  private async router() {
     const echoLocation = async () => {
       const hash = window.location.hash.replace('#', '/').slice(1);
 
+      if (this.footer) this.footer.removeElement();
+
+      this.footer = await new Footer(App.element);
+
       if (hash === AppPage.home) {
         App.init(AppPage.home);
+        document.title = Title.home;
       } else if (hash === AppPage.team) {
         App.init(AppPage.team);
       } else if (hash === AppPage.authorization) {
         App.init(AppPage.authorization);
+        document.title = Title.authorization;
       } else if (hash === AppPage.book) {
         App.init(AppPage.book);
       } else if (hash === AppPage.audiocall) {
+        document.title = Title.audiocall;
         App.init(AppPage.audiocall);
+        this.footer.removeElement();
+        document.title = Title.audiocall;
       } else if (hash === AppPage.sprint) {
         App.init(AppPage.sprint);
+        document.title = Title.sprint;
+        this.footer.removeElement();
       } else if (hash === AppPage.statistics) {
         App.init(AppPage.statistics);
+        document.location.reload();
+        document.title = Title.statistics;
       } else {
         this.error = new Error(App.element);
       }
 
-      if (this.footer) {
-        this.footer.removeElement();
-      }
-
-      this.footer = await new Footer(App.element);
-
       return hash;
     };
 
-    window.onpopstate = () => echoLocation();
+    window.onhashchange = () => echoLocation();
   }
 
   private storage() {
@@ -116,12 +123,12 @@ class App {
       App.init(AppPage.home);
     }
 
-    window.onbeforeunload = () => set('page', window.location.hash.slice(1));
+    window.onbeforeunload = () => set('page', window.location.hash.slice(1).replace('#', '/'));
   }
 
-  render() {
+  async render() {
     this.storage();
-    this.router();
+    await this.router();
   }
 }
 

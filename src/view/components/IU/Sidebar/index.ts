@@ -2,7 +2,7 @@ import {Template} from '@/view/Template';
 import style from './index.module.scss';
 import {link} from '@/data/const';
 
-class LSidebar extends Template {
+class Sidebar extends Template {
   constructor(parent: HTMLElement) {
     super(parent, 'div', style.sidebar);
 
@@ -32,4 +32,4 @@ class LSidebar extends Template {
   }
 }
 
-export {LSidebar};
+export {Sidebar};

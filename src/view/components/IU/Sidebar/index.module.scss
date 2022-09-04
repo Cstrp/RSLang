@@ -1,0 +1,130 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  height: 100%;
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  padding: 0 5px 0 5px;
+  justify-content: space-around;
+  background-color: #15202b;
+  border-top-right-radius: 3%;
+  border-bottom-right-radius: 3%;
+  -webkit-box-shadow: -6px -8px 8px 0px rgba(0, 0, 0, 0.2) inset;
+  -moz-box-shadow: -6px -8px 8px 0px rgba(0, 0, 0, 0.2) inset;
+  box-shadow: -6px -8px 8px 0px rgba(0, 0, 0, 0.2) inset;
+
+  .sidebar_wrapper {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+.sidebar_title::after {
+  content: '';
+  display: inline-block;
+  width: 13px;
+  height: 15px;
+  background-image: url('./img/lion.svg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.sidebar_link {
+  padding: 2px;
+  font: 1000 3.3px 'Open Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-decoration: none;
+  gap: 3px;
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(179, 212, 252, 0.1);
+    border-radius: 4px;
+  }
+
+  &:nth-child(1)::before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 4.3px;
+    background-image: url('./img/home.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  &:nth-child(2)::before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 4.3px;
+    background-image: url('./img/team_white.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  &:nth-child(3)::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-image: url('./img/textbook_white.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  &:nth-child(4)::before {
+    content: '';
+    display: block;
+    width: 5px;
+    height: 4.3px;
+    background-image: url('./img/call_white.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  &:nth-child(5)::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-image: url('./img/sprint_white.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  &:nth-child(6)::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    background-image: url('./img/statistics_white.svg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
+
+.sidebar_title {
+  font: 1000 4px 'Silkscreen', cursive;
+  padding: 2px 5px 2px 5px;
+  color: #f7f9f9;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 5px;
+  border-bottom: 1px solid transparent;
+  border-image: linear-gradient(0.25turn, rgba(255, 249, 34), rgba(255, 0, 128), rgba(56, 2, 155, 0));
+  border-image-slice: 1;
+  width: 100%;
+}

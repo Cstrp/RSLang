@@ -5,9 +5,6 @@ import {Template} from '@/view/Template';
 import {gameSprintScreenTemplate, initialSprintTemplate} from './sprint.view';
 import trueSound from './audio/true.mp3';
 import falseSound from './audio/false.mp3';
-import {getGameStatistics, getStatistics} from '@/data/api/statistics';
-import {get} from '@/data/utils/_storage';
-import {IGame, IStatistics} from '@/data/interfaces/IStatistics';
 
 interface ICard {
   audio: string;
@@ -136,32 +133,6 @@ export class Sprint extends Template {
       this.arrayScore = window.localStorage.getObject('sprint-score');
     }
 
-    const sprintResult: IStatistics = {
-      game: IGame.sprint,
-      totalCountOfWords: 0,
-      newWordsOfDay: 3,
-      rightWords: this.trueWords.length,
-      wrongWords: 3,
-    };
-
-    getStatistics(get('userID'))
-      .then((res) => {
-        getGameStatistics(
-          {
-            optional: {...res.optional, [new Date().toISOString()]: sprintResult},
-          },
-          get('userID'),
-        );
-      })
-      .catch(() => {
-        getGameStatistics(
-          {
-            optional: {[new Date().toISOString()]: sprintResult},
-          },
-          get('userID'),
-        );
-      });
-
     this.renderInitialScreen();
   }
 
@@ -265,7 +236,7 @@ export class Sprint extends Template {
     this.gameScreen.element.style.display = 'flex';
     this.loadCounter = new Template(this.gameScreen.element, 'p', 'load-counter');
     this.waitText = new Template(this.gameScreen.element, 'p', 'wait-text', 'Приготовьтесь...');
-    this.preloader = new Template(this.gameScreen.element, 'div', 'load');
+    this.preloader = new Template(this.gameScreen.element, 'div', 'load-sprint');
     this.preloader.element.insertAdjacentHTML('beforeend', '<hr/><hr/><hr/><hr/>');
 
     this.createCards();

@@ -5,9 +5,8 @@ import trueSound from './audio/true.mp3';
 import falseSound from './audio/false.mp3';
 import {AudioCallCard} from '@/view/components/IU/AudioCallCard/audio-call-card';
 import {IAudioCallCard} from '@/view/components/IU/AudioCallCard/models';
-import {IGame, IStatistics} from '@/data/interfaces/IStatistics';
+import {IActivity, IStatistics} from '@/data/interfaces/IStatistics';
 import {getGameStatistics, getStatistics} from '@/data/api/statistics';
-import {get} from '@/data/utils/_storage';
 
 interface ICard {
   audio: string;
@@ -117,35 +116,6 @@ export class AudioCall extends Template {
     if (window.localStorage.getObject('audio-call-score')) {
       this.arrayScore = window.localStorage.getObject('audio-call-score');
     }
-
-    const audioResult: IStatistics = {
-      totalCountOfWords: 0,
-      game: IGame.audioCall,
-      newWordsOfDay: 3,
-      rightWords: 1,
-      wrongWords: 1,
-    };
-
-    getStatistics(get('userID'))
-      .then((res) => {
-        getGameStatistics(
-          {
-            optional: {
-              ...res.optional,
-              [new Date().toISOString()]: audioResult,
-            },
-          },
-          get('userID'),
-        );
-      })
-      .catch(() => {
-        getGameStatistics(
-          {
-            optional: {[new Date().toISOString()]: audioResult},
-          },
-          get('userID'),
-        );
-      });
 
     this.renderInitialScreen();
   }
@@ -543,6 +513,31 @@ export class AudioCall extends Template {
     this.trueWords = [];
     this.falseWords = [];
     this.startGame();
+  }
+
+  private audioStat() {
+    const audioResult: IStatistics = {
+      totalCountOfWords: 0,
+      newWordsOfDay: 3,
+      rightWords: 1,
+      wrongWords: 1,
+      game: IActivity.audioCall,
+    } as IStatistics;
+
+    getStatistics()
+      .then((res) => {
+        getGameStatistics({
+          optional: {
+            ...res.optional,
+            [new Date().toISOString()]: audioResult,
+          },
+        });
+      })
+      .catch(() => {
+        getGameStatistics({
+          optional: {[new Date().toISOString()]: audioResult},
+        });
+      });
   }
 
   private closeFinishScreen(): void {

@@ -28,6 +28,9 @@
   border-radius: 4px;
   -webkit-animation: shadow-inset-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation: shadow-inset-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  background-image: url('./img/audio-call-bg.png');
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 @-webkit-keyframes shadow-inset-center {
@@ -166,7 +169,6 @@
   place-items: center;
   gap: 5px;
 }
-
 .audio-call-options {
   display: grid;
   grid-template-columns: 1fr;
@@ -847,10 +849,13 @@ input[type='radio'] {
   font-size: 4.4px;
   font-weight: 300;
   padding: 2px 3px;
+  width: 20px;
   text-decoration: none;
   text-shadow: 0px 1px 0px #aade7c;
-  width: 20%;
   transition: 0.7s;
+  margin-top: 3px;
+  margin-left: 100px;
+
 }
 .audio-call__forward:hover {
   color: white;

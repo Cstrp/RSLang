@@ -28,6 +28,13 @@
   border-radius: 4px;
   -webkit-animation: shadow-inset-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   animation: shadow-inset-center 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  background-image: url('./img/sprint-bg.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  min-width: 30%;
+  .not-main-screen {
+    min-width: 80%;
+  }
 }
 
 @-webkit-keyframes shadow-inset-center {
@@ -711,6 +718,7 @@ input[type='radio'] {
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 3px 7px;
+
 }
 
 .star-inactive {
@@ -952,15 +960,13 @@ input[type='radio'] {
   border-radius: 3px;
 }
 
-// preloader start
-
-.load {
-  transform: translate(203%, -23%);
+.load-sprint {
+  transform: translate(165%, -23%);
   width: 20px;
   height: 20px;
 }
 
-.load hr {
+.load-sprint hr {
   border: 0;
   margin: 0;
   width: 40%;
@@ -970,7 +976,7 @@ input[type='radio'] {
   animation: spin 2s ease infinite;
 }
 
-.load :first-child {
+.load-sprint :first-child {
   animation-delay: -1.5s;
   -moz-box-shadow: inset 0px 1px 0px 0px #e184f3;
   -webkit-box-shadow: inset 0px 1px 0px 0px #e184f3;
@@ -986,7 +992,7 @@ input[type='radio'] {
   border: 1px solid #a511c0;
 }
 
-.load :nth-child(2) {
+.load-sprint :nth-child(2) {
   animation-delay: -1s;
   -moz-box-shadow: inset 0px 1px 0px 0px #f9eca0;
   -webkit-box-shadow: inset 0px 1px 0px 0px #f9eca0;
@@ -1002,7 +1008,7 @@ input[type='radio'] {
   border: 1px solid #e65f44;
 }
 
-.load :nth-child(3) {
+.load-sprint :nth-child(3) {
   animation-delay: -0.5s;
   -moz-box-shadow: inset 0px 1px 0px 0px #fbafe3;
   -webkit-box-shadow: inset 0px 1px 0px 0px #fbafe3;
@@ -1018,7 +1024,7 @@ input[type='radio'] {
   border: 1px solid #ee1eb5;
 }
 
-.load :last-child {
+.load-sprint :last-child {
   -moz-box-shadow: inset 0px 1px 0px 0px #caefab;
   -webkit-box-shadow: inset 0px 1px 0px 0px #caefab;
   box-shadow: inset 0px 1px 0px 0px #caefab;
@@ -1048,9 +1054,7 @@ input[type='radio'] {
     transform: translate(0, 160%);
   }
 }
-// preloader end
 
-//preload counter start
 .load-counter {
   color: #0e000e;
   display: grid;
@@ -1097,8 +1101,6 @@ input[type='radio'] {
     counter-increment: my-count -4;
   }
 }
-
-//preload counter end
 
 .sprint-content_hide {
   display: none;

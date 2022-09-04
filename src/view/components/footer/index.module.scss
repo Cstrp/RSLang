@@ -6,6 +6,7 @@
   padding: 0 0 5px 0;
   justify-content: center;
   gap: 10px;
+  z-index: -100;
 
   .wrapper {
     display: flex;
@@ -18,7 +19,7 @@
 
     .link {
       font: 1000 3.3px 'Silkscreen', cursive;
-      color: #7f00ff;
+      color: #222222;
     }
   }
 }

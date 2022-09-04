@@ -32,6 +32,4 @@ class Home extends Template {
   }
 }
 
-// https://elsaspeak.net/wp-content/uploads/2018/04/spoken-english-app-01-1024x575.jpg
-
 export {Home};
