@@ -1,13 +1,15 @@
 import {users} from '@/data/const';
 import {get} from '@/data/utils/_storage';
-import {RootObjectOptional} from '@/data/interfaces/IStatistics';
+import {IStatistics} from '@/data/interfaces/IStatistics';
+import {IDayStatistic} from '@/data/interfaces/IDayStatistic';
 
-const setStatistics = async (statistics: RootObjectOptional): Promise<void> => {
+const setStatistics = async (statistics: IStatistics): Promise<void> => {
   const data = await fetch(`${users}/${get('userID')}/statistics`, {
     method: 'PUT',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${get('token')}`,
       Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(statistics),
   });
@@ -15,12 +17,13 @@ const setStatistics = async (statistics: RootObjectOptional): Promise<void> => {
   return data.json();
 };
 
-const getStatistics = async (): Promise<RootObjectOptional> => {
+const getStatistics = async (): Promise<IStatistics & IDayStatistic> => {
   const data = await fetch(`${users}/${get('userID')}/statistics`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${get('token')}`,
       Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   });
 

@@ -1,7 +1,7 @@
 interface IDayStatistic {
+  date: string;
   audioCall: number;
   audioCallScore: number;
-  date: string;
   difficultWords: number;
   sprint: number;
   sprintScore: number;
