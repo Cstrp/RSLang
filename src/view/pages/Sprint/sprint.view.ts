@@ -7,7 +7,7 @@ export const initialSprintTemplate = () => `
   <h2 class="sprint-title">Спринт</h2>
   <p class="sprint-about">Данная игра позволит вам повторить изученные ранее слова</p>
   <div class="sprint-instruction">
-      <p class=" sprint-mouse-instruction">Для управления игрой можно использовать мышь</p>
+  <p class=" sprint-mouse-instruction">Для управления игрой можно использовать мышь</p>
     <p class="sprint-keyboard-instruction">
     Также можно играть с помощью стрелок "влево" или "вправо" на клавиатуре</p>
   </div>
