@@ -3,8 +3,8 @@ import {Template} from '@/view/Template';
 import {gameAudioCallScreenTemplate, initialAudioCallTemplate} from './audio-call.view';
 import trueSound from './audio/true.mp3';
 import falseSound from './audio/false.mp3';
-import {AudioCallCard} from '@/view/components/IU/AudioCallCard/audio-call-card';
-import {IAudioCallCard} from '@/view/components/IU/AudioCallCard/models';
+import {AudioCallCard} from '@/view/components/audioCallCard/audio-call-card';
+import {IAudioCallCard} from '@/view/components/audioCallCard/models';
 import {IActivity, RootObjectOptional} from '@/data/interfaces/IStatistics';
 import {setStatistics} from '@/data/api/statistics';
 

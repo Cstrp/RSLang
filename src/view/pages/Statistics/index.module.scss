@@ -5,35 +5,42 @@
   justify-content: center;
   min-height: 100vh;
   gap: 20px;
+  z-index: 6666;
 
   .wrapper {
     display: flex;
     flex-flow: column wrap;
     align-items: flex-start;
     gap: 5px;
+  }
 
-    .text {
-      font: normal 100 4px 'Fira Code', sans-serif;
-      color: #222222;
+  .text {
+    font: normal 100 4px 'Fira Code', sans-serif;
+    color: #222222;
+    transition: 0.3s ease-in-out all;
+    padding: 0 3px;
+
+    &:hover {
+      background-color: #222222;
+      border-radius: 5px;
+      color: #fff6af;
+      cursor: pointer;
     }
   }
 }
 
-.sprint {
-  display: flex;
-  flex-flow: column wrap;
-  gap: 3px;
+.btn {
+  background: transparent;
+  outline: none;
+  z-index: 100;
+  padding: 1.3px;
+  border-bottom-left-radius: 1.3px;
+  border-top-right-radius: 1.3px;
+  transition: 0.3s ease-in-out all;
   &:hover {
-    cursor: pointer;
-  }
-}
-
-.audio {
-  display: flex;
-  flex-flow: column wrap;
-  gap: 3px;
-  &:hover {
-    cursor: pointer;
+    background-color: #222222;
+    border-radius: 5px;
     color: #fff6af;
+    cursor: pointer;
   }
 }

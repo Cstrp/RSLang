@@ -38,6 +38,11 @@ class SignIn extends Template {
     });
     this.password.getValue = (evt) => this.updateState('password', evt);
 
+    document.addEventListener('keyup', (evt) => {
+      if (evt.key === 'Escape') {
+        this.element.remove();
+      }
+    });
     const btns = new Template(this.element, 'div', style.btns);
 
     this.signIn = new Button(btns.element, style.btn, 'Войти', false, 'submit');

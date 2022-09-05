@@ -86,11 +86,13 @@ class App {
         document.title = Title.home;
       } else if (hash === AppPage.team) {
         App.init(AppPage.team);
+        document.title = Title.team;
       } else if (hash === AppPage.authorization) {
         App.init(AppPage.authorization);
         document.title = Title.authorization;
       } else if (hash === AppPage.book) {
         App.init(AppPage.book);
+        document.title = Title.book;
       } else if (hash === AppPage.audiocall) {
         document.title = Title.audiocall;
         App.init(AppPage.audiocall);
@@ -103,7 +105,6 @@ class App {
       } else if (hash === AppPage.statistics) {
         App.init(AppPage.statistics);
         document.location.reload();
-        document.title = Title.statistics;
       } else {
         this.error = new Error(App.element);
       }

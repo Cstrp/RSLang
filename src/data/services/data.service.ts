@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {ICard} from '@/view/components/Card/models/card.model';
+import {ICard} from '@/view/components/сard/models/card.model';
 
 export const getWords = (query?: string): Promise<Array<ICard>> =>
   axios

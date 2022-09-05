@@ -1,6 +1,6 @@
 import {getWords} from '@/data/services/data.service';
 import {get, remove, set} from '@/data/utils/_storage';
-import {Card} from '@/view/components/Card';
+import {Card} from '@/view/components/сard';
 import {Template} from '@/view/Template';
 import {textbookTemplate} from './textbook.view';
 

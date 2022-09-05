@@ -1,6 +1,6 @@
 import {getSprintWords} from '@/data/services/data.sprint-service';
-import {ISprintCard} from '@/view/components/SprintCard/models/sprint-card.model';
-import {SprintCard} from '@/view/components/SprintCard/sprint-card';
+import {ISprintCard} from '@/view/components/sprintCard/models/sprint-card.model';
+import {SprintCard} from '@/view/components/sprintCard/sprint-card';
 import {Template} from '@/view/Template';
 import {gameSprintScreenTemplate, initialSprintTemplate} from './sprint.view';
 import trueSound from './audio/true.mp3';
