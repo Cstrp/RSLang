@@ -37,6 +37,21 @@
   }
 }
 
+.audioStat {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 3px;
+  flex-basis: 50%;
+  align-items: flex-start;
+
+  &Text {
+    font: normal 100 3px 'Fira Code', sans-serif;
+    color: #fff;
+    transition: 0.3s ease-in-out all;
+    padding: 0 5px;
+  }
+}
+
 .btn {
   background: #b3d4fc;
   outline: none;

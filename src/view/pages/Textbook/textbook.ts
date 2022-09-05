@@ -106,7 +106,7 @@ export class Textbook extends Template {
       (document.querySelector('.cards-container') as HTMLDivElement).textContent = '';
       this.showDifficultWords();
     } else {
-      await this.createCards();
+      this.createCards();
       this.createPagination();
       this.listen();
     }
