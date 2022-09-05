@@ -4,11 +4,11 @@ import style from './index.module.scss';
 
 class Clock extends Template {
   constructor(parent: HTMLElement) {
-    super(parent, 'div', style.clock, null, {id: 'clock'});
+    super(parent, 'div', style.clock);
     setInterval(() => this.clock(), 1000);
   }
 
-  clock() {
+  public clock() {
     const date: Date = new Date();
     let hours: timer = date.getHours().toString();
     let minutes: timer = date.getMinutes().toString();

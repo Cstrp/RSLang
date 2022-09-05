@@ -29,7 +29,7 @@ class Statistics extends Template {
   }
 
   private getTotalAudioStat() {
-    const data: [] = get('audio-call-score');
+    const data: [] = get('audio-call-score') ? get('audio-call-score') : [];
 
     const total: number = data.reduce((acc: number, i: number) => acc + i, 0);
 
@@ -38,29 +38,42 @@ class Statistics extends Template {
   }
 
   private getTotalSprintStat() {
-    const data = get('sprint-score');
+    const data = get('sprint-score') ? get('sprint-score') : [];
 
     const total = data.reduce((acc: number, i: number) => acc + i, 0);
 
-    new Template(this.leftBlock.element, 'p', style.text, `Всего баллов (${IActivity.sprint}): ${total}`);
-    new Template(this.leftBlock.element, 'p', style.text, `Количество попыток: ${data.length ? data.length : 0} `);
+    if (data.length) {
+      new Template(this.leftBlock.element, 'p', style.text, `Всего баллов (${IActivity.sprint}): ${total}`);
+      new Template(this.leftBlock.element, 'p', style.text, `Количество попыток: ${data.length ? data.length : 0} `);
+    } else {
+      new Template(this.leftBlock.element, 'p', style.text, `Всего баллов (${IActivity.sprint}): 0`);
+      new Template(this.leftBlock.element, 'p', style.text, 'Количество попыток: 0');
+    }
   }
 
   private getStudiedWords() {
-    const data = get('studied-words');
+    const data = get('studied-words') ? get('studied-words') : [];
 
-    new Template(this.leftBlock.element, 'p', style.text, `🌎 Общее количество выученных слов: ${data.length}`);
+    if (data.length) {
+      new Template(this.leftBlock.element, 'p', style.text, `🌎 Общее количество выученных слов: ${data.length}`);
+    } else {
+      new Template(this.leftBlock.element, 'p', style.text, '🌎 Общее количество выученных слов: 0');
+    }
   }
 
   private getDifficultWords() {
-    const data = get('difficult-words');
+    const data = get('difficult-words') ? get('difficult-words') : [];
 
-    new Template(
-      this.leftBlock.element,
-      'p',
-      style.text,
-      `🧠 Общее количество слов отмеченных как "сложные": ${data[0].length}`,
-    );
+    if (data.length) {
+      new Template(
+        this.leftBlock.element,
+        'p',
+        style.text,
+        `🧠 Общее количество слов отмеченных как "сложные": ${data[0].length}`,
+      );
+    } else {
+      new Template(this.leftBlock.element, 'p', style.text, '🧠 Общее количество слов отмеченных как "сложные": 0');
+    }
   }
 
   private init() {

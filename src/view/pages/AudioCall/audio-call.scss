@@ -15,8 +15,9 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  right: 50%;
   margin-right: -50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-35%, -50%);
   padding: 5px;
   display: grid;
   place-items: center;
@@ -855,7 +856,6 @@ input[type='radio'] {
   transition: 0.7s;
   margin-top: 3px;
   margin-left: 100px;
-
 }
 .audio-call__forward:hover {
   color: white;

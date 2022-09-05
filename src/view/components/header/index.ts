@@ -1,7 +1,7 @@
 import {Template} from '@/view/Template';
-import style from './index.module.scss';
 import {Clock} from '@/view/components/clock';
 import {get} from '@/data/utils/_storage';
+import style from './index.module.scss';
 
 class Header extends Template {
   private static textObj = {
@@ -11,7 +11,7 @@ class Header extends Template {
 
     evening: `Good evening! Dear ${get('userName') ? get('userName') : '...'}`,
 
-    night: `Good night! Good luck! ${get('userName') ? get('userName') : ''}`,
+    night: `Good night! Good luck! ${get('userName') ? get('userName') : '...'}`,
   };
 
   private readonly greet: Template;
