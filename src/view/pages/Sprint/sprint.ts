@@ -5,7 +5,6 @@ import {Template} from '@/view/Template';
 import {gameSprintScreenTemplate, initialSprintTemplate} from './sprint.view';
 import trueSound from './audio/true.mp3';
 import falseSound from './audio/false.mp3';
-import {IActivity} from '@/data/interfaces/IStatistics';
 
 interface ICard {
   audio: string;
@@ -129,15 +128,6 @@ export class Sprint extends Template {
 
       return value && JSON.parse(value);
     };
-
-    const statistics = {
-      rightWords: this.trueWords.length,
-      wrongWords: this.falseWords.length,
-      totalCountOfWords: this.trueWords.length + this.falseWords.length,
-      game: IActivity.sprint,
-    };
-
-    console.log(statistics);
 
     if (window.localStorage.getObject('sprint-score')) {
       this.arrayScore = window.localStorage.getObject('sprint-score');

@@ -1,9 +1,9 @@
 import {Template} from '@/view/Template';
 import {Button} from '@/view/components/IU/Button';
 import {Popup} from '@/view/components/popup';
-import {Title} from '@/data/enums';
 import {IActivity} from '@/data/interfaces/IStatistics';
 import style from './index.module.scss';
+import {get} from '@/data/utils/_storage';
 
 class Statistics extends Template {
   private leftBlock: Template = new Template(this.element, 'div', style.wrapper);
@@ -15,15 +15,9 @@ class Statistics extends Template {
   constructor(parent: HTMLElement) {
     super(parent, 'main', style.main);
 
-    document.title = Title.statistics;
-
     new Template(this.leftBlock.element, 'p', style.text, '💥 Общая статистика => ');
 
-    this.getStudiedWords();
-    this.getDifficultWords();
-    this.getTotalAudioStat();
-    this.getTotalSprintStat();
-    this.getGameStat();
+    this.init();
   }
 
   private getGameStat() {
@@ -35,11 +29,7 @@ class Statistics extends Template {
   }
 
   private getTotalAudioStat() {
-    const res: string | null = window.localStorage.getItem('audio-call-score')
-      ? window.localStorage.getItem('audio-call-score')
-      : '0';
-
-    const data: [] = res ? JSON.parse(res) : [];
+    const data: [] = get('audio-call-score');
 
     const total: number = data.reduce((acc: number, i: number) => acc + i, 0);
 
@@ -48,22 +38,37 @@ class Statistics extends Template {
   }
 
   private getTotalSprintStat() {
-    const data = window.localStorage.getItem('sprint-score') ? window.localStorage.getItem('sprint-score') : '0';
+    const data = get('sprint-score');
 
-    const res = data ? JSON.parse(data) : [];
-
-    const total = res.reduce((acc: number, i: number) => acc + i, 0);
+    const total = data.reduce((acc: number, i: number) => acc + i, 0);
 
     new Template(this.leftBlock.element, 'p', style.text, `Всего баллов (${IActivity.sprint}): ${total}`);
-    new Template(this.leftBlock.element, 'p', style.text, `Количество попыток: ${res.length ? res.length : 0} `);
+    new Template(this.leftBlock.element, 'p', style.text, `Количество попыток: ${data.length ? data.length : 0} `);
   }
 
   private getStudiedWords() {
-    new Template(this.leftBlock.element, 'p', style.text, '🌎 Общее количество выученных слов: ');
+    const data = get('studied-words');
+
+    new Template(this.leftBlock.element, 'p', style.text, `🌎 Общее количество выученных слов: ${data.length}`);
   }
 
   private getDifficultWords() {
-    new Template(this.leftBlock.element, 'p', style.text, '🧠 Общее количество слов отмеченных как "сложные":');
+    const data = get('difficult-words');
+
+    new Template(
+      this.leftBlock.element,
+      'p',
+      style.text,
+      `🧠 Общее количество слов отмеченных как "сложные": ${data[0].length}`,
+    );
+  }
+
+  private init() {
+    this.getStudiedWords();
+    this.getDifficultWords();
+    this.getTotalAudioStat();
+    this.getTotalSprintStat();
+    this.getGameStat();
   }
 }
 

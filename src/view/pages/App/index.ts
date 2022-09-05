@@ -104,7 +104,7 @@ class App {
         this.footer.removeElement();
       } else if (hash === AppPage.statistics) {
         App.init(AppPage.statistics);
-        document.location.reload();
+        document.title = Title.statistics;
       } else {
         this.error = new Error(App.element);
       }

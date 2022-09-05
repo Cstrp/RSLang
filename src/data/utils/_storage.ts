@@ -1,6 +1,6 @@
 const set = (key: string, value: string) => window.localStorage.setItem(key, JSON.stringify(value));
 
-const get = (key: string): string => JSON.parse(window.localStorage.getItem(key) || 'null');
+const get = (key: string) => JSON.parse(window.localStorage.getItem(key) || '[]');
 
 const remove = (key: string | string[]): void => window.localStorage.removeItem(<string>key);
 

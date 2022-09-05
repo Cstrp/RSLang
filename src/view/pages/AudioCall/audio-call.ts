@@ -5,8 +5,6 @@ import trueSound from './audio/true.mp3';
 import falseSound from './audio/false.mp3';
 import {AudioCallCard} from '@/view/components/audioCallCard/audio-call-card';
 import {IAudioCallCard} from '@/view/components/audioCallCard/models';
-import {IActivity, RootObjectOptional} from '@/data/interfaces/IStatistics';
-import {setStatistics} from '@/data/api/statistics';
 
 interface ICard {
   audio: string;
@@ -112,15 +110,6 @@ export class AudioCall extends Template {
 
       return value && JSON.parse(value);
     };
-
-    const audioStatistic: RootObjectOptional = {
-      rightWords: this.trueWords.length,
-      wrongWords: this.falseWords.length,
-      score: this.score,
-      game: IActivity.audioCall,
-    };
-
-    setStatistics(audioStatistic);
 
     if (window.localStorage.getObject('audio-call-score')) {
       this.arrayScore = window.localStorage.getObject('audio-call-score');

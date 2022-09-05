@@ -26,7 +26,7 @@ class Sidebar extends Template {
 
     const authorization = new Template(this.element, 'div', style.sidebar_wrapper);
 
-    new Template(authorization.element, 'a', style.sidebar_link, 'Зарегистрироваться', {
+    new Template(authorization.element, 'a', style.sidebar_link, 'Регистрация', {
       href: link.links.authorization,
     });
   }
