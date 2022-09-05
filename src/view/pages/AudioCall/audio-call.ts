@@ -5,8 +5,8 @@ import trueSound from './audio/true.mp3';
 import falseSound from './audio/false.mp3';
 import {AudioCallCard} from '@/view/components/IU/AudioCallCard/audio-call-card';
 import {IAudioCallCard} from '@/view/components/IU/AudioCallCard/models';
-import {IActivity, IStatistics} from '@/data/interfaces/IStatistics';
-import {getGameStatistics, getStatistics} from '@/data/api/statistics';
+import {IActivity, RootObjectOptional} from '@/data/interfaces/IStatistics';
+import {setStatistics} from '@/data/api/statistics';
 
 interface ICard {
   audio: string;
@@ -112,6 +112,15 @@ export class AudioCall extends Template {
 
       return value && JSON.parse(value);
     };
+
+    const audioStatistic: RootObjectOptional = {
+      rightWords: this.trueWords.length,
+      wrongWords: this.falseWords.length,
+      score: this.score,
+      game: IActivity.audioCall,
+    };
+
+    setStatistics(audioStatistic);
 
     if (window.localStorage.getObject('audio-call-score')) {
       this.arrayScore = window.localStorage.getObject('audio-call-score');
@@ -515,30 +524,7 @@ export class AudioCall extends Template {
     this.startGame();
   }
 
-  private audioStat() {
-    const audioResult: IStatistics = {
-      totalCountOfWords: 0,
-      newWordsOfDay: 3,
-      rightWords: 1,
-      wrongWords: 1,
-      game: IActivity.audioCall,
-    } as IStatistics;
-
-    getStatistics()
-      .then((res) => {
-        getGameStatistics({
-          optional: {
-            ...res.optional,
-            [new Date().toISOString()]: audioResult,
-          },
-        });
-      })
-      .catch(() => {
-        getGameStatistics({
-          optional: {[new Date().toISOString()]: audioResult},
-        });
-      });
-  }
+  private audioStat() {}
 
   private closeFinishScreen(): void {
     if (this.screenFinish) {

@@ -1,19 +1,15 @@
 const enum IActivity {
-  sprint,
-  audioCall,
-  book,
+  sprint = 'Спринт',
+  audioCall = 'Аудио вызов',
+  book = 'Книга',
 }
 
-interface IStatisticsResponse {
-  learnedWords?: number;
-  optional: {[key: string]: IStatistics};
+interface RootObject {
+  learnedWords: number;
+  optional: RootObjectOptional;
 }
-interface IStatistics {
-  rightWords: number;
-  wrongWords: number;
-  newWordsOfDay?: number | string;
-  totalCountOfWords: number;
-  game?: IActivity;
+interface RootObjectOptional {
+  [key: string]: number | string;
 }
 
-export {IStatisticsResponse, IStatistics, IActivity};
+export {IActivity, RootObject, RootObjectOptional};
