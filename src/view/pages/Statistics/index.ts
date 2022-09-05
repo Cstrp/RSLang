@@ -33,8 +33,8 @@ class Statistics extends Template {
 
     const total: number = data.reduce((acc: number, i: number) => acc + i, 0);
 
-    new Template(this.leftBlock.element, 'p', style.text, `Всего баллов (${IActivity.audioCall}): ${total}`);
-    new Template(this.leftBlock.element, 'p', style.text, `Количество попыток: ${data.length ? data.length : 0}`);
+    new Template(this.leftBlock.element, 'p', style.text, `📝 Всего баллов (${IActivity.audioCall}): ${total}`);
+    new Template(this.leftBlock.element, 'p', style.text, `📳 Количество попыток: ${data.length ? data.length : 0}`);
   }
 
   private getTotalSprintStat() {
@@ -43,11 +43,11 @@ class Statistics extends Template {
     const total = data.reduce((acc: number, i: number) => acc + i, 0);
 
     if (data.length) {
-      new Template(this.leftBlock.element, 'p', style.text, `Всего баллов (${IActivity.sprint}): ${total}`);
-      new Template(this.leftBlock.element, 'p', style.text, `Количество попыток: ${data.length ? data.length : 0} `);
+      new Template(this.leftBlock.element, 'p', style.text, `📝Всего баллов (${IActivity.sprint}): ${total}`);
+      new Template(this.leftBlock.element, 'p', style.text, `📳 Количество попыток: ${data.length ? data.length : 0} `);
     } else {
-      new Template(this.leftBlock.element, 'p', style.text, `Всего баллов (${IActivity.sprint}): 0`);
-      new Template(this.leftBlock.element, 'p', style.text, 'Количество попыток: 0');
+      new Template(this.leftBlock.element, 'p', style.text, `📝 Всего баллов (${IActivity.sprint}): 0`);
+      new Template(this.leftBlock.element, 'p', style.text, '📳 Количество попыток: 0');
     }
   }
 
