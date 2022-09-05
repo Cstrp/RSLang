@@ -86,11 +86,6 @@ video {
   vertical-align: baseline;
 }
 
-h1 {
-  color: white;
-  font-size: 42px;
-}
-
 :focus {
   outline: 0;
 }
@@ -111,7 +106,6 @@ section {
 
 body {
   line-height: 1;
-  user-select: none;
 }
 
 ol,
@@ -182,6 +176,19 @@ html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
+}
+
+a {
+  width: 100%;
+  height: auto;
+  text-decoration: none;
+  color: #f7f9f9;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+a:active {
+  transform: scale(0.9);
 }
 
 a:focus {

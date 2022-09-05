@@ -7,14 +7,14 @@ export const initialSprintTemplate = () => `
   <h2 class="sprint-title">Спринт</h2>
   <p class="sprint-about">Данная игра позволит вам повторить изученные ранее слова</p>
   <div class="sprint-instruction">
-      <p class=" sprint-mouse-instruction">Для игры можно использовать мышь</p>
+      <p class=" sprint-mouse-instruction">Для управления игрой можно использовать мышь</p>
     <p class="sprint-keyboard-instruction">
-    Можно играть с помощью стрелок <b>"влево"</b> или <b>"вправо"</b> на клавиатуре</p>
+    Также можно играть с помощью стрелок "влево" или "вправо" на клавиатуре</p>
   </div>
 </div>
 
 <div class="game-difficulty">
-  <h4 class="game-difficulty-title">Выберите уровень сложности игры</h4>
+  <h4 class="game-difficulty-title">Выберите уровень сложности игры:</h4>
   <div class="game-levels">
     <input type="radio" name="select-sprint-level" value="1" class="sprint-radio-btn" id="option-1">
     <input type="radio" name="select-sprint-level" value="2" class="sprint-radio-btn" id="option-2">

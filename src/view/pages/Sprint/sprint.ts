@@ -1,7 +1,7 @@
 import {getSprintWords} from '@/data/services/data.sprint-service';
 import {ISprintCard} from '@/view/components/SprintCard/models/sprint-card.model';
 import {SprintCard} from '@/view/components/SprintCard/sprint-card';
-import {content, Template} from '@/view/Template';
+import {Template} from '@/view/Template';
 import {gameSprintScreenTemplate, initialSprintTemplate} from './sprint.view';
 import trueSound from './audio/true.mp3';
 import falseSound from './audio/false.mp3';
@@ -30,7 +30,7 @@ export class Sprint extends Template {
 
   private timeleft: number = 60;
 
-  private timer: NodeJS.Timer | null = null;
+  private timer!: NodeJS.Timer | null;
 
   private currentSprintCard: SprintCard | null = null;
 
@@ -100,7 +100,7 @@ export class Sprint extends Template {
 
   private preloader: Template | null = null;
 
-  private arrayScore: Array<number> = [];
+  private readonly arrayScore: Array<number> = [];
 
   private trueWords: Array<ICard> = [];
 
@@ -116,14 +116,8 @@ export class Sprint extends Template {
 
   private waitText: Template | null = null;
 
-  constructor(
-    public parent: HTMLElement | null,
-    public tagName: keyof HTMLElementTagNameMap,
-    public className?: content,
-    public value?: content,
-    public attr?: object,
-  ) {
-    super(parent, tagName, className, value, attr);
+  constructor(public parent: HTMLElement) {
+    super(parent, 'main', '123');
 
     Storage.prototype.setObject = (key: string, value: Array<number>) => {
       localStorage.setItem(key, JSON.stringify(value));
@@ -138,6 +132,8 @@ export class Sprint extends Template {
     if (window.localStorage.getObject('sprint-score')) {
       this.arrayScore = window.localStorage.getObject('sprint-score');
     }
+
+    this.renderInitialScreen();
   }
 
   public renderInitialScreen() {
@@ -147,6 +143,7 @@ export class Sprint extends Template {
 
   private createInitialScreen(): void {
     this.mainScreen.element.insertAdjacentHTML('beforeend', this.sprintGameInstruction);
+    this.gameScreen.element.style.display = 'none';
   }
 
   private createGameScreen(): void {
@@ -235,18 +232,19 @@ export class Sprint extends Template {
   }
 
   private startGame() {
-    this.mainScreen.element.classList.add('sprint-content_hide');
-    this.gameScreen.element.classList.remove('sprint-content_hide');
+    this.mainScreen.element.style.display = 'none';
+    this.gameScreen.element.style.display = 'flex';
     this.loadCounter = new Template(this.gameScreen.element, 'p', 'load-counter');
     this.waitText = new Template(this.gameScreen.element, 'p', 'wait-text', 'Приготовьтесь...');
-    this.preloader = new Template(this.gameScreen.element, 'div', 'load', '<hr/><hr/><hr/><hr/>');
+    this.preloader = new Template(this.gameScreen.element, 'div', 'load-sprint');
+    this.preloader.element.insertAdjacentHTML('beforeend', '<hr/><hr/><hr/><hr/>');
 
     this.createCards();
 
     setTimeout(() => {
-      (this.preloader as Template).element.classList.add('sprint-content_hide');
-      (this.waitText as Template).element.classList.add('sprint-content_hide');
-      (this.loadCounter as Template).element.classList.add('sprint-content_hide');
+      (this.preloader as Template).element.style.display = 'none';
+      (this.waitText as Template).element.style.display = 'none';
+      (this.loadCounter as Template).element.style.display = 'none';
       this.timerText = new Template(this.gameScreen.element, 'p', 'timer-text');
       this.createGameScreen();
       this.cardContainer = new Template(this.gameScreen.element, 'div', 'sprint-card-container');
@@ -416,12 +414,8 @@ export class Sprint extends Template {
 
   private showGuessedWords(): void {
     if (this.finishWordsContainer) {
-      this.guessedWordsContainer = new Template(
-        this.finishWordsContainer.element,
-        'div',
-        'guessed-words-container',
-        '<h3>Угаданные слова</h3>',
-      );
+      this.guessedWordsContainer = new Template(this.finishWordsContainer.element, 'div', 'guessed-words-container');
+      this.guessedWordsContainer.element.insertAdjacentHTML('beforeend', '<h3>Угаданные слова</h3>');
       this.trueWords.forEach((elem) => {
         if (this.guessedWordsContainer) {
           new Template(this.guessedWordsContainer.element, 'p', 'guessed-word', `${elem.word} - ${elem.wordTranslate}`);
@@ -436,8 +430,8 @@ export class Sprint extends Template {
         this.finishWordsContainer.element,
         'div',
         'not-guessed-words-container',
-        '<h3>Не угаданные слова</h3>',
       );
+      this.notGuessedWordsContainer.element.insertAdjacentHTML('beforeend', '<h3>Не угаданные слова</h3>');
       this.falseWords.forEach((elem) => {
         if (this.notGuessedWordsContainer) {
           new Template(
@@ -452,7 +446,7 @@ export class Sprint extends Template {
   }
 
   private createFinishScreen() {
-    this.gameScreen.element.classList.add('sprint-content_hide');
+    this.gameScreen.element.style.display = 'none';
     this.screenFinish = new Template(this.sprintContent.element, 'div', 'screen-finish');
     this.finalResult = new Template(this.screenFinish.element, 'p', 'final-result');
 
@@ -534,7 +528,7 @@ export class Sprint extends Template {
   }
 
   private restartGame() {
-    (this.screenFinish as Template).element.classList.add('sprint-content_hide');
+    (this.screenFinish as Template).element.style.display = 'none';
     (this.cardContainer as Template).element.textContent = '';
     (this.gameScreen as Template).element.textContent = '';
     this.timeleft = 60;
@@ -574,10 +568,10 @@ export class Sprint extends Template {
 
   private closeFinishScreen(): void {
     if (this.screenFinish) {
-      this.screenFinish.element.classList.add('sprint-content_hide');
+      this.screenFinish.element.style.display = 'none';
     }
 
-    this.mainScreen.element.classList.remove('sprint-content_hide');
+    this.mainScreen.element.style.display = 'flex';
     this.resetGame();
   }
 }

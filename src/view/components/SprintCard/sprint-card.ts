@@ -1,6 +1,7 @@
-import {content, Template} from '@/view/Template';
+import {Template} from '@/view/Template';
 import {ISprintCard} from './models/sprint-card.model';
 import {getCardSprintTemplate} from './sprint-card.view';
+import {content} from '@/data/types';
 
 export class SprintCard extends Template {
   constructor(
@@ -9,9 +10,9 @@ export class SprintCard extends Template {
     public options: ISprintCard,
     public className?: content,
     public value?: content,
-    public attr?: object,
+    public attr?: Record<string, unknown>,
   ) {
-    super(parent, tagName, className, value, attr);
+    super(<HTMLElement>parent, tagName, <string>className, value, attr);
   }
 
   public init() {
