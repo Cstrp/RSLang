@@ -1,18 +1,10 @@
 import {Template} from '@/view/Template';
 import style from './index.module.scss';
-import {get} from '@/data/utils/_storage';
 
 class Statistics extends Template {
   protected leftBlock: Template;
 
   protected rightBlock: Template;
-
-  private static dayStats = {
-    audio: get('audio-call-score') ? get('audio-call-score') : '0',
-    sprint: get('sprint-score') ? get('sprint-score') : '0',
-    studiedWords: get('studied-words') ? get('studied-words') : '0',
-    difficultWords: get('difficult-words') ? get('difficult-words') : '0',
-  };
 
   constructor(parent: HTMLElement) {
     super(parent, 'main', style.main);
@@ -35,41 +27,47 @@ class Statistics extends Template {
   }
 
   private getStudiedWords() {
-    new Template(
-      this.leftBlock.element,
-      'p',
-      style.text,
-      `Кол-во выученных слов: ${Statistics.dayStats.studiedWords.length}`,
-    );
+    new Template(this.leftBlock.element, 'p', style.text, 'Кол-во выученных слов: ');
   }
 
   private getDifficultWords() {
-    new Template(
-      this.leftBlock.element,
-      'p',
-      style.text,
-      `Кол-во сложных слов: ${Statistics.dayStats.difficultWords.length}`,
-    );
+    new Template(this.leftBlock.element, 'p', style.text, 'Кол-во сложных слов:');
   }
 
   private getAudioStat() {
     const audioWrapper = new Template(this.leftBlock.element, 'div', style.audio);
 
-    const data: number = <number>(<unknown>Statistics.dayStats.audio);
+    new Template(audioWrapper.element, 'p', style.text, 'Аудиовызов');
 
-    [data].forEach((i) => {
-      new Template(audioWrapper.element, 'p', style.text, `Аудио вызов: ${i} баллов`);
-    });
+    const res = window.localStorage.getItem('audio-call-score') ? window.localStorage.getItem('audio-call-score') : '0';
+
+    const data = res ? JSON.parse(res) : [];
+
+    if (data.length) {
+      data.forEach((i: string, idx: string) => {
+        new Template(audioWrapper.element, 'p', style.text, `Попытка №_${idx + 1}: ${i} баллов`);
+      });
+    } else {
+      new Template(audioWrapper.element, 'p', style.text, 'Пока нет статистики');
+    }
   }
 
   private getSpringStat() {
     const sprintWrapper = new Template(this.leftBlock.element, 'div', style.sprint);
 
-    const data: string = Statistics.dayStats.sprint;
+    new Template(sprintWrapper.element, 'p', style.text, 'Спринт');
 
-    [data].forEach((i) => {
-      new Template(sprintWrapper.element, 'p', style.text, `Спринт: ${i} баллов`);
-    });
+    const res = window.localStorage.getItem('sprint-score') ? window.localStorage.getItem('sprint-score') : '0';
+
+    const data = res ? JSON.parse(res) : [];
+
+    if (data.length) {
+      data.forEach((i: string, idx: string) => {
+        new Template(sprintWrapper.element, 'p', style.text, `Попытка №_${idx + 1}: ${i} баллов`);
+      });
+    } else {
+      new Template(sprintWrapper.element, 'p', style.text, 'Пока нет статистики');
+    }
   }
 }
 
