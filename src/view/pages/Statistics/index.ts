@@ -40,7 +40,7 @@ class Statistics extends Template {
 
     setStatistics(statisticsOfDay).catch((err) => console.log(err));
 
-    this.init().catch((err) => console.log(err));
+    this.init();
   }
 
   private getGameStat() {
@@ -58,17 +58,7 @@ class Statistics extends Template {
       const total = [data.optional[0].audioCallScore].reduce((acc: number, i: number) => acc + i, 0);
 
       new Template(this.leftBlock.element, 'p', style.text, `📝 Всего баллов (${IActivity.audioCall}): ${total}`);
-      new Template(
-        this.leftBlock.element,
-        'p',
-        style.text,
-        `📳 Количество попыток: ${data.optional[0].audioCall ? data.optional[0].audioCall : 0}`,
-      );
-
-      this.dayStat({
-        audioCall: data.optional[0].audioCall,
-        audioCallScore: total,
-      });
+      new Template(this.leftBlock.element, 'p', style.text, `📳 Количество попыток: ${data.optional[0].audioCall}`);
 
       return data;
     }
@@ -91,11 +81,6 @@ class Statistics extends Template {
         `📳 Количество попыток: ${data.optional[0].sprint ? data.optional[0].sprint : 0}`,
       );
 
-      this.dayStat({
-        sprint: data.optional[0].sprint,
-        sprintScore: total,
-      });
-
       return data;
     }
 
@@ -104,20 +89,14 @@ class Statistics extends Template {
   }
 
   private async getStudiedWords() {
-    if (get('userID')) {
-      const data = await getStatistics();
+    const data = await getStatistics();
 
-      new Template(
-        this.leftBlock.element,
-        'p',
-        style.text,
-        `🌎 Общее количество выученных слов: ${data.optional[0].studiedWords}`,
-      );
-
-      this.dayStat({studiedWords: data.optional[0].studiedWords});
-
-      return data;
-    }
+    new Template(
+      this.leftBlock.element,
+      'p',
+      style.text,
+      `🌎 Общее количество выученных слов: ${data.optional[0].studiedWords + 1}`,
+    );
 
     new Template(this.leftBlock.element, 'p', style.text, '🌎 Общее количество выученных слов: 0');
   }
@@ -132,12 +111,10 @@ class Statistics extends Template {
       `🧠 Общее количество слов отмеченных как "сложные": ${data.optional[0].difficultWords + 1}`,
     );
 
-    this.dayStat({difficultWords: data.optional[0].difficultWords});
-
     return data;
   }
 
-  private dayStat(statistics: object) {
+  private dayStat(statistics: {}): void {
     const date: Date = new Date();
     const day: number = date.getDate();
     const month: number = date.getMonth() + 1;
@@ -159,11 +136,30 @@ class Statistics extends Template {
     }
 
     localStorage.setItem('day-statistics', JSON.stringify(data));
+  }
 
-    return data;
+  private updStat() {
+    const audioStat: [] = get('audio-call-score') ? get('audio-call-score') : [];
+    const totalAudioScore: number = audioStat.reduce((acc: number, i: number) => acc + i, 0);
+    const sprintStat = get('sprint-score') ? get('sprint-score') : [];
+    const totalSprintScore: number = sprintStat.reduce((acc: number, i: number) => acc + i, 0);
+
+    const studiedWords = get('studied-words') ? get('studied-words') : [];
+    const difficultWords = get('difficult-words') ? get('difficult-words') : [];
+
+    this.dayStat({
+      date: '',
+      studiedWords: studiedWords.length,
+      difficultWords: difficultWords.length,
+      audioCall: audioStat.length,
+      audioCallScore: totalAudioScore,
+      sprint: sprintStat.length,
+      sprintScore: totalSprintScore,
+    });
   }
 
   private async init() {
+    await this.updStat();
     await this.getStudiedWords();
     await this.getDifficultWords();
     await this.getTotalAudioStat();
