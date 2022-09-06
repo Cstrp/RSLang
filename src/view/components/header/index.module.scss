@@ -1,0 +1,19 @@
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  padding: 3px 0;
+  justify-content: center;
+  gap: 10px;
+  .greeting {
+    font: 1000 4px 'Poppins', sans-serif;
+    color: #ffffff;
+    transition: all 0.3s;
+    &:hover {
+      border-bottom: #b3d4fc solid 0.2vw;
+    }
+  }
+}
