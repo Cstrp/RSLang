@@ -9,6 +9,10 @@ TypeScript, scss, webpack - base
 
 axios, postcss, eslint - add-ons 
 
+> Advantages of the technologies used
+
+Ease of use, strict types, performance, uniform style code 
+
 ## 🏁 Quick start
 
 ```bash
